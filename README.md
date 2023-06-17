@@ -20,6 +20,6 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/d29be61a-c581-4d16-bbc1-46729beb2d50' /></p>
 <p>12: Give your game a cool name. <b>NO SPACES</b></p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/4963793f-a18f-4317-b10c-0c9144c1096e' /></p>
-<p>13: Put your Andriod phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p>
+<p>13: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
