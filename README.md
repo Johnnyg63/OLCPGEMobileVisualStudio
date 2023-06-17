@@ -5,7 +5,8 @@
 <p>3: Install Mobile Development with C++ </p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/5812774f-54fa-4875-90ec-4f2e2d7a9899' />
 </p>
-<p>5: Install Java 11: https://www.codejava.net/java-se/download-and-install-java-11-openjdk-and-oracle-jdk</p>
+<p>5: Install Java Minumum Version 11: https://www.codejava.net/java-se/download-and-install-java-11-openjdk-and-oracle-jdk</p>
+<p>Should you have any issues, install Java 17: https://www.oracle.com/java/technologies/downloads/#java17</p>
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-11.0.7"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your Java Path</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/902670be-0d16-4637-b7c2-556f74b230e2' /></p>
