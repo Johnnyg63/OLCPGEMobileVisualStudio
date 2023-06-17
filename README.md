@@ -5,7 +5,7 @@
 <p>3: Install Mobile Development with C++ </p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/5812774f-54fa-4875-90ec-4f2e2d7a9899' />
 </p>
-<p>4: Copy the OLCPGEMobileAndroidProjectBeta203.zip to your Projects Templates folder. Example: C:\Users\<username>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p>4: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/blob/master/OLCPGEMobileAndroidProjectBeta203.zip">OLCPGEMobileAndroidProjectBeta203.zip</a> to your Projects Templates folder. Example: C:\Users\<username>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/fb76e283-4ca3-44e5-b969-41b36b078729' /></p>
 <p>5: Run Visual Studio 2022/2019 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
