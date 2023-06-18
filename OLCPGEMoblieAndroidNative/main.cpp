@@ -1,7 +1,7 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.03, Not to be used for Production software    //
-// John Galvin aka Johnngy63: 17-June-2023					    //
+// Beta Release 2.0.4, Not to be used for Production software    //
+// John Galvin aka Johnngy63: 18-June-2023					    //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.3";
+		sAppName = "OLC PGE Mobile BETA 2.0.4";
 	}
 
 	/* Vectors */
@@ -36,11 +36,11 @@ public:
 	int nStep = 20;
 
 	/* Sprites */
-	olc::Sprite* sprMrIcey = nullptr;
+	olc::Sprite* sprTouchTester = nullptr;
 	/* END Sprites*/
 
 	/* Decals */
-	olc::Decal* decMryIcey = nullptr;
+	olc::Decal* decTouchTester = nullptr;
 	/* End Decals */
 
 
@@ -69,8 +69,8 @@ public:
 		//apple_app* pMyApple = this->pOsEngine.app;
 #endif
 
-		sprMrIcey = new olc::Sprite("images/run.png");
-		decMryIcey = new olc::Decal(sprMrIcey);
+		sprTouchTester = new olc::Sprite("images/north_south_east_west_logo.png");
+		decTouchTester = new olc::Decal(sprTouchTester);
 
 		return true;
 	}
@@ -79,7 +79,20 @@ public:
 	{
 
 		SetDrawTarget(nullptr);
-		Clear(olc::BLACK);
+		Clear(olc::BLUE);
+
+		olc::vi2d touchPos = GetTouchPos();
+		olc::vi2d sprSize = decTouchTester->sprite->Size();
+
+		touchPos.x = touchPos.x - (sprSize.x / 2);
+		touchPos.y = touchPos.y - (sprSize.y / 2);
+
+		if (GetTouch(0).bHeld)
+		{
+			DrawDecal(touchPos, decTouchTester);
+		}
+
+
 
 		nFrameCount = GetFPS();
 
@@ -91,11 +104,20 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.3";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.4";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
 		vecMessages.push_back(sFps);
+
+		std::string sTouchScreen = "Touch the screen";
+		vecMessages.push_back(sTouchScreen);
+
+		std::string sTouchX = "Touch X: " + std::to_string(GetTouchX());
+		vecMessages.push_back(sTouchX);
+
+		std::string sTouchY = "Touch Y: " + std::to_string(GetTouchY());
+		vecMessages.push_back(sTouchY);
 
 
 		nStep = 20;

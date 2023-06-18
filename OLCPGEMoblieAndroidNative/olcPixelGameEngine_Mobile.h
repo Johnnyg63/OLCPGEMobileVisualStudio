@@ -6,8 +6,8 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.03, Not to be used for Production software    //
-	// John Galvin aka Johnngy63: 17-June-2023					    //
+	// Beta Release 2.0.4, Not to be used for Production software    //
+	// John Galvin aka Johnngy63: 18-June-2023					    //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -409,7 +409,7 @@
 	2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h
 	2.02: Corrected support for X86
 	2.03: Update EventManager to handle, Touch, Mouse and Keyboard events
-
+	2.04: Corrected Touch offset, added 1 touch point, unlinked Mouse & Touch Events
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -1647,20 +1647,44 @@ namespace olc {
 		HWButton GetMouse(uint32_t b) const;
 
 		/// <summary>
+		/// Get the state of a specific touch point
+		/// WARNING: Only Touchpoint[0] is currently supported Beta 2.0.4
+		/// </summary>
+		/// <param name="p">points 0 - 4</param>
+		/// <returns>Touch point state: bPressed, bReleased, bHeld</returns>
+		HWButton GetTouch(uint32_t p) const;
+
+		/// <summary>
 		/// Get Mouse X coordinate in "pixel" space
-		/// WARNING: Touch and Mouse positions are currently linked
+		/// WARNING: Touch and Mouse positions are not linked
 		/// Please update your code to use GetTouchX()
 		/// </summary>
 		/// <returns>X coordinate</returns>
 		int32_t GetMouseX() const;
 
 		/// <summary>
+		/// Get Touch X coordinate in "pixel" space
+		/// WARNING: this is a approx value if the center position
+		/// It depends on how big the finger is and how hard the touch is been pressed
+		/// </summary>
+		/// <returns>X coordinate</returns>
+		int32_t GetTouchX() const;
+
+		/// <summary>
 		/// Get Mouse Y coordinate in "pixel" space
-		/// WARNING: Touch and Mouse positions are currently linked
+		/// WARNING: Touch and Mouse positions are not linked
 		/// Please update your code to use GetTouchY()
 		/// </summary>
 		/// <returns>Y coordinate</returns>
 		int32_t GetMouseY() const;
+
+		/// <summary>
+		/// Get Touch Y coordinate in "pixel" space
+		/// WARNING: this is a approx value if the center position
+		/// It depends on how big the finger is and how hard the touch is been pressed
+		/// </summary>
+		/// <returns>Y coordinate</returns>
+		int32_t GetTouchY() const;
 
 		/// <summary>
 		/// Simi Deprecated: Get Mouse Wheel Delta
@@ -1684,6 +1708,15 @@ namespace olc {
 		/// </summary>
 		/// <returns>Mouse {x, y}</returns>
 		const olc::vi2d& GetMousePos() const;
+
+		/// <summary>
+		/// Gets the touch position as a vector
+		/// WARNING: this is a approx value if the center position
+		/// It depends on how big the finger is and how hard the touch is been pressed
+		/// </summary>
+		/// <returns>Touch {x, y}</returns>
+		const olc::vi2d& GetTouchPos() const;
+
 
 		/// <summary>
 		/// Get Key Map
@@ -2617,8 +2650,10 @@ namespace olc {
 		olc::vi2d	vPixelSize = { 4, 4 };
 		olc::vi2d   vScreenPixelSize = { 4, 4 };
 		olc::vi2d	vMousePos = { 0, 0 };
+		olc::vi2d	vTouchPos = { 0, 0 };
 		int32_t		nMouseWheelDelta = 0;
 		olc::vi2d	vMousePosCache = { 0, 0 };
+		olc::vi2d	vTouchPosCache = { 0, 0 };
 		olc::vi2d   vMouseWindowPos = { 0, 0 };
 		int32_t		nMouseWheelDeltaCache = 0;
 		olc::vi2d	vWindowSize = { 0, 0 };
@@ -2667,6 +2702,11 @@ namespace olc {
 		HWButton	pMouseState[nMouseButtons]; // = { {0} }; // Make complier happy
 		int32_t		nMouseOffSetX = 0;
 		int32_t		nMouseOffSetY = 0;
+
+		// State of touch
+		bool		pTouchNewState[nMouseButtons] = { 0 };
+		bool		pTouchOldState[nMouseButtons] = { 0 };
+		HWButton	pTouchState[nMouseButtons]; // = { {0} }; // Make complier happy
 
 		// The main engine thread
 		void		EngineThread();
@@ -2718,6 +2758,13 @@ namespace olc {
 		void olc_UpdateMouse(int32_t x, int32_t y);
 
 		/// <summary>
+		/// Updates the current touch position
+		/// </summary>
+		/// <param name="x">Position x</param>
+		/// <param name="y">Position y</param>
+		void olc_UpdateTouch(int32_t x, int32_t y);
+
+		/// <summary>
 		/// Update the mouse scroll wheel position
 		/// </summary>
 		/// <param name="delta">new Delta position</param>
@@ -2753,15 +2800,23 @@ namespace olc {
 		/// <summary>
 		/// Update the mouse button state
 		/// </summary>
-		/// <param name="button">1, 2, 3</param>
-		/// <param name="state">Changed, true/false</param>
+		/// <param name="button">0, 1, 2,</param>
+		/// <param name="state">State</param>
 		void olc_UpdateMouseState(int32_t button, bool state);
+
+		/// <summary>
+		/// Update the touch state
+		/// WARNING: only 1 touch point supported from Beta 2.0.4
+		/// </summary>
+		/// <param name="touch">Up to 5 touch points</param>
+		/// <param name="state">State,</param>
+		void olc_UpdateTouchState(int32_t touchPoint, bool state);
 
 		/// <summary>
 		/// Update the Key Stage
 		/// </summary>
 		/// <param name="key">int Key Value</param>
-		/// <param name="state">Changed, true/false</param>
+		/// <param name="state">State</param>
 		void olc_UpdateKeyState(int32_t key, bool state);
 
 		/// <summary>
@@ -3901,6 +3956,11 @@ namespace olc {
 		return pMouseState[b];
 	}
 
+	HWButton PixelGameEngine::GetTouch(uint32_t p) const
+	{
+		return pTouchState[0];
+	}
+
 	int32_t PixelGameEngine::GetMouseX() const
 	{
 		return vMousePos.x;
@@ -3911,10 +3971,26 @@ namespace olc {
 		return vMousePos.y;
 	}
 
+	int32_t PixelGameEngine::GetTouchX() const
+	{
+		return vTouchPos.x;
+	}
+
+	int32_t PixelGameEngine::GetTouchY() const
+	{
+		return vTouchPos.y;
+	}
+
 	const olc::vi2d& PixelGameEngine::GetMousePos() const
 	{
 		return vMousePos;
 	}
+
+	const olc::vi2d& PixelGameEngine::GetTouchPos() const
+	{
+		return vTouchPos;
+	}
+
 
 	int32_t PixelGameEngine::GetMouseWheel() const
 	{
@@ -5224,8 +5300,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.03");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.03", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.4");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.4", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -5377,8 +5453,8 @@ namespace olc {
 		// Therefore we need to convert this to PGE Pixel Size
 
 		// Correct of any offset
-		//x = x - nMouseOffSetX;
-		//y = y - nMouseOffSetY;
+		x = x - nMouseOffSetX;
+		y = y - nMouseOffSetY;
 
 		// Covert from OS PixelSize to PGE Pixel size
 		olc::vi2d pixSize = GetPixelSize();
@@ -5398,6 +5474,35 @@ namespace olc {
 		if (vMousePosCache.y < 0) vMousePosCache.y = 0;
 	}
 
+	void PixelGameEngine::olc_UpdateTouch(int32_t x, int32_t y)
+	{
+		// Mouse coords come in OS Screen Size
+		// Therefore we need to update the offset, if any for Auto FullScreen mode
+		// The OS Screen size will always have a pixelSize of 1 i.e. {1,1}
+		// Therefore we need to convert this to PGE Pixel Size
+
+		// Correct of any offset
+		x = x - nMouseOffSetX;
+		y = y - nMouseOffSetY;
+
+		// Covert from OS PixelSize to PGE Pixel size
+		olc::vi2d pixSize = GetPixelSize();
+		x = (x / pixSize.x);
+		y = (y / pixSize.y);
+
+		bHasMouseFocus = true;
+		vMouseWindowPos = { x, y };
+		// Full Screen mode may have a weird viewport we must clamp to
+		x -= vViewPos.x;
+		y -= vViewPos.y;
+		vTouchPosCache.x = (int32_t)(((float)x / (float)(vWindowSize.x - (vViewPos.x * 2)) * (float)vScreenSize.x));
+		vTouchPosCache.y = (int32_t)(((float)y / (float)(vWindowSize.y - (vViewPos.y * 2)) * (float)vScreenSize.y));
+		if (vTouchPosCache.x >= (int32_t)vScreenSize.x)	vTouchPosCache.x = vScreenSize.x - 1;
+		if (vTouchPosCache.y >= (int32_t)vScreenSize.y)	vTouchPosCache.y = vScreenSize.y - 1;
+		if (vTouchPosCache.x < 0) vTouchPosCache.x = 0;
+		if (vTouchPosCache.y < 0) vTouchPosCache.y = 0;
+	}
+
 	void PixelGameEngine::olc_UpdateMouseOffSet(int32_t FullScreenWidth, int32_t viewWidth, int32_t FullScreenHeight, int32_t viewHeight)
 	{
 		olc::vi2d pixSize = GetPixelSize();
@@ -5411,6 +5516,13 @@ namespace olc {
 	{
 
 		pMouseNewState[button] = state;
+	}
+
+
+	void PixelGameEngine::olc_UpdateTouchState(int32_t touchPoint, bool state)
+	{
+		pTouchNewState[touchPoint] = state;
+
 	}
 
 	void PixelGameEngine::olc_UpdateKeyState(int32_t key, bool state)
@@ -5642,9 +5754,11 @@ namespace olc {
 
 		ScanHardware(pKeyboardState, pKeyOldState, pKeyNewState, 256);
 		ScanHardware(pMouseState, pMouseOldState, pMouseNewState, nMouseButtons);
+		ScanHardware(pTouchState, pTouchOldState, pTouchNewState, nMouseButtons);
 
 		//// Cache mouse coordinates so they remain consistent during frame
 		vMousePos = vMousePosCache;
+		vTouchPos = vTouchPosCache;
 		nMouseWheelDelta = nMouseWheelDeltaCache;
 		nMouseWheelDeltaCache = 0;
 
@@ -6477,23 +6591,22 @@ namespace olc {
 			int32_t posx = AMotionEvent_getX(event, 0);
 			int32_t posy = AMotionEvent_getY(event, 0);
 
-			platform->ptrPGE->olc_UpdateMouse(posx, posy);
-
 			switch (device)
 			{
 				/** Touch Screen, Touchpad **/
 			case AINPUT_SOURCE_TOUCHPAD:
 			case AINPUT_SOURCE_TOUCHSCREEN:
 			{
+				platform->ptrPGE->olc_UpdateTouch(posx, posy);
 				int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
 				switch (action) {
 				case AMOTION_EVENT_ACTION_DOWN:
-					platform->ptrPGE->olc_UpdateMouseState(0, true);
+					platform->ptrPGE->olc_UpdateTouchState(0, true);
 					return CAPTURED;
 					break;
 
 				case AMOTION_EVENT_ACTION_UP:
-					platform->ptrPGE->olc_UpdateMouseState(0, false);
+					platform->ptrPGE->olc_UpdateTouchState(0, false);
 					return CAPTURED;
 					break;
 
@@ -6509,6 +6622,8 @@ namespace olc {
 			{
 				int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
 				int button = AMotionEvent_getButtonState(event);
+
+				platform->ptrPGE->olc_UpdateMouse(posx, posy);
 
 				switch (action) {
 				case AMOTION_EVENT_ACTION_DOWN:

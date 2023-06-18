@@ -113,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
 	<Content Include="app\proguard-rules.pro" />
-    <Content Include="app\src\main\assets\images\runsmall.png" />
+    <Content Include="app\src\main\assets\images\north_south_east_west_logo.png" />
     <Content Include="app\src\main\assets\sounds\testmusic.mp3" />
     <Content Include="app\src\main\res\values\strings.xml" />
   </ItemGroup>
