@@ -1,4 +1,4 @@
-
+﻿
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma region license_and_help 
@@ -6,8 +6,9 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.4, Not to be used for Production software    //
-	// John Galvin aka Johnngy63: 18-June-2023					    //
+	// Beta Release 2.0.5, Not to be used for Production software    //
+	// John Galvin aka Johnngy63: 21-June-2023
+	// Now with Sensor Support
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -655,6 +656,453 @@ namespace olc {
 		bool bHeld = false;		// Set true for all frames between pressed and released events
 	};
 
+	// Supported Sensors Types
+	// Do not edit :)
+	enum SensorType
+	{
+		/**
+		* Invalid sensor type.
+		*/
+		ASENSOR_TYPE_INVALID = -1,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in SI units (m/s^2) and measure the acceleration of the
+		 *  device minus the force of gravity.
+		 */
+		ASENSOR_TYPE_ACCELEROMETER = 1,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in micro-Tesla (µT) and measure the geomagnetic
+		 *  field in the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_MAGNETIC_FIELD = 2,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in degrees and measure the geomagnetic
+		 *  field in the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_ORIENTATION = 3,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in radians/second and measure the rate of rotation
+		 *  around the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_GYROSCOPE = 4,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The light sensor value is returned in SI lux units.
+		 */
+		ASENSOR_TYPE_LIGHT = 5,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The pressure sensor value is returned in hPa (millibar).
+		 */
+		ASENSOR_TYPE_PRESSURE = 6,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The proximity sensor which turns the screen off and back on during calls is the
+		 * wake-up proximity sensor. Implement wake-up proximity sensor before implementing
+		 * a non wake-up proximity sensor. For the wake-up proximity sensor set the flag
+		 * SENSOR_FLAG_WAKE_UP.
+		 * The value corresponds to the distance to the nearest object in centimeters.
+		 */
+		ASENSOR_TYPE_PROXIMITY = 8,
+
+		/**
+		 * reporting-mode: continous
+		 *
+		 * All values are in SI units (m/s^2) and measure the direction and
+		 * magnitude of gravity. When the device is at rest, the output of
+		 * the gravity sensor should be identical to that of the accelerometer.
+		 */
+		ASENSOR_TYPE_GRAVITY = 9,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in SI units (m/s^2) and measure the acceleration of the
+		 *  device not including the force of gravity.
+		 */
+		ASENSOR_TYPE_LINEAR_ACCELERATION = 10,
+
+		/**
+		 * reporting-mode: continous
+		 *
+		 * The rotation vector represents the orientation of the device as a combination of an angle and
+		 * an axis, in which the device has rotated through an angle θ around an axis (x, y, z).
+		 */
+		ASENSOR_TYPE_ROTATION_VECTOR = 11,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The relative humidity sensor value is returned in percent.
+		 */
+		ASENSOR_TYPE_RELATIVE_HUMIDITY = 12,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The ambient temperature sensor value is returned in Celcius.
+		 */
+		ASENSOR_TYPE_AMBIENT_TEMPERATURE = 13,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  All values are in micro-Tesla (µT) and measure the uncalibrated geomagnetic
+		 *  field in the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_MAGNETIC_FIELD_UNCALIBRATED = 14,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 * Identical to SensorType.RotationVector except that it doesn't use the geomagnetic field.
+		 * Therefore the Y axis doesn't point north, but instead to some other reference,
+		 * that reference is allowed to drift by the same order of magnitude as the gyroscope drift around the Z axis.
+		 */
+		ASENSOR_TYPE_GAME_ROTATION_VECTOR = 15,
+
+		/**
+		 *  reporting-mode: continuous
+		 *
+		 *  All values are in radians/second and measure the rate of uncalibrated rotation
+		 *  around the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_GYROSCOPE_UNCALIBRATED = 16,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 * All values are in SI units (m/s^2) and measure the acceleration of the device minus the force of gravity.
+		 * NOTE: If not supported used Accelerometer
+		 */
+		ASENSOR_TYPE_SIGNIFICANT_MOTION = 17,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * Fires when steps are detected
+		 * NOTE: Mostly supported by Android Watch
+		 */
+		ASENSOR_TYPE_STEP_DETECTOR = 18,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 * Number of steps detected per sample rate
+		 * NOTE: Mostly supported by Android Watch
+		 */
+		ASENSOR_TYPE_STEP_COUNTER = 19,
+
+		/**
+		 * reporting-mode: continuous
+		 * All values are in radians/second and measure the rate of rotation around the X, Y and Z axis.
+		 */
+		ASENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR = 20,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * Number of beats per sample rate
+		 * NOTE: Mostly supported by Android Watch
+		 */
+		ASENSOR_TYPE_HEART_RATE = 21,
+
+		/**
+		 * reporting-mode: continous
+		 * 6D Pose Estimation using RGB refers to the task of determining the six degree-of-freedom (6D) pose of an object in 3D space based on RGB images.
+		 * This involves estimating the position and orientation of an object in a scene, and is a fundamental problem in computer vision and robotics.
+		 */
+		ASENSOR_TYPE_POSE_6DOF = 28,
+
+		/**
+		* reporting-mode: on-change
+		*
+		*Fires when Stationary Detected
+		* NOTE: Mostly supported by Android Watch
+		*/
+		ASENSOR_TYPE_STATIONARY_DETECT = 29,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * Fires when Motion Detected
+		 */
+		ASENSOR_TYPE_MOTION_DETECT = 30,
+
+		/**
+		 * reporting-mode: continuous
+		 *  Number of heart beats per sample rate
+		 */
+		ASENSOR_TYPE_HEART_BEAT = 31,
+
+		/**
+		 * SPECIAL CASE.
+		 *
+		 */
+		ASENSOR_TYPE_ADDITIONAL_INFO = 33,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * A sensor of this type returns an event every time the device transitions from off-body to on-body and from on-body to off-body (e.g. a wearable device being removed from the wrist would trigger an event indicating an off-body transition).
+		 * The event returned will contain a single value to indicate off-body state:
+		 * 1.0 (device is on-body) 0.0 (device is off - body)
+		 */
+		ASENSOR_TYPE_LOW_LATENCY_OFFBODY_DETECT = 34,
+
+		/**
+		 * reporting-mode: continuous
+		 *
+		 *  Uncalibrated values are in SI units (m/s^2) and measure the acceleration of the device minus the force of gravity.
+		 */
+		ASENSOR_TYPE_ACCELEROMETER_UNCALIBRATED = 35,
+
+		/**
+		 * reporting-mode: on-change
+		 *
+		 * The hinge angle sensor value is returned in degrees.
+		 */
+		ASENSOR_TYPE_HINGE_ANGLE = 36,
+
+	};
+
+	/**
+	* Sensor accuracy measure.
+	*/
+	enum SensorStatus {
+		/** no contact */
+		ASENSOR_STATUS_NO_CONTACT = -1,
+		/** unreliable */
+		ASENSOR_STATUS_UNRELIABLE = 0,
+		/** low accuracy */
+		ASENSOR_STATUS_ACCURACY_LOW = 1,
+		/** medium accuracy */
+		ASENSOR_STATUS_ACCURACY_MEDIUM = 2,
+		/** high accuracy */
+		ASENSOR_STATUS_ACCURACY_HIGH = 3
+	};
+
+	/**
+	 * Sensor Reporting Modes.
+	 */
+	enum SensorReportingMode {
+		/** invalid reporting mode */
+		AREPORTING_MODE_INVALID = -1,
+		/** continuous reporting */
+		AREPORTING_MODE_CONTINUOUS = 0,
+		/** reporting on change */
+		AREPORTING_MODE_ON_CHANGE = 1,
+		/** on shot reporting */
+		AREPORTING_MODE_ONE_SHOT = 2,
+		/** special trigger reporting */
+		AREPORTING_MODE_SPECIAL_TRIGGER = 3
+	};
+
+	struct SensorInformation
+	{
+		const char* Name;
+		const char* Vendor;
+		olc::SensorType Type;
+		float Resolution;
+		int MinDelay;
+		int FifoMaxEventCount;
+		int FifoReservedEventCount;
+		const char* GetStringType;
+		olc::SensorReportingMode ReportingMode;
+		bool isWakeUpSensor;
+		int Handle;
+	};
+
+	/// <summary>
+	/// OLC Phone Sensors
+	/// Enable Sensor before used using EnableSensor(SENSORTYPE, SampleRate ms)
+	/// Ensure Sensor is supported before calling
+	/// See: https://developer.android.com/reference/android/hardware/SensorEvent.html#values
+	/// </summary>
+	struct olcSensors
+	{
+		/// <summary>
+		/// All values are in SI units (m/s^2) and measure the acceleration of the device minus the force of gravity.
+		/// </summary>
+		ASensorVector Accelerometer;
+
+		/// <summary>
+		/// All values are in micro-Tesla (uT) and measure the geomagnetic field in the X, Y and Z axis.
+		/// </summary>
+		ASensorVector MagniticField;
+
+		/// <summary>
+		/// All values are in degrees and measure the geomagnetic field in the X, Y and Z axis.
+		/// </summary>
+		ASensorVector Orientation;
+
+		/// <summary>
+		/// All values are in radians/second and measure the rate of rotation around the X, Y and Z axis.
+		/// </summary>
+		ASensorVector Gyroscope;
+
+		/// <summary>
+		/// The light sensor value is returned in SI lux units.
+		/// </summary>
+		float Light;
+
+		/// <summary>
+		/// The pressure sensor value is returned in hPa (millibar).
+		/// </summary>
+		float Pressure;
+
+		/// <summary>
+		/// The proximity sensor which turns the screen off and back on during calls is the
+		/// wake - up proximity sensor.Implement wake - up proximity sensor before implementing
+		/// a non wake - up proximity sensor.For the wake - up proximity sensor set the flag
+		/// SENSOR_FLAG_WAKE_UP.
+		/// The value corresponds to the distance to the nearest object in centimeters.
+		/// </summary>
+		float* Proximity;
+
+		/// <summary>
+		/// All values are in SI units (m/s^2) and measure the direction and
+		/// magnitude of gravity.When the device is at rest, the output of
+		/// the gravity sensor should be identical to that of the accelerometer.
+		/// </summary>
+		ASensorVector Gravity;
+
+		/// <summary>
+		/// All values are in SI units (m/s^2) and measure the acceleration of the
+		/// device not including the force of gravity.
+		/// </summary>
+		ASensorVector LinearAcceleration;
+
+		/// <summary>
+		/// The rotation vector represents the orientation of the device as a combination of an angle and
+		/// an axis, in which the device has rotated through an angle θ around an axis (x, y, z).
+		/// </summary>
+		ASensorVector RotationVector;
+
+		/// <summary>
+		/// The relative humidity sensor value is returned in percent.
+		/// </summary>
+		float RelativeHumidity;
+
+		/// <summary>
+		/// The ambient temperature sensor value is returned in Celcius.
+		/// </summary>
+		float AmbientTemperature;
+
+		/// <summary>
+		/// Uncalibrated values are in micro-Tesla (uT) and measure the geomagnetic field in the X, Y and Z axis.
+		/// </summary>
+		AUncalibratedEvent Uncalibrated_MagniticField;
+
+		/// <summary>
+		/// Identical to SensorType.RotationVector except that it doesn't use the geomagnetic field.
+		/// Therefore the Y axis doesn't point north, but instead to some other reference, 
+		/// that reference is allowed to drift by the same order of magnitude as the gyroscope drift around the Z axis.
+		/// </summary>
+		ASensorVector GameRotation;
+
+		/// <summary>
+		/// Uncalibrated values are in radians/second and measure the rate of rotation around the X, Y and Z axis.
+		/// </summary>
+		AUncalibratedEvent Uncalibrated_Gyroscope;
+
+		/// <summary>
+		/// All values are in SI units (m/s^2) and measure the acceleration of the device minus the force of gravity.
+		/// NOTE: If not supported used Accelerometer
+		/// </summary>
+		ASensorVector SignificantMotion;
+
+		/// <summary>
+		/// Fires when steps are detected
+		/// NOTE: Mostly supported by Android Watch
+		/// </summary>
+		float* StepDetector;
+
+		/// <summary>
+		/// Number of steps detected per sample rate
+		/// NOTE: Mostly supported by Android Watch
+		/// </summary>
+		float* StepCounter;
+
+		/// <summary>
+		/// All values are in radians/second and measure the rate of rotation around the X, Y and Z axis.
+		/// </summary>
+		ASensorVector GeomagneticRotationVector;
+
+		/// <summary>
+		/// Number of beats per sample rate
+		/// NOTE: Mostly supported by Android Watch
+		/// </summary>
+		AHeartRateEvent HeartRate;
+
+		/// <summary>
+		/// 6D Pose Estimation using RGB refers to the task of determining the six degree-of-freedom (6D) pose of an object in 3D space based on RGB images. 
+		/// This involves estimating the position and orientation of an object in a scene, and is a fundamental problem in computer vision and robotics.
+		/// </summary>
+		ASensorVector Pose_6D;
+
+		/// <summary>
+		/// Fires when Stationary Detected
+		/// NOTE: Mostly supported by Android Watch
+		/// </summary>
+		float* StationaryDetect;
+
+		/// <summary>
+		///  Fires when Motion Detected
+		/// </summary>
+		float* MotionDetect;
+
+		/// <summary>
+		/// Number of heart beats per sample rate
+		/// </summary>
+		float* HeartBeat;
+
+		// Special Case
+		// TODO:ASENSOR_TYPE_ADDITIONAL_INFO
+
+		/// <summary>
+		/// A sensor of this type returns an event every time the device transitions from off-body to on-body and from on-body to off-body (e.g. a wearable device being removed from the wrist would trigger an event indicating an off-body transition). 
+		/// The event returned will contain a single value to indicate off-body state: 
+		/// 1.0 (device is on-body) 0.0 (device is off - body)
+		/// </summary>
+		float* LowLatencyOffBodyDetect;
+
+		/// <summary>
+		/// Uncalibrated values are in SI units (m/s^2) and measure the acceleration of the device minus the force of gravity.
+		/// WARNING: Enable Sensor before used using EnableSensor(SENSORTYPE, SampleRate ms)
+		/// </summary>
+		AUncalibratedEvent Uncalibrated_Accelerometer;
+
+		/// <summary>
+		/// Hinge in degress
+		/// </summary>
+		float* HingeAngle;
+
+
+
+
+
+
+
+
+	};
 
 
 
@@ -1210,6 +1658,7 @@ namespace olc {
 		struct android_app* app;	// Allows access to Android OS App
 		int animating = 0;			// Set to 0 when app is pause, else 1
 		bool StartPGE = false;		// Set to true when it is safe to start the PGE Engine
+		bool LostFocus = false;		// Is set when the app has lost focus but is not paused by the OS
 		EGLDisplay display;			// OpenGLES Display
 		EGLSurface surface;			// OpenGLES Surface
 		EGLContext context;			// OpenGLES Context
@@ -1222,9 +1671,13 @@ namespace olc {
 		void* lastGameState = nullptr;		// A pointer to your save state struct
 
 		// Coming Soon....
-		/*ASensorManager* sensorManager;
-		const ASensor* accelerometerSensor;
-		ASensorEventQueue* sensorEventQueue;*/
+		ASensorManager* sensorManager;
+
+		/// <summary>
+		/// Tuple Vector for os Sensors: { OS Const Type, Pointer to ASenor Struct, sample rate ms}
+		/// </summary>
+		std::vector<std::tuple<olc::SensorType, const ASensor*, uint32_t>> deviceSensors;
+		ASensorEventQueue* sensorEventQueue;
 
 
 	};
@@ -1618,6 +2071,11 @@ namespace olc {
 	public: // Hardware Interfaces
 
 		/// <summary>
+		/// Returns a sturct of sensor options
+		/// </summary>
+		olcSensors SelectSensor;
+
+		/// <summary>
 		/// Returns true if window is currently in focus
 		/// </summary>
 		/// <returns>Focused: true, Unfocused: false</returns>
@@ -1648,7 +2106,7 @@ namespace olc {
 
 		/// <summary>
 		/// Get the state of a specific touch point
-		/// WARNING: Only Touchpoint[0] is currently supported Beta 2.0.4
+		/// WARNING: Only Touchpoint[0] is currently supported from Beta 2.0.4
 		/// </summary>
 		/// <param name="p">points 0 - 4</param>
 		/// <returns>Touch point state: bPressed, bReleased, bHeld</returns>
@@ -1829,6 +2287,7 @@ namespace olc {
 
 	public: // CONFIGURATION ROUTINES
 
+
 		/// <summary>
 		/// Layer targeting functions
 		/// </summary>
@@ -1925,6 +2384,47 @@ namespace olc {
 		/// </summary>
 		/// <param name="fBlend">float (min 0.0f, max 1.0f)</param>
 		void SetPixelBlend(float fBlend);
+
+		/// <summary>
+		/// Returns a vector SensorInformation structs for all supported sensors on this device
+		/// </summary>
+		/// <returns>Vector of SensorInformation</returns>
+		std::vector<olc::SensorInformation> GetSupportedSensors();
+
+		/// <summary>
+		/// Returns the passed Sensor Information
+		/// NOTE: If SensorInformation.Type = ASENSOR_TYPE_INVALID the sensor is not supported
+		/// </summary>
+		/// <param name="Type">olc::SensorType</param>
+		/// <returns>ensorInformation Struct</returns>
+		olc::SensorInformation GetSensorInfo(olc::SensorType Type);
+
+		/// <summary>
+		/// Enable the selected sensor, and set the default sample rate
+		/// NOTE: If the sample rate is less than what the sensor can handle, the default is used.
+		/// </summary>
+		/// <param name="Type">olc::SensorType</param>
+		/// <param name="sampleRate">Number of samples per second, set to -1 to reset to default values. Default: -1 (Auto)</param>
+		/// <returns>Success: OK, Notsupported: FAIL</returns>
+		olc::rcode EnableSensor(olc::SensorType Type, int32_t sampleRate = -1);
+
+
+		/// <summary>
+		/// Attempts to change the sample rate of the sensor
+		/// NOTE: If the sample rate is less than what the sensor can handle, the default is used.
+		/// </summary>
+		/// <param name="Type">olc::SensorType</param>
+		/// <param name="sampleRate">Number of samples per second, set to -1 to reset to default values</param>
+		/// <returns></returns>
+		olc::rcode ChangeSensorSampleRate(olc::SensorType Type, int32_t sampleRate);
+
+		/// <summary>
+		/// Disables the passed Sensor if supported
+		/// </summary>
+		/// <param name="Type">Sensor</param>
+		/// <returns>Disabled: OK, Error: FAIL</returns>
+		olc::rcode DisableSensor(olc::SensorType Type);
+
 
 
 	public: // DRAWING ROUTINES
@@ -2683,7 +3183,6 @@ namespace olc {
 		olc::vi2d vDroppedFilesPoint;
 		olc::vi2d vDroppedFilesPointCache;
 
-
 		// Text Entry Specific
 		bool bTextEntryEnable = false;
 		std::string sTextEntryString = "";
@@ -2811,6 +3310,13 @@ namespace olc {
 		/// <param name="touch">Up to 5 touch points</param>
 		/// <param name="state">State,</param>
 		void olc_UpdateTouchState(int32_t touchPoint, bool state);
+
+		/// <summary>
+		/// Updates the olc Sensor Structs with repective events
+		/// NOTE: This method is called from EngineThread before the next frame is drawn
+		/// </summary>
+		/// <param name="event">ASensorEvent event</param>
+		void olc_UpdateSensorEvent(ASensorEvent event);
 
 		/// <summary>
 		/// Update the Key Stage
@@ -5176,6 +5682,133 @@ namespace olc {
 		if (fBlendFactor > 1.0f) fBlendFactor = 1.0f;
 	}
 
+	std::vector<olc::SensorInformation> PixelGameEngine::GetSupportedSensors()
+	{
+
+		std::vector<olc::SensorInformation> vecSensorInfo;
+		ASensorList sensor_list;
+		int sensor_count = ASensorManager_getSensorList(pOsEngine.sensorManager, &sensor_list);
+		std::string name;
+		for (int i = 0; i < sensor_count; i++) {
+
+			SensorInformation sensorInfo;
+			sensorInfo.Name = ASensor_getStringType(sensor_list[i]);
+			sensorInfo.Vendor = ASensor_getVendor(sensor_list[i]);
+			sensorInfo.Type = (olc::SensorType)ASensor_getType(sensor_list[i]);
+			sensorInfo.Resolution = ASensor_getResolution(sensor_list[i]);
+			sensorInfo.MinDelay = ASensor_getMinDelay(sensor_list[i]);
+			sensorInfo.FifoMaxEventCount = ASensor_getFifoMaxEventCount(sensor_list[i]);
+			sensorInfo.FifoReservedEventCount = ASensor_getFifoReservedEventCount(sensor_list[i]);
+			sensorInfo.GetStringType = ASensor_getStringType(sensor_list[i]);
+			sensorInfo.ReportingMode = (olc::SensorReportingMode)ASensor_getReportingMode(sensor_list[i]);
+			sensorInfo.isWakeUpSensor = ASensor_isWakeUpSensor(sensor_list[i]);
+			sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
+
+			vecSensorInfo.push_back(sensorInfo);
+
+		}
+
+		return vecSensorInfo;
+	}
+
+	olc::SensorInformation PixelGameEngine::GetSensorInfo(olc::SensorType Type)
+	{
+		SensorInformation sensorInfo;
+		sensorInfo.Type = olc::ASENSOR_TYPE_INVALID;
+		ASensorList sensor_list;
+		int sensor_count = ASensorManager_getSensorList(pOsEngine.sensorManager, &sensor_list);
+
+		for (int i = 0; i < sensor_count; i++) {
+
+			if (Type == (olc::SensorType)ASensor_getType(sensor_list[i]))
+			{
+				sensorInfo.Name = ASensor_getStringType(sensor_list[i]);
+				sensorInfo.Vendor = ASensor_getVendor(sensor_list[i]);
+				sensorInfo.Type = (olc::SensorType)ASensor_getType(sensor_list[i]);
+				sensorInfo.Resolution = ASensor_getResolution(sensor_list[i]);
+				sensorInfo.MinDelay = ASensor_getMinDelay(sensor_list[i]);
+				sensorInfo.FifoMaxEventCount = ASensor_getFifoMaxEventCount(sensor_list[i]);
+				sensorInfo.FifoReservedEventCount = ASensor_getFifoReservedEventCount(sensor_list[i]);
+				sensorInfo.GetStringType = ASensor_getStringType(sensor_list[i]);
+				sensorInfo.ReportingMode = (olc::SensorReportingMode)ASensor_getReportingMode(sensor_list[i]);
+				sensorInfo.isWakeUpSensor = ASensor_isWakeUpSensor(sensor_list[i]);
+				sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
+				break;
+			}
+
+		}
+
+		return sensorInfo;
+	}
+
+
+	olc::rcode olc::PixelGameEngine::EnableSensor(olc::SensorType Type, int32_t sampleRate)
+	{
+		// 1: Lets check if it already exist, if so we need to disable it
+		DisableSensor(Type);
+
+		// 2: Get the sensor
+		const ASensor* pSensor = ASensorManager_getDefaultSensor(pOsEngine.sensorManager, Type);
+
+		if (pSensor == nullptr) return rcode::FAIL;
+
+
+
+		ASensorEventQueue_enableSensor(pOsEngine.sensorEventQueue, pSensor);
+
+		int32_t minRate = ASensor_getMinDelay(pSensor);
+		if (sampleRate > 0)
+		{
+			minRate = std::fmin(minRate, sampleRate);
+		}
+
+
+
+		ASensorEventQueue_setEventRate(pOsEngine.sensorEventQueue, pSensor, minRate);
+
+		pOsEngine.deviceSensors.push_back({ Type, pSensor, sampleRate });
+
+		return olc::rcode::OK;
+	}
+
+	olc::rcode PixelGameEngine::ChangeSensorSampleRate(olc::SensorType Type, int32_t sampleRate)
+	{
+		for (size_t i = 0; i < pOsEngine.deviceSensors.size(); i++)
+		{
+			if (Type == std::get<0>(pOsEngine.deviceSensors[i]))
+			{
+				int32_t minRate = ASensor_getMinDelay(std::get<1>(pOsEngine.deviceSensors[i]));
+				minRate = std::fmax(minRate, sampleRate);
+
+				ASensorEventQueue_setEventRate(pOsEngine.sensorEventQueue, std::get<1>(pOsEngine.deviceSensors[i]), minRate);
+
+				std::get<2>(pOsEngine.deviceSensors[i]) = minRate;
+
+				return olc::rcode::OK;
+				break;
+			}
+		}
+
+		return olc::rcode::FAIL;
+	}
+
+
+	olc::rcode PixelGameEngine::DisableSensor(olc::SensorType Type)
+	{
+		for (size_t i = 0; i < pOsEngine.deviceSensors.size(); i++)
+		{
+			if (Type == std::get<0>(pOsEngine.deviceSensors[i]))
+			{
+				ASensorEventQueue_disableSensor(pOsEngine.sensorEventQueue, std::get<1>(pOsEngine.deviceSensors[i]));
+				pOsEngine.deviceSensors.erase(pOsEngine.deviceSensors.begin() + i);
+				break;
+			}
+		}
+
+		return olc::rcode::OK;
+	}
+
+
 	const std::vector<std::string>& PixelGameEngine::GetDroppedFiles() const
 	{
 		return vDroppedFiles;
@@ -5300,8 +5933,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.4");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.4", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.5");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.5", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -5525,6 +6158,206 @@ namespace olc {
 
 	}
 
+	void PixelGameEngine::olc_UpdateSensorEvent(ASensorEvent event)
+	{
+
+		if (event.type == ASENSOR_TYPE_INVALID) return;
+
+		int32_t sensorType;
+		for (auto& s : pOsEngine.deviceSensors)
+		{
+			if (event.type == std::get<0>(s))
+			{
+				// We have a match lets check if we support it
+				// This list will be expanded in time
+				switch (event.type)
+				{
+
+				case ASENSOR_TYPE_ACCELEROMETER:
+				{
+					SelectSensor.Accelerometer = event.acceleration;
+					break;
+				}
+
+				case ASENSOR_TYPE_MAGNETIC_FIELD:
+				{
+					SelectSensor.MagniticField = event.magnetic;
+					break;
+				}
+
+				case ASENSOR_TYPE_ORIENTATION:
+				{
+					SelectSensor.Orientation = event.vector;
+				}
+
+				case ASENSOR_TYPE_GYROSCOPE:
+				{
+					SelectSensor.Gyroscope = event.gyro;
+					break;
+				}
+
+				case ASENSOR_TYPE_LIGHT:
+				{
+					SelectSensor.Light = event.light;
+					break;
+				}
+
+				case ASENSOR_TYPE_PRESSURE:
+				{
+					SelectSensor.Pressure = event.pressure;
+					break;
+				}
+
+				case ASENSOR_TYPE_PROXIMITY:
+				{
+					SelectSensor.Proximity = event.data;
+					break;
+				}
+
+				case ASENSOR_TYPE_GRAVITY:
+				{
+					SelectSensor.Gravity = event.vector;
+					break;
+				}
+
+				case ASENSOR_TYPE_LINEAR_ACCELERATION:
+				{
+					SelectSensor.LinearAcceleration = event.vector;
+					break;
+				}
+
+
+				case ASENSOR_TYPE_ROTATION_VECTOR:
+				{
+					SelectSensor.RotationVector = event.vector;
+					break;
+				}
+
+				case ASENSOR_TYPE_RELATIVE_HUMIDITY:
+				{
+					SelectSensor.RelativeHumidity = event.relative_humidity;
+					break;
+				}
+
+				case ASENSOR_TYPE_AMBIENT_TEMPERATURE:
+				{
+					SelectSensor.AmbientTemperature = event.temperature;
+					break;
+				}
+
+				case ASENSOR_TYPE_MAGNETIC_FIELD_UNCALIBRATED:
+				{
+					SelectSensor.Uncalibrated_MagniticField = event.uncalibrated_magnetic;
+					break;
+				}
+
+				case ASENSOR_TYPE_GAME_ROTATION_VECTOR:
+				{
+					SelectSensor.GameRotation = event.vector;
+					break;
+				}
+
+
+				case ASENSOR_TYPE_GYROSCOPE_UNCALIBRATED:
+				{
+					SelectSensor.Uncalibrated_Gyroscope = event.uncalibrated_gyro;
+					break;
+				}
+
+				case ASENSOR_TYPE_SIGNIFICANT_MOTION:
+				{
+					SelectSensor.SignificantMotion = event.vector;
+					break;
+				}
+
+				case ASENSOR_TYPE_STEP_DETECTOR:
+				{
+					SelectSensor.StepDetector = event.data;
+					break;
+				}
+
+				case ASENSOR_TYPE_STEP_COUNTER:
+				{
+					SelectSensor.StepCounter = event.data;
+					break;
+				}
+
+
+				case ASENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR:
+				{
+					SelectSensor.GeomagneticRotationVector = event.vector;
+					break;
+				}
+
+				case ASENSOR_TYPE_HEART_RATE:
+				{
+					SelectSensor.HeartRate = event.heart_rate;
+					break;
+				}
+
+				case ASENSOR_TYPE_POSE_6DOF:
+				{
+					SelectSensor.Pose_6D = event.vector;
+					break;
+				}
+
+				case ASENSOR_TYPE_STATIONARY_DETECT:
+				{
+					SelectSensor.StationaryDetect = event.data;
+					break;
+				}
+
+				case ASENSOR_TYPE_MOTION_DETECT:
+				{
+					SelectSensor.MotionDetect = event.data;
+					break;
+				}
+
+				case ASENSOR_TYPE_HEART_BEAT:
+				{
+					SelectSensor.HeartBeat = event.data;
+					break;
+				}
+
+				case ASENSOR_TYPE_ADDITIONAL_INFO:
+				{
+					//Speical Case
+					break;
+				}
+
+				case ASENSOR_TYPE_LOW_LATENCY_OFFBODY_DETECT:
+				{
+					SelectSensor.LowLatencyOffBodyDetect = event.data;
+					break;
+				}
+
+
+				case ASENSOR_TYPE_ACCELEROMETER_UNCALIBRATED:
+				{
+					SelectSensor.Uncalibrated_Accelerometer = event.uncalibrated_acceleration;
+					break;
+				}
+
+				case ASENSOR_TYPE_HINGE_ANGLE:
+				{
+					SelectSensor.HingeAngle = event.data;
+					break;
+				}
+
+
+				default:
+				{
+					break;
+				}
+
+				}
+				break;
+			}
+
+		};
+
+	}
+
 	void PixelGameEngine::olc_UpdateKeyState(int32_t key, bool state)
 	{
 		pKeyNewState[key] = state;
@@ -5563,8 +6396,6 @@ namespace olc {
 		return bAtomActive;
 	}
 
-
-
 	void PixelGameEngine::olc_Terminate()
 	{
 		bAtomActive = false;
@@ -5590,6 +6421,7 @@ namespace olc {
 		int events;
 		struct android_poll_source* source;
 		bool bPrepare = false;
+		size_t sensorCount = 0;
 
 		while (bAtomActive) {
 
@@ -5601,6 +6433,19 @@ namespace olc {
 			{
 				if (source != NULL) {
 					source->process(renderer->ptrPGE->pOsEngine.app, source);
+				}
+			}
+
+			// If a sensor has data, process it now.
+			if (ident == LOOPER_ID_USER) {
+				sensorCount = pOsEngine.deviceSensors.size();
+				if (sensorCount > 0)
+				{
+					ASensorEvent event;
+					while (ASensorEventQueue_getEvents(pOsEngine.sensorEventQueue, &event, 1) > 0)
+					{
+						olc_UpdateSensorEvent(event);
+					}
 				}
 			}
 
@@ -5629,8 +6474,12 @@ namespace olc {
 					}
 					else
 					{
-						bPrepare = false;
-						renderer->ptrPGE->pOsEngine.StartPGE = false;
+						if (renderer->ptrPGE->pOsEngine.LostFocus == false)
+						{
+							bPrepare = false;
+							renderer->ptrPGE->pOsEngine.StartPGE = false;
+						}
+
 					}
 
 				}
@@ -6285,9 +7134,9 @@ struct engine {
 	struct saved_state state;
 
 	// Coming Soon...
-	/*ASensorManager* sensorManager;
+	ASensorManager* sensorManager;
 	const ASensor* accelerometerSensor;
-	ASensorEventQueue* sensorEventQueue;*/
+	ASensorEventQueue* sensorEventQueue;
 
 };
 
@@ -6461,6 +7310,7 @@ namespace olc {
 
 		case APP_CMD_SAVE_STATE:
 		{
+			platform->ptrPGE->pOsEngine.LostFocus = false;
 			platform->ptrPGE->OnSaveStateRequested();
 			// The system has asked us to save our current state.  Do so.
 			engine->app->savedState = malloc(sizeof(struct saved_state));
@@ -6480,8 +7330,13 @@ namespace olc {
 			if (MyAndroidApp->window != NULL) {
 
 				// it is now safe for the PGE Engine to start!
+				platform->ptrPGE->pOsEngine.LostFocus = false;
 				platform->ptrPGE->pOsEngine.StartPGE = true;
 				platform->ptrPGE->pOsEngine.animating = 1;
+
+
+				platform->ptrPGE->pOsEngine.sensorManager = ASensorManager_getInstance();
+				platform->ptrPGE->pOsEngine.sensorEventQueue = ASensorManager_createEventQueue(platform->ptrPGE->pOsEngine.sensorManager, platform->ptrPGE->pOsEngine.app->looper, LOOPER_ID_USER, NULL, NULL);
 
 			}
 			break;
@@ -6503,12 +7358,30 @@ namespace olc {
 			//if (platform->ptrPGE->pOsEngine.accelerometerSensor != NULL) {
 			//	ASensorEventQueue_enableSensor(platform->ptrPGE->pOsEngine.sensorEventQueue,
 			//		platform->ptrPGE->pOsEngine.accelerometerSensor);
+
 			//	// We'd like to get 60 events per second (in microseconds).
 			//	ASensorEventQueue_setEventRate(platform->ptrPGE->pOsEngine.sensorEventQueue,
 			//		platform->ptrPGE->pOsEngine.accelerometerSensor, (1000L / 60) * 1000);
 			//}
-			//platform->ptrPGE->pOsEngine.animating = 1;
-			//platform->ptrPGE->pOsEngine.StartPGE = true;
+
+			const ASensor* pASensor = nullptr;
+			uint32_t sampleRate = 0;
+			for (auto& s : platform->ptrPGE->pOsEngine.deviceSensors)
+			{
+				pASensor = std::get<1>(s);
+				sampleRate = std::get<2>(s);
+				ASensorEventQueue_enableSensor(platform->ptrPGE->pOsEngine.sensorEventQueue, pASensor);
+				ASensorEventQueue_setEventRate(platform->ptrPGE->pOsEngine.sensorEventQueue, pASensor, sampleRate);
+			}
+
+
+			if (platform->ptrPGE->pOsEngine.LostFocus)
+			{
+				platform->ptrPGE->pOsEngine.animating = 1;
+				platform->ptrPGE->pOsEngine.LostFocus = false;
+				platform->ptrPGE->SetFocused(true);
+			}
+
 			break;
 		}
 
@@ -6517,15 +7390,21 @@ namespace olc {
 			// When our app loses focus, we stop monitoring the accelerometer.
 			// This is to avoid consuming battery while not being used.
 
-			/*if (platform->ptrPGE->pOsEngine.accelerometerSensor != NULL) {
-				ASensorEventQueue_disableSensor(platform->ptrPGE->pOsEngine.sensorEventQueue,
-					platform->ptrPGE->pOsEngine.accelerometerSensor);
-			}*/
-			// Also stop animating.
-			platform->ptrPGE->pOsEngine.animating = 0;
-			//platform->ptrPGE->pOsEngine.StartPGE = false;
 
-			//engine_draw_frame(engine);
+			const ASensor* pASensor = nullptr;
+			uint32_t sampleRate = 0;
+			for (auto& s : platform->ptrPGE->pOsEngine.deviceSensors)
+			{
+				pASensor = std::get<1>(s);
+				sampleRate = std::get<2>(s);
+				ASensorEventQueue_disableSensor(platform->ptrPGE->pOsEngine.sensorEventQueue, pASensor);
+			}
+
+			// Also stop animating.
+			platform->ptrPGE->pOsEngine.LostFocus = true;
+			platform->ptrPGE->pOsEngine.animating = 0;
+			platform->ptrPGE->SetFocused(false);
+
 
 			break;
 		}
@@ -6700,10 +7579,7 @@ namespace olc {
 		LOGV("Resume: %p\n", activity);
 		// TOPO: correct this quick hack
 		platform->ptrPGE->SetFocused(true);
-		/*if (renderer->ptrPGE->pOsEngine.app->savedState != NULL)
-		{
-			platform->ptrPGE->OnRestoreStateRequested();
-		}*/
+
 		android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_RESUME);
 	}
 
@@ -6737,7 +7613,6 @@ namespace olc {
 		LOGV("Pause: %p\n", activity);
 		// TODO: correct this quick hack
 		platform->ptrPGE->SetFocused(false);
-		//platform->ptrPGE->OnSaveStateRequested();
 		android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_PAUSE);
 	}
 

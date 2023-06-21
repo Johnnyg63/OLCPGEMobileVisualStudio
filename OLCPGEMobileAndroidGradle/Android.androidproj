@@ -49,49 +49,49 @@
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
 	<LaunchActivity>android.app.NativeActivity</LaunchActivity>
     <DebuggerFlavor>AndroidDebugger</DebuggerFlavor>
-	<AndroidAPILevel>android-31</AndroidAPILevel>
+	<AndroidAPILevel>android-29</AndroidAPILevel>
   </PropertyGroup>
   <Import Project="$(AndroidTargetsPath)\Android.props" />
   <ItemDefinitionGroup>

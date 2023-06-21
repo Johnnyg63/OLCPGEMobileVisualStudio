@@ -1,7 +1,8 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.4, Not to be used for Production software    //
-// John Galvin aka Johnngy63: 18-June-2023					    //
+// Beta Release 2.0.5, Not to be used for Production software    //
+// John Galvin aka Johnngy63: 21-June-2023
+// Now with Sensor Support									    //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.4";
+		sAppName = "OLC PGE Mobile BETA 2.0.5";
 	}
 
 	/* Vectors */
@@ -42,6 +43,11 @@ public:
 	/* Decals */
 	olc::Decal* decTouchTester = nullptr;
 	/* End Decals */
+
+
+	/* Sensors */
+	std::vector<olc::SensorInformation> vecSensorInfos;
+	/*End Sensors*/
 
 
 public:
@@ -72,6 +78,28 @@ public:
 		sprTouchTester = new olc::Sprite("images/north_south_east_west_logo.png");
 		decTouchTester = new olc::Decal(sprTouchTester);
 
+		// Eamples:
+		vecSensorInfos = GetSupportedSensors();
+
+		const char* name;
+		const char* vendor;
+		for (auto& sInfo : vecSensorInfos)
+		{
+			name = sInfo.Name;
+			vendor = sInfo.Vendor;
+		}
+
+
+		olc::SensorInformation senAccInfo = GetSensorInfo(olc::ASENSOR_TYPE_ACCELEROMETER);
+
+		olc::SensorInformation sHeartInfo2 = GetSensorInfo(olc::ASENSOR_TYPE_HEART_BEAT);
+
+		EnableSensor(olc::ASENSOR_TYPE_ACCELEROMETER);
+		EnableSensor(olc::ASENSOR_TYPE_MAGNETIC_FIELD);
+		EnableSensor(olc::ASENSOR_TYPE_GYROSCOPE);
+		EnableSensor(olc::ASENSOR_TYPE_GAME_ROTATION_VECTOR);
+		EnableSensor(olc::ASENSOR_TYPE_ORIENTATION);
+
 		return true;
 	}
 
@@ -92,14 +120,14 @@ public:
 			DrawDecal(touchPos, decTouchTester);
 		}
 
-
-
 		nFrameCount = GetFPS();
 
 		// Called once per frame, draws random coloured pixels
-		for (int x = 0; x < ScreenWidth(); x++)
+		/*for (int x = 0; x < ScreenWidth(); x++)
 			for (int y = 0; y < ScreenHeight(); y++)
-				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));
+				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));*/
+
+		std::string sLineBreak = "-------------------------";
 
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
@@ -120,11 +148,83 @@ public:
 		vecMessages.push_back(sTouchY);
 
 
-		nStep = 20;
+		std::string sSensors = "--------Sensors!---------";
+		vecMessages.push_back(sSensors);
+
+		std::string sAccelerometerX = "Accelerometer X: " + std::to_string(SelectSensor.Accelerometer.x) + " m/s^2";
+		vecMessages.push_back(sAccelerometerX);
+
+		std::string sAccelerometerY = "Accelerometer Y: " + std::to_string(SelectSensor.Accelerometer.y) + " m/s^2";
+		vecMessages.push_back(sAccelerometerY);
+
+		std::string sAccelerometerZ = "Accelerometer Z: " + std::to_string(SelectSensor.Accelerometer.z) + " m/s^2";
+		vecMessages.push_back(sAccelerometerZ);
+
+		std::string sAccelerometerV = "Accelerometer V: " + std::to_string(SelectSensor.Accelerometer.v[0]) + " m/s^2";
+		vecMessages.push_back(sAccelerometerV);
+
+		vecMessages.push_back(sLineBreak);
+
+		std::string sMagniticFieldX = "MagniticField X: " + std::to_string(SelectSensor.MagniticField.x) + " uT";
+		vecMessages.push_back(sMagniticFieldX);
+
+		std::string sMagniticFieldY = "MagniticField Y: " + std::to_string(SelectSensor.MagniticField.y) + " uT";
+		vecMessages.push_back(sMagniticFieldY);
+
+		std::string sMagniticFieldZ = "MagniticField Z: " + std::to_string(SelectSensor.MagniticField.z) + " uT";
+		vecMessages.push_back(sMagniticFieldZ);
+
+		std::string sMagniticFieldV = "MagniticField V: " + std::to_string(SelectSensor.MagniticField.v[0]) + " uT";
+		vecMessages.push_back(sMagniticFieldV);
+
+		vecMessages.push_back(sLineBreak);
+
+
+		std::string sGyroscopeX = "Gyroscope X: " + std::to_string(SelectSensor.Gyroscope.x) + " rad/s";
+		vecMessages.push_back(sGyroscopeX);
+
+		std::string sGyroscopeY = "Gyroscope Y: " + std::to_string(SelectSensor.Gyroscope.y) + " rad/s";
+		vecMessages.push_back(sGyroscopeY);
+
+		std::string sGyroscopeZ = "Gyroscope Z: " + std::to_string(SelectSensor.Gyroscope.z) + " rad/s";
+		vecMessages.push_back(sGyroscopeZ);
+
+		std::string sGyroscopeV = "Gyroscope V: " + std::to_string(SelectSensor.Gyroscope.v[1]) + " rad/s";
+		vecMessages.push_back(sGyroscopeV);
+
+		vecMessages.push_back(sLineBreak);
+
+		std::string sGameRototionX = "GameRototion X: " + std::to_string(SelectSensor.GameRotation.x);
+		vecMessages.push_back(sGameRototionX);
+
+		std::string sGameRototionY = "GameRototion Y: " + std::to_string(SelectSensor.GameRotation.y);
+		vecMessages.push_back(sGameRototionY);
+
+		std::string sGameRototionZ = "GameRototion Z: " + std::to_string(SelectSensor.GameRotation.z);
+		vecMessages.push_back(sGameRototionZ);
+
+		std::string sGameRototionV = "GameRototion V: " + std::to_string(SelectSensor.GameRotation.v[2]);
+		vecMessages.push_back(sGameRototionV);
+
+		vecMessages.push_back(sLineBreak);
+
+		std::string sOrientationA = "Orientation Azimuth : " + std::to_string(SelectSensor.Orientation.azimuth) + " degress/s";
+		vecMessages.push_back(sOrientationA);
+
+		std::string sOrientationP = "Orientation Pitch   : " + std::to_string(SelectSensor.Orientation.pitch) + " degrees/s";
+		vecMessages.push_back(sOrientationP);
+
+		std::string sOrientationR = "Orientation Roll    : " + std::to_string(SelectSensor.Orientation.roll) + " degrees/s";
+		vecMessages.push_back(sOrientationR);
+
+		vecMessages.push_back(sLineBreak);
+
+
+		nStep = 10;
 		for (auto& s : vecMessages)
 		{
 			DrawString(20, nStep, s);
-			nStep += 20;
+			nStep += 10;
 		}
 		vecMessages.clear();
 
@@ -259,7 +359,7 @@ void android_main(struct android_app* initialstate) {
 		without affecting performance... well it will have a very small affect, it will depend on your pixel size
 		Note: cohesion is currently not working
 	*/
-	demo.Construct(1280, 720, 4, 4, true, false, false);
+	demo.Construct(1280, 720, 2, 2, true, false, false);
 
 	demo.Start(); // Lets get the party started
 

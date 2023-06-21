@@ -1,5 +1,6 @@
-# OLC Pixel Game Engine Mobile Android Project Beta 2.0.4
-<p>Please follow this steps folks</p>
+# OLC Pixel Game Engine Mobile Android Project Beta 2.0.5
+<p><b>Now with phone sensor support!!!</b></p>
+<p>Please follow this steps folks:</p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
 <p>3: Install Mobile Development with C++ </p>
