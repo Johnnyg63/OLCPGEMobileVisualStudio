@@ -1,8 +1,8 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.5, Not to be used for Production software    //
-// John Galvin aka Johnngy63: 21-June-2023
-// Now with Sensor Support									    //
+// Beta Release 2.0.6, Not to be used for Production software    //
+// John Galvin aka Johnngy63: 27-June-2023
+// Now with Multi-touch	support									    //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.5";
+		sAppName = "OLC PGE Mobile BETA 2.0.6";
 	}
 
 	/* Vectors */
@@ -60,6 +60,33 @@ public:
 
 	std::vector<MySaveState> vecLastState;
 
+private:
+
+	/// <summary>
+	/// Draws a Target Pointer at the center position of Center Point
+	/// </summary>
+	/// <param name="vCenterPoint">Center Position of the target</param>
+	/// <param name="nLineLenght">Length of lines</param>
+	/// <param name="nCircleRadus">Center Circle radius</param>
+	void DrawTargetPointer(olc::vi2d vCenterPoint, int32_t nLineLenght, int32_t nCircleRadus)
+	{
+		/*
+						|
+						|
+					----O----
+						|
+						|
+
+
+		*/
+		FillCircle(vCenterPoint, nCircleRadus);
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y + nLineLenght });
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y - nLineLenght });
+		DrawLine(vCenterPoint, { vCenterPoint.x + nLineLenght, vCenterPoint.y });
+		DrawLine(vCenterPoint, { vCenterPoint.x - nLineLenght, vCenterPoint.y });
+
+	}
+
 public:
 	bool OnUserCreate() override
 	{
@@ -78,28 +105,6 @@ public:
 		sprTouchTester = new olc::Sprite("images/north_south_east_west_logo.png");
 		decTouchTester = new olc::Decal(sprTouchTester);
 
-		// Eamples:
-		vecSensorInfos = GetSupportedSensors();
-
-		const char* name;
-		const char* vendor;
-		for (auto& sInfo : vecSensorInfos)
-		{
-			name = sInfo.Name;
-			vendor = sInfo.Vendor;
-		}
-
-
-		olc::SensorInformation senAccInfo = GetSensorInfo(olc::ASENSOR_TYPE_ACCELEROMETER);
-
-		olc::SensorInformation sHeartInfo2 = GetSensorInfo(olc::ASENSOR_TYPE_HEART_BEAT);
-
-		EnableSensor(olc::ASENSOR_TYPE_ACCELEROMETER);
-		EnableSensor(olc::ASENSOR_TYPE_MAGNETIC_FIELD);
-		EnableSensor(olc::ASENSOR_TYPE_GYROSCOPE);
-		EnableSensor(olc::ASENSOR_TYPE_GAME_ROTATION_VECTOR);
-		EnableSensor(olc::ASENSOR_TYPE_ORIENTATION);
-
 		return true;
 	}
 
@@ -109,30 +114,14 @@ public:
 		SetDrawTarget(nullptr);
 		Clear(olc::BLUE);
 
-		olc::vi2d touchPos = GetTouchPos();
-		olc::vi2d sprSize = decTouchTester->sprite->Size();
-
-		touchPos.x = touchPos.x - (sprSize.x / 2);
-		touchPos.y = touchPos.y - (sprSize.y / 2);
-
-		if (GetTouch(0).bHeld)
-		{
-			DrawDecal(touchPos, decTouchTester);
-		}
-
 		nFrameCount = GetFPS();
-
-		// Called once per frame, draws random coloured pixels
-		/*for (int x = 0; x < ScreenWidth(); x++)
-			for (int y = 0; y < ScreenHeight(); y++)
-				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));*/
 
 		std::string sLineBreak = "-------------------------";
 
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.4";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.6";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
@@ -141,84 +130,53 @@ public:
 		std::string sTouchScreen = "Touch the screen";
 		vecMessages.push_back(sTouchScreen);
 
-		std::string sTouchX = "Touch X: " + std::to_string(GetTouchX());
-		vecMessages.push_back(sTouchX);
-
-		std::string sTouchY = "Touch Y: " + std::to_string(GetTouchY());
-		vecMessages.push_back(sTouchY);
-
-
-		std::string sSensors = "--------Sensors!---------";
-		vecMessages.push_back(sSensors);
-
-		std::string sAccelerometerX = "Accelerometer X: " + std::to_string(SelectSensor.Accelerometer.x) + " m/s^2";
-		vecMessages.push_back(sAccelerometerX);
-
-		std::string sAccelerometerY = "Accelerometer Y: " + std::to_string(SelectSensor.Accelerometer.y) + " m/s^2";
-		vecMessages.push_back(sAccelerometerY);
-
-		std::string sAccelerometerZ = "Accelerometer Z: " + std::to_string(SelectSensor.Accelerometer.z) + " m/s^2";
-		vecMessages.push_back(sAccelerometerZ);
-
-		std::string sAccelerometerV = "Accelerometer V: " + std::to_string(SelectSensor.Accelerometer.v[0]) + " m/s^2";
-		vecMessages.push_back(sAccelerometerV);
-
 		vecMessages.push_back(sLineBreak);
 
-		std::string sMagniticFieldX = "MagniticField X: " + std::to_string(SelectSensor.MagniticField.x) + " uT";
-		vecMessages.push_back(sMagniticFieldX);
+		olc::vi2d centreScreenPos = GetScreenSize();
+		centreScreenPos.x = centreScreenPos.x / 2;
+		centreScreenPos.y = centreScreenPos.y / 2;
+		DrawTargetPointer(centreScreenPos, 50, 10);
 
-		std::string sMagniticFieldY = "MagniticField Y: " + std::to_string(SelectSensor.MagniticField.y) + " uT";
-		vecMessages.push_back(sMagniticFieldY);
-
-		std::string sMagniticFieldZ = "MagniticField Z: " + std::to_string(SelectSensor.MagniticField.z) + " uT";
-		vecMessages.push_back(sMagniticFieldZ);
-
-		std::string sMagniticFieldV = "MagniticField V: " + std::to_string(SelectSensor.MagniticField.v[0]) + " uT";
-		vecMessages.push_back(sMagniticFieldV);
-
-		vecMessages.push_back(sLineBreak);
+		// Get the default touch point
+		// This is alway Index 0 and first touch piont
+		olc::vi2d touchPos = GetTouchPos();
+		std::string Touch0 = "Mouse 0:  X: " + std::to_string(touchPos.x) + " Y: " + std::to_string(touchPos.y);
+		vecMessages.push_back(Touch0);
 
 
-		std::string sGyroscopeX = "Gyroscope X: " + std::to_string(SelectSensor.Gyroscope.x) + " rad/s";
-		vecMessages.push_back(sGyroscopeX);
+		/*
+			You asked for Multi-touch... you got it!
+			You can support up to 126 touch points, however most phones and tablets can only handle 5
 
-		std::string sGyroscopeY = "Gyroscope Y: " + std::to_string(SelectSensor.Gyroscope.y) + " rad/s";
-		vecMessages.push_back(sGyroscopeY);
+			As always with touch sensors it is an approxmaite and alway will be
+			I would recommand no more that 3 points
 
-		std::string sGyroscopeZ = "Gyroscope Z: " + std::to_string(SelectSensor.Gyroscope.z) + " rad/s";
-		vecMessages.push_back(sGyroscopeZ);
+			When you are using lots of touch points it is best to run ClearTouchPoints();
+			every so often to ensure lost touch points are clear
 
-		std::string sGyroscopeV = "Gyroscope V: " + std::to_string(SelectSensor.Gyroscope.v[1]) + " rad/s";
-		vecMessages.push_back(sGyroscopeV);
+		*/
 
-		vecMessages.push_back(sLineBreak);
+		// The more touch points the harder to manage
+		for (int i = 0; i < 3; i++)
+		{
+			if (GetTouch(i).bHeld)
+			{
 
-		std::string sGameRototionX = "GameRototion X: " + std::to_string(SelectSensor.GameRotation.x);
-		vecMessages.push_back(sGameRototionX);
+				touchPos = GetTouchPos(i);
+				std::string TouchID = "Touch ID: " + std::to_string(i) + " X: " + std::to_string(touchPos.x) + " Y: " + std::to_string(touchPos.y);
+				vecMessages.push_back(TouchID);
+				DrawLine(centreScreenPos, touchPos, olc::WHITE, 0xF0F0F0F0);
+				DrawTargetPointer(touchPos, 50, 10);
 
-		std::string sGameRototionY = "GameRototion Y: " + std::to_string(SelectSensor.GameRotation.y);
-		vecMessages.push_back(sGameRototionY);
+			}
+		}
 
-		std::string sGameRototionZ = "GameRototion Z: " + std::to_string(SelectSensor.GameRotation.z);
-		vecMessages.push_back(sGameRototionZ);
 
-		std::string sGameRototionV = "GameRototion V: " + std::to_string(SelectSensor.GameRotation.v[2]);
-		vecMessages.push_back(sGameRototionV);
 
-		vecMessages.push_back(sLineBreak);
-
-		std::string sOrientationA = "Orientation Azimuth : " + std::to_string(SelectSensor.Orientation.azimuth) + " degress/s";
-		vecMessages.push_back(sOrientationA);
-
-		std::string sOrientationP = "Orientation Pitch   : " + std::to_string(SelectSensor.Orientation.pitch) + " degrees/s";
-		vecMessages.push_back(sOrientationP);
-
-		std::string sOrientationR = "Orientation Roll    : " + std::to_string(SelectSensor.Orientation.roll) + " degrees/s";
-		vecMessages.push_back(sOrientationR);
-
-		vecMessages.push_back(sLineBreak);
-
+		// Called once per frame, draws random coloured pixels
+		/*for (int x = 0; x < ScreenWidth(); x++)
+			for (int y = 0; y < ScreenHeight(); y++)
+				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));*/
 
 		nStep = 10;
 		for (auto& s : vecMessages)
