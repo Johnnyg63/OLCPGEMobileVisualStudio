@@ -6,9 +6,10 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.6, Not to be used for Production software    //
-	// John Galvin aka Johnngy63: 27-June-2023
-	// Now with Mutli Touch Support
+	// Beta Release 2.0.6a, Not to be used for Production software  //
+	// John Galvin aka Johnngy63: 27-June-2023                      //
+	// Now with Mutli Touch Support                                 //
+	// Added basic mouse support for Android Emulator               //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -413,6 +414,7 @@
 	2.04: Corrected Touch offset, added 1 touch point, unlinked Mouse & Touch Events
 	2.05: Sensors Support added
 	2.06: Multi Touch Support
+	2.06a: Basic mouse support for Android Emulator
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -7643,6 +7645,9 @@ namespace olc {
 
 			}
 
+			case 20482: // Speical Case: Used for Android Emulator
+			case AINPUT_SOURCE_STYLUS:
+			case AINPUT_SOURCE_BLUETOOTH_STYLUS:
 			case AINPUT_SOURCE_MOUSE:
 			{
 				int32_t mPosX = AMotionEvent_getX(event, 0);
@@ -7660,6 +7665,10 @@ namespace olc {
 
 				case AMOTION_EVENT_ACTION_UP:
 					platform->ptrPGE->olc_UpdateMouseState(button, false);
+					return CAPTURED;
+					break;
+
+				case AMOTION_EVENT_ACTION_SCROLL:
 					return CAPTURED;
 					break;
 
@@ -10022,7 +10031,7 @@ namespace olc
 			for (i = 0; i < VecEndIndex; i += 4, nVecA += 4)
 			{
 				j = i;
-				_mm_store1_ps((float*)pDrawTarget->pColData.data() + nVecA, _replacepixel);
+				_mm_store_ps((float*)pDrawTarget->pColData.data() + nVecA, _replacepixel);
 			}
 
 
@@ -10064,7 +10073,7 @@ namespace olc
 			for (i = sx; i < nTempVecEnd; i += 4, nVecA += 4)
 			{
 				j = i;
-				_mm_store1_ps(nVecA, _setpixel);
+				_mm_store_ps(nVecA, _setpixel);
 
 			}
 
@@ -11056,7 +11065,7 @@ namespace olc
 			NOTE: Simulators can often break when using SEE, it is best to
 			use a real phone if possible
 		*/
-		simddrawer = std::make_unique<olc::SIMD_SSE>();
+		simddrawer = std::make_unique<olc::SIMD_NONE>();
 #else
 		//32 bit Processor Use SIMD NONE, will update this later (defined(__i386__))
 		// There should now be many of these around
@@ -11109,3 +11118,7 @@ namespace olc
 // O------------------------------------------------------------------------------O
 // | END OF OLC_PGE_APPLICATION                                                   |
 // O------------------------------------------------------------------------------O
+
+
+
+

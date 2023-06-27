@@ -1,8 +1,9 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.6, Not to be used for Production software    //
-// John Galvin aka Johnngy63: 27-June-2023
-// Now with Multi-touch	support									    //
+// Beta Release 2.0.6a, Not to be used for Production software  //
+// John Galvin aka Johnngy63: 27-June-2023                      //
+// Now with Mutli Touch Support                                 //
+// Added basic mouse support for Android Emulator               //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.6";
+		sAppName = "OLC PGE Mobile BETA 2.0.6a";
 	}
 
 	/* Vectors */
@@ -68,7 +69,7 @@ private:
 	/// <param name="vCenterPoint">Center Position of the target</param>
 	/// <param name="nLineLenght">Length of lines</param>
 	/// <param name="nCircleRadus">Center Circle radius</param>
-	void DrawTargetPointer(olc::vi2d vCenterPoint, int32_t nLineLenght, int32_t nCircleRadus)
+	void DrawTargetPointer(olc::vi2d vCenterPoint, int32_t nLineLenght, int32_t nCircleRadus, olc::Pixel p = olc::WHITE)
 	{
 		/*
 						|
@@ -79,11 +80,11 @@ private:
 
 
 		*/
-		FillCircle(vCenterPoint, nCircleRadus);
-		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y + nLineLenght });
-		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y - nLineLenght });
-		DrawLine(vCenterPoint, { vCenterPoint.x + nLineLenght, vCenterPoint.y });
-		DrawLine(vCenterPoint, { vCenterPoint.x - nLineLenght, vCenterPoint.y });
+		FillCircle(vCenterPoint, nCircleRadus, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y + nLineLenght }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y - nLineLenght }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x + nLineLenght, vCenterPoint.y }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x - nLineLenght, vCenterPoint.y }, p);
 
 	}
 
@@ -139,10 +140,15 @@ public:
 
 		// Get the default touch point
 		// This is alway Index 0 and first touch piont
-		olc::vi2d touchPos = GetTouchPos();
-		std::string Touch0 = "Mouse 0:  X: " + std::to_string(touchPos.x) + " Y: " + std::to_string(touchPos.y);
+		olc::vi2d mousePos = GetMousePos();
+		std::string Touch0 = "Mouse 0:  X: " + std::to_string(mousePos.x) + " Y: " + std::to_string(mousePos.y);
 		vecMessages.push_back(Touch0);
 
+		if (GetMouse(0).bHeld)
+		{
+			DrawLine(centreScreenPos, mousePos, olc::GREEN, 0xF0F0F0F0);
+			DrawTargetPointer(mousePos, 50, 10, olc::GREEN);
+		}
 
 		/*
 			You asked for Multi-touch... you got it!
@@ -155,7 +161,7 @@ public:
 			every so often to ensure lost touch points are clear
 
 		*/
-
+		olc::vi2d touchPos;
 		// The more touch points the harder to manage
 		for (int i = 0; i < 3; i++)
 		{
