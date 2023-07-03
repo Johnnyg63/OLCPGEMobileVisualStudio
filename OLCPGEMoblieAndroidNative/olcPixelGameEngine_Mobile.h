@@ -6,10 +6,9 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.6a, Not to be used for Production software  //
-	// John Galvin aka Johnngy63: 27-June-2023                      //
-	// Now with Mutli Touch Support                                 //
-	// Added basic mouse support for Android Emulator               //
+	// Beta Release 2.0.7, Not to be used for Production software  //
+	// John Galvin aka Johnngy63: 03-July-2023                      //
+	// Updated SIMD_SSE Support for Intel Atom CPU
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -415,6 +414,7 @@
 	2.05: Sensors Support added
 	2.06: Multi Touch Support
 	2.06a: Basic mouse support for Android Emulator
+	2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero when no touch piont selected
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -482,7 +482,7 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 206 
+#define PGE_MOB_VER 207
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -2109,12 +2109,12 @@ namespace olc {
 		HWButton GetMouse(uint32_t b) const;
 
 		/// <summary>
-		/// Get the state of a specific touch point
+		/// Get the state of a specific touch point. Default: 0
 		/// Note: Multi-touch now supported see: https://en.wikipedia.org/wiki/Multi-touch  
 		/// </summary>
 		/// <param name="p">points 0 - 4</param>
 		/// <returns>Touch point state: bPressed, bReleased, bHeld</returns>
-		HWButton GetTouch(uint32_t p) const;
+		HWButton GetTouch(uint32_t p = 0) const;
 
 		/// <summary>
 		/// Clears all touch points
@@ -3321,7 +3321,6 @@ namespace olc {
 
 		/// <summary>
 		/// Update the touch state
-		/// WARNING: only 1 touch point supported from Beta 2.0.4
 		/// </summary>
 		/// <param name="touch">Up to 5 touch points</param>
 		/// <param name="state">State,</param>
@@ -5966,8 +5965,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.6");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.6", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.7");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.7", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -10017,21 +10016,35 @@ namespace olc
 
 			int VecEndIndex = (int)pDrawTarget->pColData.size();
 
-			int nVecA = 0;
+			// Lets get any left over pixels to be processed
+			// Lets get any left over pixels to be processed
+			int nOffSet = VecEndIndex % 4;
 
-			float nReplacePixel = (float)p.n; // Get the int value of the pixel
+			if (nOffSet > 0)
+			{
+				// we need to work out what is the next multiple of 4 pixels
+				nOffSet = (VecEndIndex / 4) + 1;
+				nOffSet = (nOffSet * 4);
+				nOffSet = nOffSet - VecEndIndex;
 
-			__m128 _replacepixel; // instance a 128bit register which can hold 4 uint32_t slots 
+			}
+
+
+			int nTempVecEnd = (VecEndIndex - nOffSet) - 4;
+
+			int nReplacePixel = (int)p.n; // Get the int value of the pixel
+
+			int* nVecA = (int*)pDrawTarget->pColData.data();
 
 			//_replacepixel = | uint32_t nReplacePixel | uint32_t nReplacePixel | uint32_t nReplacePixel | uint32_t nReplacePixel |... 4 slots
-			_replacepixel = _mm_set1_ps(nReplacePixel);
+			__m128i _replacepixel = _mm_setr_epi32(nReplacePixel, nReplacePixel, nReplacePixel, nReplacePixel);
 
 			int i = 0;
 			int j = 0;
-			for (i = 0; i < VecEndIndex; i += 4, nVecA += 4)
+			for (i = 0; i < nTempVecEnd; i += 4, nVecA += 4)
 			{
 				j = i;
-				_mm_store_ps((float*)pDrawTarget->pColData.data() + nVecA, _replacepixel);
+				_mm_storeu_si128((__m128i*)nVecA, _replacepixel);
 			}
 
 
@@ -10048,6 +10061,7 @@ namespace olc
 		{
 			if (pDrawTarget == nullptr) return rcode::FAIL;
 			// Some optimisation
+			if (ex < sx) std::swap(sx, ex);
 			if (ny < 0 || ny > pDrawTarget->height) return rcode::OK;	// The line is above/below the viewable screen, no use in drawing it
 			if (ex < 0 || sx > pDrawTarget->width) return rcode::OK;	// The line is outside the left/right side of the view screen, no use in drawing it
 
@@ -10057,29 +10071,47 @@ namespace olc
 			ex = (ex > pDrawTarget->width) ? ex = pDrawTarget->width : ex;
 
 			// Lets get any left over pixels to be processed
-			int nOffSet = ex % 16;
-			int nTempVecEnd = ex - nOffSet;
-			float setPixel = (float)p.n;	// Set the pixel colour
+			int nOffSet = ex % 4;
 
-			__m128 _setpixel;
-			_setpixel = _mm_set1_ps(setPixel);
-
-			float* nVecA = (float*)pDrawTarget->pColData.data(); // Get the start pointer of the vector
-
-			nVecA += (ny * pDrawTarget->width) + sx; // Move the start pointer to the location where we want to start drawing
-
-			int i = sx;
-			int j = sx;
-			for (i = sx; i < nTempVecEnd; i += 4, nVecA += 4)
+			if (nOffSet > 0)
 			{
-				j = i;
-				_mm_store_ps(nVecA, _setpixel);
+				// we need to work out what is the next multiple of 4 pixels
+				nOffSet = (ex / 4) + 1;
+				nOffSet = (nOffSet * 4);
+				nOffSet = nOffSet - ex;
 
 			}
 
-			int pos = 0;
+
+			int nTempVecEnd = (ex - nOffSet) - 4;
+			int nReplacePixel = (int)p.n; // Get the int value of the pixel
+
+			int i = sx;
+			int j = sx;
+
+			int nLineLength = ex - sx;
+			if (nLineLength > 8)
+			{
+
+				//_replacepixel = | uint32_t nReplacePixel | uint32_t nReplacePixel | uint32_t nReplacePixel | uint32_t nReplacePixel |... 4 slots
+				__m128i _replacepixel = _mm_setr_epi32(nReplacePixel, nReplacePixel, nReplacePixel, nReplacePixel);
+
+				int* nVecA = (int*)pDrawTarget->pColData.data(); // Get the start pointer of the vector
+
+				// Move to correct poistion, as we are using __m128i we need to divide by 4
+				nVecA += ((ny * pDrawTarget->width) + sx);
+
+				for (i = sx; i <= nTempVecEnd; i += 4, nVecA += 4)
+				{
+					j = i;
+					_mm_storeu_si128((__m128i*)nVecA, _replacepixel);
+
+				}
+
+			}
 
 			// Clean up left over pixels
+			int pos = 0;
 			for (; j <= ex; j++)
 			{
 				pos = (ny * pDrawTarget->width) + j;
@@ -11065,7 +11097,7 @@ namespace olc
 			NOTE: Simulators can often break when using SEE, it is best to
 			use a real phone if possible
 		*/
-		simddrawer = std::make_unique<olc::SIMD_NONE>();
+		simddrawer = std::make_unique<olc::SIMD_SSE>();
 #else
 		//32 bit Processor Use SIMD NONE, will update this later (defined(__i386__))
 		// There should now be many of these around

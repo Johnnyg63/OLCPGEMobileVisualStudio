@@ -1,9 +1,8 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.6a, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 27-June-2023                      //
-// Now with Mutli Touch Support                                 //
-// Added basic mouse support for Android Emulator               //
+// Beta Release 2.0.7, Not to be used for Production software  //
+// John Galvin aka Johnngy63: 03-July-2023                      //
+// Updated SIMD_SSE Support for Intel Atom
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -27,7 +26,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.6a";
+		sAppName = "OLC PGE Mobile BETA 2.0.7";
 	}
 
 	/* Vectors */
@@ -122,7 +121,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.6";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.7";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
@@ -140,14 +139,14 @@ public:
 
 		// Get the default touch point
 		// This is alway Index 0 and first touch piont
-		olc::vi2d mousePos = GetMousePos();
-		std::string Touch0 = "Mouse 0:  X: " + std::to_string(mousePos.x) + " Y: " + std::to_string(mousePos.y);
-		vecMessages.push_back(Touch0);
+		olc::vi2d defautTouchPos = GetTouch();
+		std::string defautTouch = "Default Touch 0:  X: " + std::to_string(defautTouchPos.x) + " Y: " + std::to_string(defautTouchPos.y);
+		vecMessages.push_back(defautTouch);
 
-		if (GetMouse(0).bHeld)
+		if (GetMouse().bHeld)
 		{
-			DrawLine(centreScreenPos, mousePos, olc::GREEN, 0xF0F0F0F0);
-			DrawTargetPointer(mousePos, 50, 10, olc::GREEN);
+			DrawLine(centreScreenPos, defautTouchPos, olc::YELLOW, 0xF0F0F0F0);
+			DrawTargetPointer(defautTouchPos, 50, 10, olc::YELLOW);
 		}
 
 		/*
@@ -158,12 +157,13 @@ public:
 			I would recommand no more that 3 points
 
 			When you are using lots of touch points it is best to run ClearTouchPoints();
-			every so often to ensure lost touch points are clear
+			every so often to ensure lost touch points are cleared
 
 		*/
+		
 		olc::vi2d touchPos;
 		// The more touch points the harder to manage
-		for (int i = 0; i < 3; i++)
+		for (int i = 1; i < 3; i++)
 		{
 			if (GetTouch(i).bHeld)
 			{
