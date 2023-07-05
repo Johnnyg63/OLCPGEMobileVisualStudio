@@ -144,7 +144,7 @@ public:
 		std::string defautTouch = "Default Touch 0:  X: " + std::to_string(defautTouchPos.x) + " Y: " + std::to_string(defautTouchPos.y);
 		vecMessages.push_back(defautTouch);
 
-		if (GetMouse(0).bHeld)
+		if (GetTouch().bHeld)
 		{
 			DrawLine(centreScreenPos, defautTouchPos, olc::YELLOW, 0xF0F0F0F0);
 			DrawTargetPointer(defautTouchPos, 50, 10, olc::YELLOW);
