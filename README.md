@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile Android Project Beta 2.0.7
+# OLC Pixel Game Engine Mobile Android Project Beta 2.0.7a
 <p><b>Updated SIMD_SSE Support for Intel Atom CPU,<br/> Added GetTouch() to get the default touch point with having to pass the touch index</b></p>
 <p>Please follow this steps folks:</p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
@@ -35,6 +35,7 @@
   <li>2.06: Multi Touch Support</li>
   <li>2.06a: Added basic mouse support for Android Emulator</li>
   <li>2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero</li>
+  <li>2.07a: Corrected two small bugs in main.cpp</li>
 </ul>
 	
 	<b>Apple Platforms will not see these updates immediately</b><br/>

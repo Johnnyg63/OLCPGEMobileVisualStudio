@@ -1,8 +1,9 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.7, Not to be used for Production software  //
+// Beta Release 2.0.7a, Not to be used for Production software  //
 // John Galvin aka Johnngy63: 03-July-2023                      //
 // Updated SIMD_SSE Support for Intel Atom
+// Correct Main.cpp bugs
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -139,11 +140,11 @@ public:
 
 		// Get the default touch point
 		// This is alway Index 0 and first touch piont
-		olc::vi2d defautTouchPos = GetTouch();
+		olc::vi2d defautTouchPos = GetTouchPos();
 		std::string defautTouch = "Default Touch 0:  X: " + std::to_string(defautTouchPos.x) + " Y: " + std::to_string(defautTouchPos.y);
 		vecMessages.push_back(defautTouch);
 
-		if (GetMouse().bHeld)
+		if (GetMouse(0).bHeld)
 		{
 			DrawLine(centreScreenPos, defautTouchPos, olc::YELLOW, 0xF0F0F0F0);
 			DrawTargetPointer(defautTouchPos, 50, 10, olc::YELLOW);
@@ -160,7 +161,7 @@ public:
 			every so often to ensure lost touch points are cleared
 
 		*/
-		
+
 		olc::vi2d touchPos;
 		// The more touch points the harder to manage
 		for (int i = 1; i < 3; i++)
