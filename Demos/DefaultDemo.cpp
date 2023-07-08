@@ -26,7 +26,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.8 Demo";
+		sAppName = "Default Demo";
 	}
 
 	/* Vectors */
@@ -103,7 +103,7 @@ public:
 
 		vecMessages.push_back(sLineBreak);
 
-
+		
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
 			for (int y = 0; y < ScreenHeight(); y++)
@@ -248,7 +248,7 @@ void android_main(struct android_app* initialstate) {
 		without affecting performance... well it will have a very small affect, it will depend on your pixel size
 		Note: cohesion is currently not working
 	*/
-	demo.Construct(1280, 720, 4, 4, true, false, false);
+	demo.Construct(1280, 720, 2, 2, true, false, false);
 
 	demo.Start(); // Lets get the party started
 

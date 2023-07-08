@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 // Beta Release 2.0.8, Not to be used for Production software  //
 // John Galvin aka Johnngy63: 08-July-2023                      //
-// Default Demo
+// Multi-Touch Demo
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.8 Demo";
+		sAppName = "Multi-Touch Demo";
 	}
 
 	/* Vectors */
@@ -60,6 +60,32 @@ public:
 
 	std::vector<MySaveState> vecLastState;
 
+private:
+
+	/// <summary>
+	/// Draws a Target Pointer at the center position of Center Point
+	/// </summary>
+	/// <param name="vCenterPoint">Center Position of the target</param>
+	/// <param name="nLineLenght">Length of lines</param>
+	/// <param name="nCircleRadus">Center Circle radius</param>
+	void DrawTargetPointer(olc::vi2d vCenterPoint, int32_t nLineLenght, int32_t nCircleRadus, olc::Pixel p = olc::WHITE)
+	{
+		/*
+						|
+						|
+					----O----
+						|
+						|
+
+
+		*/
+		FillCircle(vCenterPoint, nCircleRadus, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y + nLineLenght }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x, vCenterPoint.y - nLineLenght }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x + nLineLenght, vCenterPoint.y }, p);
+		DrawLine(vCenterPoint, { vCenterPoint.x - nLineLenght, vCenterPoint.y }, p);
+
+	}
 
 public:
 	bool OnUserCreate() override
@@ -95,19 +121,68 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.8";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.7";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
 		vecMessages.push_back(sFps);
 
+		std::string sTouchScreen = "Touch the screen";
+		vecMessages.push_back(sTouchScreen);
+
 		vecMessages.push_back(sLineBreak);
+
+		olc::vi2d centreScreenPos = GetScreenSize();
+		centreScreenPos.x = centreScreenPos.x / 2;
+		centreScreenPos.y = centreScreenPos.y / 2;
+		DrawTargetPointer(centreScreenPos, 50, 10);
+
+		// Get the default touch point
+		// This is alway Index 0 and first touch piont
+		olc::vi2d defautTouchPos = GetTouchPos();
+		std::string defautTouch = "Default Touch 0:  X: " + std::to_string(defautTouchPos.x) + " Y: " + std::to_string(defautTouchPos.y);
+		vecMessages.push_back(defautTouch);
+
+		if (GetTouch().bHeld)
+		{
+			DrawLine(centreScreenPos, defautTouchPos, olc::YELLOW, 0xF0F0F0F0);
+			DrawTargetPointer(defautTouchPos, 50, 10, olc::YELLOW);
+		}
+
+		/*
+			You asked for Multi-touch... you got it!
+			You can support up to 126 touch points, however most phones and tablets can only handle 5
+
+			As always with touch sensors it is an approxmaite and alway will be
+			I would recommand no more that 3 points
+
+			When you are using lots of touch points it is best to run ClearTouchPoints();
+			every so often to ensure lost touch points are cleared
+
+		*/
+
+		olc::vi2d touchPos;
+		// The more touch points the harder to manage
+		for (int i = 1; i < 3; i++)
+		{
+			if (GetTouch(i).bHeld)
+			{
+
+				touchPos = GetTouchPos(i);
+				std::string TouchID = "Touch ID: " + std::to_string(i) + " X: " + std::to_string(touchPos.x) + " Y: " + std::to_string(touchPos.y);
+				vecMessages.push_back(TouchID);
+				DrawLine(centreScreenPos, touchPos, olc::WHITE, 0xF0F0F0F0);
+				DrawTargetPointer(touchPos, 50, 10);
+
+			}
+		}
+
 
 
 		// Called once per frame, draws random coloured pixels
-		for (int x = 0; x < ScreenWidth(); x++)
+		/*for (int x = 0; x < ScreenWidth(); x++)
 			for (int y = 0; y < ScreenHeight(); y++)
-				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));
+				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));*/
 
 		nStep = 10;
 		for (auto& s : vecMessages)
@@ -248,7 +323,7 @@ void android_main(struct android_app* initialstate) {
 		without affecting performance... well it will have a very small affect, it will depend on your pixel size
 		Note: cohesion is currently not working
 	*/
-	demo.Construct(1280, 720, 4, 4, true, false, false);
+	demo.Construct(1280, 720, 2, 2, true, false, false);
 
 	demo.Start(); // Lets get the party started
 

@@ -6,9 +6,10 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.7, Not to be used for Production software  //
-	// John Galvin aka Johnngy63: 03-July-2023                      //
-	// Updated SIMD_SSE Support for Intel Atom CPU
+	// Beta Release 2.0.8, Not to be used for Production software   //
+	// John Galvin aka Johnngy63: 08-July-2023                      //
+	// Added ClearTouchPoints(uint8_t startIndex = 0), and some     //
+	// bug fixes                                                    //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -415,6 +416,7 @@
 	2.06: Multi Touch Support
 	2.06a: Basic mouse support for Android Emulator
 	2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero when no touch piont selected
+	2.08: Some odd bug fixes
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -482,7 +484,7 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 207
+#define PGE_MOB_VER 208
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -2117,9 +2119,10 @@ namespace olc {
 		HWButton GetTouch(uint32_t p = 0) const;
 
 		/// <summary>
-		/// Clears all touch points
+		/// Clears all touch points, or from start index
 		/// </summary>
-		void ClearTouchPoints();
+		/// <param name="startIndex">Start index to clear touch points. Default: 0 (All points)</param>
+		void ClearTouchPoints(uint8_t startIndex = 0);
 
 		/// <summary>
 		/// Get Mouse X coordinate in "pixel" space
@@ -3239,7 +3242,7 @@ namespace olc {
 		/// Will always be enabled in RELEASE mode
 		/// I don't make the rulez folks
 		/// </summary>
-		bool bDisplayCopyRight = true;
+		bool bDisplayCopyRight = false;
 
 	private:
 		// CopyRight Stuff Do Not Remove
@@ -4474,11 +4477,11 @@ namespace olc {
 		return pMouseState[b];
 	}
 
-	void PixelGameEngine::ClearTouchPoints()
+	void PixelGameEngine::ClearTouchPoints(uint8_t startIndex)
 	{
 		mutexTouchPoints.lock();
 
-		for (int i = 0; i < INT8_MAX; i++)
+		for (int i = startIndex; i < INT8_MAX; i++)
 		{
 			pTouchNewState[i] = false;
 			pTouchNewStateCache[i] = false;
@@ -5965,8 +5968,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.7");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.7", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.8");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.8", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -9058,10 +9061,12 @@ namespace olc
 
 			// Clean up left over pixels
 			int pos = 0;
+			size_t vecSize = pDrawTarget->pColData.size();
+
 			for (; j <= ex; j++)
 			{
 				pos = (ny * pDrawTarget->width) + j;
-				pDrawTarget->pColData[pos] = p;
+				if (pos < vecSize) pDrawTarget->pColData[pos] = p; // fixed a small
 			}
 
 
@@ -10112,10 +10117,12 @@ namespace olc
 
 			// Clean up left over pixels
 			int pos = 0;
+			size_t vecSize = pDrawTarget->pColData.size();
+
 			for (; j <= ex; j++)
 			{
 				pos = (ny * pDrawTarget->width) + j;
-				pDrawTarget->pColData[pos] = p;
+				if (pos < vecSize) pDrawTarget->pColData[pos] = p; // fixed a small
 			}
 
 
