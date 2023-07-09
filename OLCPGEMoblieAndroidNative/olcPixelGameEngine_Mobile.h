@@ -3845,7 +3845,8 @@ namespace olc {
 
 	Sprite::~Sprite()
 	{
-		// John Galvin, Ensures no memory leak should 'Store Sub Sprites' are enabled
+		// John Galvin, Ensures no memory leak should 'Store Sub Sprites' have sprites
+		// TODO: We need to look at using Smart Pointers here, to better manage this
 		for (int i = 0; i < vecSubSprites.size(); i++)
 		{
 			Sprite* spr = std::get<4>(vecSubSprites[i]);
@@ -4351,8 +4352,6 @@ namespace olc {
 		t.join();
 #endif
 
-
-		// TODO: Manage state here, Paused, Stopped etc
 
 		if (platform->ApplicationCleanUp() != olc::OK) return olc::FAIL;
 
@@ -7770,7 +7769,6 @@ namespace olc {
 	void EventManager::onPause(ANativeActivity* activity)
 	{
 		LOGV("Pause: %p\n", activity);
-		// TODO: correct this quick hack
 		platform->ptrPGE->SetFocused(false);
 		android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_PAUSE);
 	}
@@ -8872,7 +8870,7 @@ namespace olc
 		virtual olc::Sprite* Duplicate_SIMD(olc::Sprite* pSource) override
 		{
 
-			// TODO: This is the fastest way of duplicating, I say this is not required, keep for testing 
+			// This is the fastest way of duplicating, I say this is not required, keep for testing 
 			olc::Sprite* spr = new olc::Sprite(pSource->width, pSource->height);
 			std::memcpy(spr->GetData(), pSource->GetData(), pSource->width * pSource->height * sizeof(olc::Pixel));
 			spr->modeSample = pSource->modeSample;
@@ -9855,7 +9853,7 @@ namespace olc
 			__m128i _reg1, _reg2, _reg3, _reg4, _reg5, _compare;
 
 			_reg1 = _mm_set_epi32(pSource->width, pSource->height, 0, 0);			// Holds width and height
-			_reg2 = _mm_set_epi32(vTargetPos.x, vTargetPos.y, 0, 0);							// Holds vPos.x and vPos.y
+			_reg2 = _mm_set_epi32(vTargetPos.x, vTargetPos.y, 0, 0);				// Holds vPos.x and vPos.y
 			_reg3 = _mm_add_epi32(_reg1, _reg2);									// nFullWidth = vPos.x + width, nFullHeight = vPos.y + height;
 			_reg4 = _mm_set_epi32(pTargetSprite->width, pTargetSprite->height, 0, 0);	// Holds pdrawTarget->width, pdrawTarget->height
 			_compare = _mm_cmpgt_epi32(_reg3, _reg4);								// if (nFullWidth >= pdrawTarget->width) (true false)
@@ -9873,12 +9871,9 @@ namespace olc
 
 			// Now lets get the nXPos, nYPso
 
-			_reg2 = _mm_set_epi32(0, 0, vTargetPos.x, vTargetPos.y);							// Tottle the reg2 so that 0's will cause nXStart & nYStart results not to be affected
+			_reg2 = _mm_set_epi32(0, 0, vTargetPos.x, vTargetPos.y);				// Tottle the reg2 so that 0's will cause nXStart & nYStart results not to be affected
 			_compare = _mm_cmpgt_epi32(_reg1, _reg2);								// (vPos.x < 0)?,  (vPos.y < 0)? . We reuse _reg1 as it is already set to 0's
 			_mm_maskmoveu_si128(_reg1, _compare, (char*)pPositions);				// We only change the values of nXPos & nYPos if _comp is set (vPos.x < 0) ? 0 : vPos.x;
-
-
-
 
 
 			return DrawToTarget(vTargetPos, pTargetSprite, vecPositions, pSource);
@@ -9912,10 +9907,8 @@ namespace olc
 
 			// Get the local sprite vector detals
 			size_t nVecRead = 0; // Start position of read vector
-			//size_t nVecRLen = pSource->pColData.size();
 
 			// Set up counters
-			//int sx = 0;
 			int ex = nWidth;
 
 			// Get if we have an offset to manage
@@ -9964,7 +9957,6 @@ namespace olc
 			}
 			else
 			{
-				//int j = 0;
 				// Low speed as we have an offset to manage
 				for (int y = nYStart; y < nHeight; y++, nTargetY++)
 				{
@@ -10294,7 +10286,7 @@ namespace olc
 				if (minx > t2x) minx = t2x;
 				if (maxx < t1x) maxx = t1x;
 				if (maxx < t2x) maxx = t2x;
-				simddrawer->DrawFillLine(minx, maxx, y, p, pDrawTarget); // Draw line from min to max points found on the y using SIMD. // John Galvin added missing 'p'
+				simddrawer->DrawFillLine(minx, maxx, y, p, pDrawTarget); // Draw line from min to max points found on the y using SIMD.
 				if (!changed1) t1x += signx1;
 				t1x += t1xp;
 				if (!changed2) t2x += signx2;
