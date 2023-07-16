@@ -1,11 +1,14 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.8, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 08-July-2023                      //
+// Beta Release 2.0.9, Not to be used for Production software  //
+// John Galvin aka Johnngy63: 16-July-2023                      //
 // Default Demo
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
+// Thank you to @YouGotJoshed                                   //
+// Please check out: http://sig.projectdivar.com/sigonasr2/     //
 //////////////////////////////////////////////////////////////////
+
 
 #include <malloc.h>
 #define OLC_PGE_APPLICATION
@@ -26,7 +29,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.8 Demo";
+		sAppName = "Default Demo";
 	}
 
 	/* Vectors */
@@ -95,11 +98,17 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.8";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.9";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
 		vecMessages.push_back(sFps);
+
+		std::string sThankYou = "Thank to @YouGotJoshed for you help";
+		vecMessages.push_back(sThankYou);
+
+		std::string sThankYou = "Please Check out: http://sig.projectdivar.com/sigonasr2/";
+		vecMessages.push_back(sThankYou);
 
 		vecMessages.push_back(sLineBreak);
 
@@ -140,12 +149,7 @@ public:
 		vecLastState.push_back({ "MouseY", 25 });
 		vecLastState.push_back({ "GameLevel", 5 });
 
-		// Example 2 with a file:
-#if defined(__ANDROID__)
-
-		android_app* pMyAndroid = this->pOsEngine.app;
-		ANativeActivity* nativeActivity = pMyAndroid->activity;
-		const char* internalPath = nativeActivity->internalDataPath;
+		const char* internalPath = app_GetInternalAppStorage();
 		std::string dataPath(internalPath);
 
 		// internalDataPath points directly to the files/ directory                                  
@@ -165,12 +169,6 @@ public:
 			file.close();
 		}
 
-#endif
-
-#if defined(__APPLE__)
-		// Coming soon
-		//apple_app* pMyApple = this->pOsEngine.app;
-#endif
 
 	}
 
@@ -179,13 +177,7 @@ public:
 		// This will fire every time your game launches 
 		// OnUserCreate will be fired again as the OS may have terminated all your data
 
-#if defined(__ANDROID__)
-
-		android_app* pMyAndroid = this->pOsEngine.app;
-		ANativeActivity* nativeActivity = pMyAndroid->activity;
-
-		// internalDataPath points directly to the files/ directory          
-		const char* internalPath = nativeActivity->internalDataPath;
+		const char* internalPath = app_GetInternalAppStorage();
 		std::string dataPath(internalPath);
 		std::string lastStateFile = dataPath + "/lastStateFile.bin";
 
@@ -212,14 +204,8 @@ public:
 		}
 
 
-#endif
-
-#if defined(__APPLE__)
-		// Coming soon
-		//apple_app* pMyApple = this->pOsEngine.app;
-#endif
-
 	}
+
 };
 
 

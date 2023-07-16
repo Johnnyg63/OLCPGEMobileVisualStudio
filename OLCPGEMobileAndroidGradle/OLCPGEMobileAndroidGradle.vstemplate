@@ -26,6 +26,12 @@
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">app\src\main\java\com\$projectname$\$safeprojectname$.java</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\res\values\strings.xml</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\north_south_east_west_logo.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\images\car_top.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\images\car_top1.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\images\City_Roads1_mip0.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\images\dirtblock.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\maps\example1.city</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\objectfiles\unitcube.obj</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\testmusic.mp3</ProjectItem>
     </Project>
   </TemplateContent>

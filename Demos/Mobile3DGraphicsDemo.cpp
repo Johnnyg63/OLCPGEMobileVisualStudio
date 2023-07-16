@@ -1,10 +1,12 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.9, Not to be used for Production software  //
+// Beta Release 2.0.9, Not to be used for Production software   //
 // John Galvin aka Johnngy63: 16-July-2023                      //
-// Default Demo
+// 3D Example                                                //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
-// Or on Github: https://github.com/Johnnyg63					//
+// Or on Github: https://github.com/Johnnyg63                   //
+// Thank you to @YouGotJoshed                                   //
+// Please check out: http://sig.projectdivar.com/sigonasr2/     //
 //////////////////////////////////////////////////////////////////
 
 #include <malloc.h>
@@ -17,16 +19,34 @@
 #define STBI_NEON
 #endif
 #include "olcPixelGameEngine_Mobile.h"
+#define OLC_PGEX_GRAPHICS3D
+#include "olcPGEX_Graphics3D.h"
+
 #include <fstream> // Used for saving the savestate to a file
+
 
 
 class PGE_Mobile : public olc::PixelGameEngine
 {
+public:
+
+	olc::GFX3D::mesh cube;
+	olc::GFX3D::PipeLine renderer;
+
+	olc::GFX3D::vec3d vUp = { 0,1,0 };
+	olc::GFX3D::vec3d vEye = { 0,0,-4 };
+	olc::GFX3D::vec3d vLookDir = { 0,0,1 };
+
+	float fTheta = 0;
+
+	olc::Sprite* cubeTex;
+
+
 
 public:
 	PGE_Mobile()
 	{
-		sAppName = "Default Demo";
+		sAppName = "Graphics3D PGEX Demo";
 	}
 
 	/* Vectors */
@@ -35,19 +55,6 @@ public:
 
 	int nFrameCount = 0;
 	int nStep = 20;
-
-	/* Sprites */
-	olc::Sprite* sprTouchTester = nullptr;
-	/* END Sprites*/
-
-	/* Decals */
-	olc::Decal* decTouchTester = nullptr;
-	/* End Decals */
-
-
-	/* Sensors */
-	std::vector<olc::SensorInformation> vecSensorInfos;
-	/*End Sensors*/
 
 
 public:
@@ -76,8 +83,24 @@ public:
 		//apple_app* pMyApple = this->pOsEngine.app;
 #endif
 
-		sprTouchTester = new olc::Sprite("images/north_south_east_west_logo.png");
-		decTouchTester = new olc::Decal(sprTouchTester);
+		cube.LoadOBJFile("objectfiles/unitcube.obj");
+		//cube.LoadOBJFile("/unitcube.obj", olc::FileHandler::INTERNAL);
+		olc::GFX3D::ConfigureDisplay();
+
+		cubeTex = new olc::Sprite("images/dirtblock.png");
+
+
+		renderer.SetProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f, 0.0f, 0.0f, ScreenWidth(), ScreenHeight());
+
+		std::string sAssetFile = "images/car_top.png";
+		std::string sStorageFoler(app_GetPublicAppStorage()); /* Store it in --YOURPHONE--/Phone/Android/obb/com.olcPEGMob3DGraphicTest */
+		std::string sStorageFile = sStorageFoler + "/car_top.png";
+
+		if (app_ExtractFileFromAssets(sAssetFile, sStorageFile) == olc::rcode::OK)
+		{
+			// Test point
+			int testPoint = 1;
+		}
 
 		return true;
 	}
@@ -101,13 +124,36 @@ public:
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
 		vecMessages.push_back(sFps);
 
+		std::string sThankYou = "Thank to @YouGotJoshed for you help";
+		vecMessages.push_back(sThankYou);
+
+		std::string sThankYou = "Please Check out: http://sig.projectdivar.com/sigonasr2/";
+		vecMessages.push_back(sThankYou);
+
 		vecMessages.push_back(sLineBreak);
 
-		
-		// Called once per frame, draws random coloured pixels
-		for (int x = 0; x < ScreenWidth(); x++)
-			for (int y = 0; y < ScreenHeight(); y++)
-				Draw(x, y, olc::Pixel(rand() % 256, rand() % 256, rand() % 256));
+		fTheta += fElapsedTime;
+
+		Clear(olc::VERY_DARK_BLUE);
+
+		olc::GFX3D::ClearDepth();
+
+		olc::GFX3D::vec3d vLookTarget = olc::GFX3D::Math::Vec_Add(vEye, vLookDir);
+
+		renderer.SetCamera(vEye, vLookTarget, vUp);
+
+		olc::GFX3D::mat4x4 matRotateX = olc::GFX3D::Math::Mat_MakeRotationX(fTheta);
+		olc::GFX3D::mat4x4 matRotateZ = olc::GFX3D::Math::Mat_MakeRotationZ(fTheta / 3.0f);
+		olc::GFX3D::mat4x4 matWorld = olc::GFX3D::Math::Mat_MultiplyMatrix(matRotateX, matRotateZ);
+
+		renderer.SetTransform(matWorld);
+
+		renderer.SetTexture(cubeTex);
+		//renderer.Render(cube.tris, GFX3D::RENDER_WIRE);
+
+		renderer.Render(cube.tris);
+
+
 
 		nStep = 10;
 		for (auto& s : vecMessages)
@@ -196,7 +242,6 @@ public:
 
 
 	}
-
 };
 
 

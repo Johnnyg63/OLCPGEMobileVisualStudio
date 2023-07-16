@@ -6,10 +6,10 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.8, Not to be used for Production software   //
-	// John Galvin aka Johnngy63: 08-July-2023                      //
-	// Added ClearTouchPoints(uint8_t startIndex = 0), and some     //
-	// bug fixes                                                    //
+	// Beta Release 2.0.9, Not to be used for Production software   //
+	// John Galvin aka Johnngy63: 16-July-2023                      //
+	// Added FileManager because accessing the Android/iOS App      //
+	// storage is not easy, well it is now                          //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -416,7 +416,20 @@
 	2.06: Multi Touch Support
 	2.06a: Basic mouse support for Android Emulator
 	2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero when no touch piont selected
-	2.08: Some odd bug fixes
+	2.08: Added ClearTouchPoints(int8_t startIndex = 0) for clearing of touch points at index x, some bug fixes too
+	2.09: Added: FileManager: for gaining acccess to the Andriod Assets APK and iOS Zip Packages
+				+ app_LoadFileFromAssets()
+				+ app_ExtractFileFromAssets()
+				+ app_GetInternalAppStorage()
+				+ app_GetExternalAppStorage()
+				+ app_GetPublicAppStorage()
+
+				++ SmartPtr filehandler->
+				++ LoadFileFromAssets()
+				++ ExtractFileFromAssets()
+				++ GetInternalAppStorage()
+				++ GetExternalAppStorage()
+				++ GetPublicAppStorage()
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -484,7 +497,7 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 208
+#define PGE_MOB_VER 209
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -519,6 +532,7 @@ void android_main(struct android_app* initialstate)
 #include <atomic>
 #include <thread>
 #include <memory>
+#include <fstream>
 
 #pragma endregion
 #pragma GCC diagnostic pop
@@ -1283,6 +1297,62 @@ namespace olc {
 		virtual olc::rcode GetImageBuffer(olc::Sprite* spr, const std::string& sImageFile, std::vector<char>* buffer) = 0;
 	};
 
+	/// <summary>
+	/// FileHandler allows easy access to the Android/iOS Assests (APK file) and App Storage
+	/// </summary>
+	class FileHandler
+	{
+	public:
+		FileHandler() = default;
+		virtual ~FileHandler() = default;
+
+		enum StorageType
+		{
+			INTERNAL = 0,
+			EXTERNAL,
+			PUBLIC
+		};
+
+		/// <summary>
+		/// Load a file from the Assets APK into the passed buffer
+		/// </summary>
+		/// <param name="sFilePath">Full file path name excudling the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
+		/// <param name="outbuffer">A pointer to a clear buffer. Buffer will be populated and returned</param>
+		/// <returns>FAIL = 0, OK = 1, NO_FILE = -1, and outBuffer</returns>
+		virtual olc::rcode LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer) = 0;
+
+		/// <summary>
+		/// Extracts a compressed file from the assests APK to a depcompressed app storage file
+		/// </summary>
+		/// <param name="sAssetFilePath">Full assets file path name excudling the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
+		/// <param name="sAppStorageFilePath">Full app storage path. Use GetInternalAppStorage(), GetExteralAppStorage() and GetPublicAppStorage() to get the storage path</param>
+		/// <returns>FAIL = 0, OK = 1, NO_FILE = -1,</returns>
+		virtual olc::rcode ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath) = 0;
+
+		/// <summary>
+		/// Get the App Internal storage path where you can save,  editing, deleting files
+		/// Internal Storage is private and non volatile
+		/// RECOMMANDED: Use this storage for saving, editing, deleting files
+		/// </summary>
+		/// <returns>The full Android/iOS path to internal storage. FAIL: NULL</returns>
+		virtual const char* GetInternalAppStorage() = 0;
+
+		/// <summary>
+		/// Get the App Exteral storage where you can save files
+		/// WARNING: MAY NOT EXIST. May be volatile
+		/// </summary>
+		/// <returns>SUCCESS: The full Android/iOS path to external storage. FAIL: NULL</returns>
+		virtual const char* GetExteralAppStorage() = 0;
+
+		/// <summary>
+		/// Get the App public storage where you can save files
+		/// WARNING: MAY NOT EXIST. May be volatile
+		/// NOTE: Android will default to the \obb\com.AppName, iOS TBA
+		/// </summary>
+		/// <returns>SUCCESS: The full Android/iOS path to external storage. FAIL: NULL</returns>
+		virtual const char* GetPublicAppStorage() = 0;
+
+	};
 
 	// O------------------------------------------------------------------------------O
 	// | olc::Sprite - An image represented by a 2D array of olc::Pixel               |
@@ -1997,6 +2067,7 @@ namespace olc {
 	static std::unique_ptr<Renderer> renderer;				// Pointer to the renderer (OpenGLES10/20/30)
 	static std::unique_ptr<Platform> platform;				// Pointer to the OS platform (Android, iOS)
 	static std::unique_ptr<SIMDDrawRoutines> simddrawer;	// Pointer to the SIMD Draw functions
+	static std::unique_ptr<FileHandler> filehandler;		// Pointer to the file handler for (Android, iOS)
 	static std::map<size_t, uint8_t> mapKeys;				// Mapped keys vector
 
 	// O------------------------------------------------------------------------------O
@@ -3156,6 +3227,7 @@ namespace olc {
 		/// </summary>
 		std::string sAppName;
 
+
 	private: // Inner mysterious workings
 		olc::Sprite* pDrawTarget = nullptr;
 		Pixel::Mode	nPixelMode = Pixel::NORMAL;
@@ -3242,7 +3314,7 @@ namespace olc {
 		/// Will always be enabled in RELEASE mode
 		/// I don't make the rulez folks
 		/// </summary>
-		bool bDisplayCopyRight = false;
+		bool bDisplayCopyRight = true;
 
 	private:
 		// CopyRight Stuff Do Not Remove
@@ -3390,6 +3462,48 @@ namespace olc {
 		/// </summary>
 		virtual void olc_ConfigureSystem();
 
+	public:
+		/// <summary>
+		/// Load a file from the Assets APK into the passed buffer
+		/// </summary>
+		/// <param name="sFilePath">Full file path name excudling the assets dir: Example: "images/test.png" "maps/example1.city"</param>
+		/// <param name="outbuffer">A pointer to a clear buffer. Buffer will be populated and returned</param>
+		/// <returns>FAIL = 0, OK = 1, NO_FILE = -1, and outBuffer</returns>
+		olc::rcode app_LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer);
+
+		/// <summary>
+		/// Extracts a compressed file from the assests APK to a depcompressed app storage file
+		/// </summary>
+		/// <param name="sAssetFilePath">Full assets file path name excudling the assets dir: Example: "images/test.png" "maps/example1.city"</param>
+		/// <param name="sAppStorageFilePath">Full app storage path. Use app_GetInternalAppStorage(), app_GetExteralAppStorage() and app_GetPublicAppStorage() to get the storage path</param>
+		/// <returns>FAIL = 0, OK = 1, NO_FILE = -1,</returns>
+		olc::rcode app_ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath);
+
+		/// <summary>
+		/// Get the App Internal storage path where you can save,  editing, deleting files
+		/// Internal Storage is private and non volatile
+		/// RECOMMANDED: Use this storage for saving, editing, deleting files
+		/// </summary>
+		/// <returns>The full Android/iOS path to internal storage. FAIL: NULL</returns>
+		const char* app_GetInternalAppStorage();
+
+		/// <summary>
+		/// Get the App Exteral storage where you can save files
+		/// WARNING: MAY NOT EXIST. May be volatile
+		/// </summary>
+		/// <returns>SUCCESS: The full Android/iOS path to external storage. FAIL: NULL</returns>
+		const char* app_GetExteralAppStorage();
+
+		/// <summary>
+		/// Get the App public storage where you can save files
+		/// WARNING: MAY NOT EXIST. May be volatile
+		/// NOTE: Android will default to the \obb\com.AppName, iOS TBA
+		/// </summary>
+		/// <returns>SUCCESS: The full Android/iOS path to external storage. FAIL: NULL</returns>
+		const char* app_GetPublicAppStorage();
+
+
+
 	public: // PGEX Stuff
 		friend class PGEX;
 
@@ -3398,6 +3512,8 @@ namespace olc {
 		/// </summary>
 		/// <param name="pgex"></param>
 		void pgex_Register(olc::PGEX* pgex);
+
+
 
 	private:
 		std::vector<olc::PGEX*> vExtensions;
@@ -5967,8 +6083,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.8");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.8", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.9");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.9", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -6609,6 +6725,30 @@ namespace olc {
 	}
 #endif
 
+	olc::rcode PixelGameEngine::app_LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer)
+	{
+		return filehandler->LoadFileFromAssets(sFilePath, outBuffer);
+	}
+
+	olc::rcode PixelGameEngine::app_ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath)
+	{
+		return filehandler->ExtractFileFromAssets(sAssetFilePath, sAppStorageFilePath);
+	}
+
+	const char* PixelGameEngine::app_GetInternalAppStorage()
+	{
+		return filehandler->GetInternalAppStorage();
+	}
+
+	const char* PixelGameEngine::app_GetExteralAppStorage()
+	{
+		return filehandler->GetExteralAppStorage();
+	}
+
+	const char* PixelGameEngine::app_GetPublicAppStorage()
+	{
+		return filehandler->GetPublicAppStorage();
+	}
 
 	void PixelGameEngine::olc_PrepareEngine()
 	{
@@ -8404,7 +8544,14 @@ namespace olc
 		olc::rcode LoadImageResource(olc::Sprite* spr, const std::string& sImageFile, olc::ResourcePack* pack) override
 		{
 			std::vector<char> buffer;
-			int retCode = GetImageBuffer(spr, sImageFile, &buffer);
+			std::string sAssestFile = sImageFile;
+
+			while (sAssestFile[0] == '/' && sAssestFile.length() > 0)
+			{
+				sAssestFile.erase(0, 1);
+			}
+
+			int retCode = GetImageBuffer(spr, sAssestFile, &buffer);
 			if (retCode != rcode::OK) return (olc::rcode)retCode;
 
 			UNUSED(pack); // Clear out existing sprite
@@ -8437,6 +8584,9 @@ namespace olc
 
 			// This code will look very out of place, but there is a mountain of documentation that explains it
 			// In short this is 'C' on steroids
+
+			// Pre check
+
 
 			// 1: Lets get a pointer to the Android Asset Manager
 			android_app* MyAndroidApp = platform->ptrPGE->pOsEngine.app;
@@ -8489,6 +8639,130 @@ namespace olc
 			// TODO: Currently you cannot save back into the APK (Fancy Zip file) that the android uses
 			return olc::rcode::FAIL;
 		}
+
+
+	};
+
+	class FileHandler_ANDROID : public olc::FileHandler
+	{
+	public:
+		FileHandler_ANDROID() : FileHandler()
+		{}
+
+		virtual olc::rcode LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer) override
+		{
+			//Pre Checks
+			if (sFilePath.length() < 1) return rcode::NO_FILE;
+
+			// 1: Lets get a pointer to the Android Asset Manager
+			android_app* MyAndroidApp = platform->ptrPGE->pOsEngine.app;
+			AAssetManager* pAssetManager = MyAndroidApp->activity->assetManager;
+
+
+			//2: Open a pointer to the asset and tell Android we will in the future request a buffer
+			// For MP3, or AVIs etc, AASSET_MODE_STREAMING might be a better choice 
+			AAsset* pAsset = AAssetManager_open(pAssetManager, sFilePath.c_str(), AASSET_MODE_BUFFER);
+			if (pAsset == nullptr) return rcode::NO_FILE;
+
+			//3: Lets extract the compress image into a buffer
+			off64_t length = AAsset_getLength64(pAsset);				//	Holds size of searched file
+			if (length < 1) return rcode::FAIL;
+			off64_t remaining = AAsset_getRemainingLength64(pAsset);	//	Keeps track of remaining bytes to read
+			size_t Mb = 1000 * 1024;									//	1Mb is maximum Android chunk size for compressed assets 
+			size_t currChunk;											//	Current Chuck of data we are processing
+			outBuffer->reserve(length);									//	Resize our buffer
+			if (length < 1) return rcode::FAIL;
+
+			//4: While we have still some data to read
+			while (remaining != 0)
+			{
+				// Set proper size for our next chunk
+				if (remaining >= Mb)
+				{
+					currChunk = Mb;
+				}
+				else
+				{
+					currChunk = remaining;
+				}
+				char chunk[currChunk];
+
+				// Read data chunk...
+				if (AAsset_read(pAsset, chunk, currChunk) > 0) // returns less than 0 on error
+				{
+					// ...and append it to our vector
+					outBuffer->insert(outBuffer->end(), chunk, chunk + currChunk);
+					remaining = AAsset_getRemainingLength64(pAsset);
+				}
+			}
+			AAsset_close(pAsset);
+
+			//5: done
+			return rcode::OK;
+
+
+
+		}
+
+		virtual olc::rcode ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath) override
+		{
+			//Pre Checks
+			if (sAssetFilePath.length() < 1 || sAppStorageFilePath.length() < 1)
+			{
+				return rcode::NO_FILE;
+			}
+
+			// Lets get a pointer to the Android Asset Manager
+			android_app* MyAndroidApp = platform->ptrPGE->pOsEngine.app;
+			AAssetManager* pAssetManager = MyAndroidApp->activity->assetManager;
+
+			AAsset* pAsset = AAssetManager_open(pAssetManager, sAssetFilePath.c_str(), AASSET_MODE_BUFFER);
+			if (pAsset == nullptr) return rcode::NO_FILE;
+
+			char cChunk[BUFSIZ];
+			int currChunk = 0;
+			FILE* out = fopen(sAppStorageFilePath.c_str(), "w");
+
+			if (out == nullptr) return rcode::FAIL;
+
+			while ((currChunk = AAsset_read(pAsset, cChunk, BUFSIZ)) > 0)
+			{
+				fwrite(cChunk, currChunk, 1, out);
+			}
+
+			fclose(out);
+			AAsset_close(pAsset);
+
+			return rcode::OK;
+		}
+
+		virtual const char* GetInternalAppStorage() override
+		{
+			android_app* pMyAndroid = platform->ptrPGE->pOsEngine.app;
+			ANativeActivity* nativeActivity = pMyAndroid->activity;
+			const char* cPath = nativeActivity->internalDataPath;
+
+			return cPath;
+		}
+
+		virtual const char* GetExteralAppStorage() override
+		{
+			android_app* pMyAndroid = platform->ptrPGE->pOsEngine.app;
+			ANativeActivity* nativeActivity = pMyAndroid->activity;
+			const char* cPath = nativeActivity->internalDataPath;
+
+			return cPath;
+		}
+
+		virtual const char* GetPublicAppStorage() override
+		{
+			android_app* pMyAndroid = platform->ptrPGE->pOsEngine.app;
+			ANativeActivity* nativeActivity = pMyAndroid->activity;
+			const char* cPath = nativeActivity->obbPath;
+
+			return cPath;
+		}
+
 	};
 }
 #endif
@@ -8539,6 +8813,50 @@ namespace olc
 		olc::rcode SaveImageResource(olc::Sprite* spr, const std::string& sImageFile) override
 		{
 			return olc::rcode::OK;
+		}
+
+	};
+
+	class FileHandler_IOS : public olc::FileHandler
+	{
+	public:
+		FileHandler_IOS() : FileHandler()
+		{}
+
+		virtual olc::rcode LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer) override
+		{
+			//Pre Checks
+			if (sFilePath.length() < 1) return rcode::NO_FILE;
+
+			//5: done
+			return rcode::NO_FILE;
+
+		}
+
+		virtual olc::rcode ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath) override
+		{
+			return rcode::FAIL;
+		}
+
+		virtual const char* GetInternalAppStorage() override
+		{
+			const char* cPath = nullptr;
+
+			return cPath;
+		}
+
+		virtual const char* GetExteralAppStorage() override
+		{
+			const char* cPath = nullptr;
+
+			return cPath;
+		}
+
+		virtual const char* GetPublicAppStorage() override
+		{
+			const char* cPath = nullptr;
+
+			return cPath;
 		}
 
 	};
@@ -11078,6 +11396,8 @@ namespace olc
 		MyAndroidApp->onInputEvent = &EventManager::getInstance().HandleInput;
 		this->pOsEngine.app = android_app;
 		olc::Sprite::loader = std::make_unique<olc::ImageLoader_STB_ANDROID>();
+
+		filehandler = std::make_unique<olc::FileHandler_ANDROID>();
 
 
 #if defined(__arm__ ) || defined(__aarch64__)

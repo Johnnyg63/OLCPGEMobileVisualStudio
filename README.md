@@ -1,5 +1,5 @@
-# OLC Pixel Game Engine Mobile Android Project Beta 2.0.8
-<p><b>Now with some simple demos!</b></p>
+# OLC Pixel Game Engine Mobile Android Project Beta 2.0.9
+<p><b>Added a FileHandler as accessing Android/iOS App Storage is not east... well it is now :)</b></p>
 <p>Please follow this steps folks:</p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -37,10 +37,24 @@
   <li>2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero</li>
   <li>2.07a: Corrected two small bugs in main.cpp</li>
   <li>2.08: Added ClearTouchPoints(int8_t startIndex = 0) for clearing of touch points at index x, some bug fixes too<br/> <i>Added Demos folder with some demos. Just Copy and Paste the code into main.cpp</i></li>
+  <li>2.09: Added Demos folder with some demos</i>
+	<br/> Added: FileManager: for gaining acccess to the Andriod Assets APK and iOS Zip Packages
+				<br/> app_LoadFileFromAssets()
+				<br/> app_ExtractFileFromAssets()
+				<br/> app_GetInternalAppStorage()
+				<br/> app_GetExternalAppStorage()
+				<br/> app_GetPublicAppStorage()
+				<br/> SmartPtr filehandler
+				<br/> LoadFileFromAssets()
+				<br/> ExtractFileFromAssets()
+				<br/> GetInternalAppStorage()
+				<br/> GetExternalAppStorage()
+				<br/> GetPublicAppStorage()
+  </li>
 </ul>
 	
 </p>
 <p>
 	<b>Apple Platforms will not see these updates immediately</b><br/>
-	<b>Starting on iOS port ASAP</b>
+	<b>Starting on iOS next Saturday 22nd July 2023</b>
 </p>

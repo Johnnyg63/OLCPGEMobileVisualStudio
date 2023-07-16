@@ -114,6 +114,12 @@
   <ItemGroup>
 	<Content Include="app\proguard-rules.pro" />
     <Content Include="app\src\main\assets\images\north_south_east_west_logo.png" />
+    <Content Include="app\src\main\assets\images\car_top.png" />
+    <Content Include="app\src\main\assets\images\car_top1.png" />
+    <Content Include="app\src\main\assets\images\City_Roads1_mip0.png" />
+    <Content Include="app\src\main\assets\images\dirtblock.png" />
+    <Content Include="app\src\main\assets\maps\example1.city" />
+    <Content Include="app\src\main\assets\objectfiles\unitcube.obj" />
     <Content Include="app\src\main\assets\sounds\testmusic.mp3" />
     <Content Include="app\src\main\res\values\strings.xml" />
   </ItemGroup>
