@@ -1,14 +1,11 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.9, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 16-July-2023                      //
+// Beta Release 2.1.0, Not to be used for Production software  //
+// John Galvin aka Johnngy63: 18-July-2023                      //
 // Default Demo
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
-// Thank you to @YouGotJoshed                                   //
-// Please check out: http://sig.projectdivar.com/sigonasr2/     //
 //////////////////////////////////////////////////////////////////
-
 
 #include <malloc.h>
 #define OLC_PGE_APPLICATION
@@ -98,16 +95,13 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.9";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.1.0";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
 		vecMessages.push_back(sFps);
 
-		std::string sThankYou = "Thank to @YouGotJoshed for you help";
-		vecMessages.push_back(sThankYou);
-
-		std::string sThankYou = "Please Check out: http://sig.projectdivar.com/sigonasr2/";
+		std::string sThankYou = "Thank you @VasCoder";
 		vecMessages.push_back(sThankYou);
 
 		vecMessages.push_back(sLineBreak);

@@ -6,10 +6,10 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.0.9, Not to be used for Production software   //
-	// John Galvin aka Johnngy63: 16-July-2023                      //
-	// Added FileManager because accessing the Android/iOS App      //
-	// storage is not easy, well it is now                          //
+	// Beta Release 2.1.0, Not to be used for Production software   //
+	// John Galvin aka Johnngy63: 18-July-2023                      //
+	// Removed ASensor_getHandle() as it only supports SDK 29       //
+	//and higher. Updated project to support SDK 21 to SDK32        //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -430,6 +430,7 @@
 				++ GetInternalAppStorage()
 				++ GetExternalAppStorage()
 				++ GetPublicAppStorage()
+	2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32. Thank you @VasCoder :)
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -497,7 +498,7 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 209
+#define PGE_MOB_VER 210
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -5852,7 +5853,8 @@ namespace olc {
 			sensorInfo.GetStringType = ASensor_getStringType(sensor_list[i]);
 			sensorInfo.ReportingMode = (olc::SensorReportingMode)ASensor_getReportingMode(sensor_list[i]);
 			sensorInfo.isWakeUpSensor = ASensor_isWakeUpSensor(sensor_list[i]);
-			sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
+
+			//sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
 
 			vecSensorInfo.push_back(sensorInfo);
 
@@ -5882,7 +5884,7 @@ namespace olc {
 				sensorInfo.GetStringType = ASensor_getStringType(sensor_list[i]);
 				sensorInfo.ReportingMode = (olc::SensorReportingMode)ASensor_getReportingMode(sensor_list[i]);
 				sensorInfo.isWakeUpSensor = ASensor_isWakeUpSensor(sensor_list[i]);
-				sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
+				//sensorInfo.Handle = ASensor_getHandle(sensor_list[i]);
 				break;
 			}
 
@@ -6083,8 +6085,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.0.9");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.0.9", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.1.0");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.1.0", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -6347,7 +6349,6 @@ namespace olc {
 
 		if (event.type == ASENSOR_TYPE_INVALID) return;
 
-		int32_t sensorType;
 		for (auto& s : pOsEngine.deviceSensors)
 		{
 			if (event.type == std::get<0>(s))
@@ -7702,12 +7703,7 @@ namespace olc {
 			// A little auto to update the touch points if pressed / unpressed 
 			auto updateTouchPoints = [&](int pointerIndex, bool touchState, bool movement = false)
 			{
-				if (pointerIndex > 0 && movement == true)
-				{
-					int test = 0;
-				}
-
-				int32_t pointerId = AMotionEvent_getPointerId(event, pointerIndex);	// Gets the touch pionter device Id
+				//int32_t pointerId = AMotionEvent_getPointerId(event, pointerIndex);	// Gets the touch pionter device Id
 				int32_t tPosX = AMotionEvent_getX(event, pointerIndex);				// Gets the current x position of this touch point
 				int32_t tPosY = AMotionEvent_getY(event, pointerIndex);				// Gets the current y position of the toucy point
 				platform->ptrPGE->olc_UpdateTouch(tPosX, tPosY, pointerIndex);		// Update the PGE Engine {X, Y} for this touch point
@@ -7733,7 +7729,7 @@ namespace olc {
 				int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
 
 				int32_t index = ((AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
-				int32_t pointerID = AMotionEvent_getPointerId(event, index);
+				//int32_t pointerID = AMotionEvent_getPointerId(event, index);
 
 
 				switch (action) {
@@ -11416,7 +11412,7 @@ namespace olc
 			NOTE: Simulators can often break when using SEE, it is best to
 			use a real phone if possible
 		*/
-		simddrawer = std::make_unique<olc::SIMD_SSE>();
+		simddrawer = std::make_unique<olc::SIMD_NONE>();
 #else
 		//32 bit Processor Use SIMD NONE, will update this later (defined(__i386__))
 		// There should now be many of these around
@@ -11469,7 +11465,3 @@ namespace olc
 // O------------------------------------------------------------------------------O
 // | END OF OLC_PGE_APPLICATION                                                   |
 // O------------------------------------------------------------------------------O
-
-
-
-

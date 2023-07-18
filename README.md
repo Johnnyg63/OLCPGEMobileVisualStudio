@@ -1,5 +1,7 @@
-# OLC Pixel Game Engine Mobile Android Project Beta 2.0.9
+# OLC Pixel Game Engine Mobile Android Project Beta 2.0.10
+<p>Correct support for Older SDK, Engine now supports <b>SDK 21 (Lollipop 5.0 - 5.0.2) to SDK 31/32 (Android 12 (S) 12.0). <br/>NOTE Android SDK 33 is also known as Android 13 Beta has been tested</b></p>
 <p><b>Added a FileHandler as accessing Android/iOS App Storage is not east... well it is now :)</b></p>
+<p>Thank you to @VasCoder check out: <a href="https://github.com/tfasth">https://github.com/tfasth</a></p>
 <p>Thank you to @YouGotJoshed check out: <a href="http://sig.projectdivar.com/sigonasr2/">http://sig.projectdivar.com/sigonasr2/</a></p>
 <p>Please follow this steps folks:</p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
@@ -11,14 +13,14 @@
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/blob/master/OLCPGEMobileAndroidProjectBeta209.zip">OLCPGEMobileAndroidProjectBeta209.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/blob/master/OLCPGEMobileAndroidProjectBeta210.zip">OLCPGEMobileAndroidProjectBeta210.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/207db5ed-e570-4c64-8523-7250625cbb53' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile BETA 2.0.9 for Android</p>
+<p>12: Select OLC Pixel Game Engine Mobile BETA 2.1.0 for Android</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/de27f3e6-1b27-4f0d-8596-f295706adba5' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/029e988e-8bfa-43c4-abff-852160bb9154' /></p>
@@ -52,6 +54,7 @@
 				<br/> GetExternalAppStorage()
 				<br/> GetPublicAppStorage()
   </li>
+  <li>2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32, Thank you @VasCoder</li>
 </ul>
 	
 </p>
