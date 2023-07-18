@@ -127,7 +127,7 @@ public:
 		std::string sThankYou = "Thank to @YouGotJoshed for you help";
 		vecMessages.push_back(sThankYou);
 
-		std::string sThankYou = "Please Check out: http://sig.projectdivar.com/sigonasr2/";
+		sThankYou = "Please Check out: http://sig.projectdivar.com/sigonasr2/";
 		vecMessages.push_back(sThankYou);
 
 		vecMessages.push_back(sLineBreak);
