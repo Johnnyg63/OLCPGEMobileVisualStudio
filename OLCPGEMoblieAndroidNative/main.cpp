@@ -1,6 +1,6 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.1.0, Not to be used for Production software  //
+// Beta Release 2.1.1, Not to be used for Production software  //
 // John Galvin aka Johnngy63: 18-July-2023                      //
 // Default Demo
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -95,7 +95,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.1.0";
+		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.1.1";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);

@@ -6,10 +6,9 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Beta Release 2.1.0, Not to be used for Production software   //
+	// Beta Release 2.1.1, Not to be used for Production software   //
 	// John Galvin aka Johnngy63: 18-July-2023                      //
-	// Removed ASensor_getHandle() as it only supports SDK 29       //
-	//and higher. Updated project to support SDK 21 to SDK32        //
+	// Corrected offset bug in DrawFillLine                         //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -431,6 +430,7 @@
 				++ GetExternalAppStorage()
 				++ GetPublicAppStorage()
 	2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32. Thank you @VasCoder :)
+	2.11: Corrected small bug in DrawFillLine
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -498,7 +498,7 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 210
+#define PGE_MOB_VER 211
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -6085,8 +6085,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.1.0");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.1.0", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile BETA 2.1.1");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile BETA 2.1.1", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -9341,13 +9341,14 @@ namespace olc
 		{
 			if (pDrawTarget == nullptr) return rcode::FAIL;
 			// Some optimisation
+			if (ex < sx) std::swap(sx, ex);
 			if (ny < 0 || ny > pDrawTarget->height) return rcode::OK;	// The line is above/below the viewable screen, no use in drawing it
 			if (ex < 0 || sx > pDrawTarget->width) return rcode::OK;	// The line is outside the left/right side of the view screen, no use in drawing it
 
 			// Crop line to fit within draw target
 			ny = (ny < 0) ? 0 : ny;
 			sx = (sx < 0) ? 0 : sx;
-			ex = (ex > pDrawTarget->width) ? ex = pDrawTarget->width : ex;
+			ex = (ex >= pDrawTarget->width) ? ex = pDrawTarget->width - 1 : ex;
 
 			// Lets get any left over pixels to be processed
 			int nOffSet = ex % 16;
@@ -10374,7 +10375,7 @@ namespace olc
 			// Some optimisation
 			if (ex < sx) std::swap(sx, ex);
 			if (ny < 0 || ny > pDrawTarget->height) return rcode::OK;	// The line is above/below the viewable screen, no use in drawing it
-			if (ex < 0 || sx > pDrawTarget->width) return rcode::OK;	// The line is outside the left/right side of the view screen, no use in drawing it
+			if (ex < 0 || sx > pDrawTarget->width - 1) return rcode::OK;	// The line is outside the left/right side of the view screen, no use in drawing it
 
 			// Crop line to fit within draw target
 			ny = (ny < 0) ? 0 : ny;
@@ -10382,19 +10383,9 @@ namespace olc
 			ex = (ex > pDrawTarget->width) ? ex = pDrawTarget->width : ex;
 
 			// Lets get any left over pixels to be processed
-			int nOffSet = ex % 4;
-
-			if (nOffSet > 0)
-			{
-				// we need to work out what is the next multiple of 4 pixels
-				nOffSet = (ex / 4) + 1;
-				nOffSet = (nOffSet * 4);
-				nOffSet = nOffSet - ex;
-
-			}
-
-
-			int nTempVecEnd = (ex - nOffSet) - 4;
+			int nOffSet = ex % 16;
+			int nTempVecEnd = ex - nOffSet;
+			int setPixel = (int)p.n;	// Set the pixel colour
 			int nReplacePixel = (int)p.n; // Get the int value of the pixel
 
 			int i = sx;
@@ -10412,7 +10403,7 @@ namespace olc
 				// Move to correct poistion, as we are using __m128i we need to divide by 4
 				nVecA += ((ny * pDrawTarget->width) + sx);
 
-				for (i = sx; i <= nTempVecEnd; i += 4, nVecA += 4)
+				for (i = sx; i < nTempVecEnd; i += 4, nVecA += 4)
 				{
 					j = i;
 					_mm_storeu_si128((__m128i*)nVecA, _replacepixel);

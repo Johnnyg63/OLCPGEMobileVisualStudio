@@ -1,6 +1,6 @@
 ﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
   <TemplateData>
-    <Name>OLC Pixel Game Engine Mobile BETA 2.1.0 for Android.</Name>
+    <Name>OLC Pixel Game Engine Mobile BETA 2.1.1 for Android.</Name>
     <Description>The project template will create a project where you can create games using the OLC Pixel Game Engine 2.0 and deploy them to your Android device.</Description>
     <ProjectType>VC</ProjectType>
     <TemplateID>OLCPGEMobile.2.0.AndroidProjectGroup</TemplateID>

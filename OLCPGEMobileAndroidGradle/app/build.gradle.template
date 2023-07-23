@@ -10,6 +10,16 @@ android {
         targetSdkVersion 32
     }
 
+     //see: https://developer.android.com/studio/publish/app-signing#sign_release
+    signingConfigs {
+    release {
+        keyAlias 'YourAppKey'
+        keyPassword 'somePassword'
+        storeFile file('appkeyfile.jks')
+        storePassword 'somePassword'
+        }
+    } 
+
     compileOptions.with {
          // Default VERSION_1_7
         sourceCompatibility=JavaVersion.VERSION_1_7
@@ -39,6 +49,7 @@ android {
             // Signing is force to use the debug Certificate,
             // you will need to update this to signingConfigs.release when you deploy it to Google App Store
             // See: https://developer.android.com/studio/publish/app-signing
+            // signingConfig signingConfigs.release
             signingConfig signingConfigs.debug
 
             // Edit if required, otherwise leave the Gradle/Android take care of it
