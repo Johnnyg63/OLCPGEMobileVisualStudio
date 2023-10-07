@@ -141,6 +141,9 @@ public:
 
 		// As we are using Android lets enable touch, this will disable Mouse input
 		guiManager.EnableTouch();
+
+		// NOTE: If you are using the Emulator set EnableTouch(false) to allow you to use the mouse
+		// guiManager.EnableTouch(false);
 #endif
 
 #if defined(__APPLE__)
@@ -270,6 +273,8 @@ public:
 		else
 			guiManager.Draw(this);
 
+		//006) Update text box
+		if (IsTextEntryEnabled()) UpdateTextEntry();
 
 		nStep = 10;
 		for (auto& s : vecMessages)

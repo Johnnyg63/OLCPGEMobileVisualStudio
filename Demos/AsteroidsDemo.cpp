@@ -266,7 +266,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.0.8";
+		std::string sPGEMobile = "PGE Mobile Pre-Release 2.2.0";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);

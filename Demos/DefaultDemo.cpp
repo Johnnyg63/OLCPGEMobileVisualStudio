@@ -1,8 +1,9 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.1.1, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 16-July-2023                      //
-// Default Demo
+// Pre-Release 2.2.0,                                           //
+// John Galvin aka Johnngy63: 07-Oct-2023                       //
+// Pre-Release Can now be used in production environments       //
+// Default Demo                                                 //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -95,7 +96,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "Pixel Game Engine Mobile Beta 2.1.1";
+		std::string sPGEMobile = "PGE Mobile Pre-Release 2.2.0";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
@@ -223,7 +224,7 @@ void android_main(struct android_app* initialstate) {
 	/*
 		Note it is best to use HD(1280, 720, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
 		without affecting performance... well it will have a very small affect, it will depend on your pixel size
-		Note: cohesion is currently not working
+		Note: cohesion is currently not supported
 	*/
 	demo.Construct(1280, 720, 4, 4, true, false, false);
 
