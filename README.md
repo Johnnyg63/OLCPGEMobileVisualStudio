@@ -18,9 +18,9 @@
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
 <p>12: Select OLC Pixel Game Engine Mobile Pre Release 2.2.0 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/12960c7a-e9c9-48ce-916b-26d3a45ed19f' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/2ced6dee-14cf-479e-8b7b-83e5bfcd645a' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/53ec2875-a63c-4d4c-a10d-233b5e250b0c' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c4f9c113-711b-449b-9da3-fbd2df73d2bd' /></p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
