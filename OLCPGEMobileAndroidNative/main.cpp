@@ -1,9 +1,8 @@
 
 //////////////////////////////////////////////////////////////////
-// Pre-Release 2.2.0,                                           //
-// John Galvin aka Johnngy63: 07-Oct-2023                       //
-// Pre-Release Can now be used in production environments       //
-// Default Demo                                                 //
+// Pixel Game Engine Mobile Release 2.2.1,                      //
+// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Full production release                                      //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -95,7 +94,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "PGE Mobile Pre-Release 2.2.0";
+		std::string sPGEMobile = "PGE Mobile Release 2.2.1";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);

@@ -6,9 +6,9 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Pre-Release 2.2.0,                                           //
-	// John Galvin aka Johnngy63: 07-Oct-2023                       //
-	// Pre-Release Can now be used in production environments       //
+	// Pixel Game Engine Mobile Release 2.2.1,                      //
+	// John Galvin aka Johnngy63: 21-Oct-2023                       //
+	// Full production release                                      //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
 	//////////////////////////////////////////////////////////////////
@@ -244,6 +244,7 @@
 	2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32. Thank you @VasCoder :)
 	2.11: Corrected small bug in DrawFillLine
 	2.20: Pre-Reslease. Includes Android Key mapping for GetKey();
+	2.21: Full Production Release
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -311,7 +312,8 @@ void android_main(struct android_app* initialstate)
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF	
 
-#define PGE_MOB_VER 220
+// Production release
+#define PGE_MOB_VER 221
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -1062,6 +1064,7 @@ namespace olc {
 		/// </summary>
 		float* HeartBeat;
 
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// Special Case
 		// TODO:ASENSOR_TYPE_ADDITIONAL_INFO
 
@@ -1233,6 +1236,7 @@ namespace olc {
 		/// </summary>
 		float* HeartBeat;
 
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// Special Case
 		// TODO:ASENSOR_TYPE_ADDITIONAL_INFO
 
@@ -1581,7 +1585,7 @@ namespace olc {
 		Pixel Sample(const olc::vf2d& uv) const;
 
 		/// <summary>
-		/// TODO: What is SampleBL?? a pixel at location (X, Y)
+		/// SampleBL a pixel at location (X, Y)
 		/// </summary>
 		/// <param name="x">float x</param>
 		/// <param name="y">float y</param>
@@ -1589,7 +1593,7 @@ namespace olc {
 		Pixel SampleBL(float u, float v) const;
 
 		/// <summary>
-		/// TODO: What is SampleBL?? a pixel at location position {x , y}
+		/// SampleBL a pixel at location position {x , y}
 		/// </summary>
 		/// <param name="uv">vf2d {x, y}</param>
 		/// <returns>Pixel</returns>
@@ -3348,7 +3352,7 @@ namespace olc {
 
 	private:
 
-		
+
 
 	public:
 
@@ -4122,6 +4126,7 @@ namespace olc {
 	Sprite::~Sprite()
 	{
 		// John Galvin, Ensures no memory leak should 'Store Sub Sprites' have sprites
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// TODO: We need to look at using Smart Pointers here, to better manage this
 		for (int i = 0; i < vecSubSprites.size(); i++)
 		{
@@ -4624,6 +4629,7 @@ namespace olc {
 #endif
 
 #if defined(__APPLE__)
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// TODO: Explain how this works within iOS
 
 		std::thread t = std::thread(&PixelGameEngine::EngineThread, this);
@@ -6298,8 +6304,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile Pre-Release 2.2.0");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile Pre-Release 2.2.0", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile Release 2.2.1");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile Release 2.2.1", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -8164,6 +8170,7 @@ namespace olc {
 
 			case AINPUT_SOURCE_TRACKBALL:
 			{
+				// TODO: To be updated in a future release: JG 21-Oct-2023
 				int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK;
 				return RELEASED;
 			}
@@ -8274,6 +8281,7 @@ namespace olc {
 		struct android_app* android_app = (struct android_app*)activity->instance;
 		LOGV("LowMemory: %p\n", activity);
 		android_app_write_cmd(android_app, APP_CMD_LOW_MEMORY);
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// TODO: we need to manage this somehow
 
 	}
@@ -8651,6 +8659,7 @@ namespace olc {
 			//*************************************************************
 			// 11: Now we need to create a program that will link the PGE
 			// To OPENGLES Engine: 
+			// TODO: To be updated in a future release: JG 21-Oct-2023
 			// TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
 			//*************************************************************
 			const GLchar* strFS =
@@ -9084,6 +9093,7 @@ namespace olc {
 			//*************************************************************
 			// 11: Now we need to create a program that will link the PGE
 			// To OPENGLES Engine: 
+			// TODO: To be updated in a future release: JG 21-Oct-2023
 			// TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
 			//*************************************************************
 			const GLchar* strFS =
@@ -9274,6 +9284,7 @@ namespace olc {
 			//*************************************************************
 			// 11: Now we need to create a program that will link the PGE
 			// To OPENGLES Engine: 
+			// TODO: To be updated in a future release: JG 21-Oct-2023
 			// TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
 			//*************************************************************
 			const GLchar* strFS =
@@ -9691,8 +9702,10 @@ namespace olc
 
 		}
 
+
 		olc::rcode SaveImageResource(olc::Sprite* spr, const std::string& sImageFile) override
 		{
+			// TODO: To be updated in a future release: JG 21-Oct-2023
 			// TODO: Currently you cannot save back into the APK (Fancy Zip file) that the android uses
 			return olc::rcode::FAIL;
 		}
@@ -11139,7 +11152,6 @@ namespace olc
 			}
 
 			// There can be some pixels on the target sprite left over
-			//TODO: Still not happy with this maths
 			int nYPos = ((y - scale) * pSource->width);
 			int nYTarPos = (yS * (pSource->width * scale));
 
@@ -12176,8 +12188,7 @@ namespace olc
 
 			}
 
-			// There can be some pixels on the target sprite left over
-			// TODO: Still not happy with this maths, 
+			// There can be some pixels on the target sprite left over 
 			// the formula p = (y * width) + x is always perfect, it just how I am executing this I do not like
 			int nYPos = ((y - scale) * pSource->width);
 			int nYTarPos = (yS * (pSource->width * scale));
@@ -12485,6 +12496,7 @@ namespace olc
 		platform = std::make_unique<olc::Platform_iOS>();
 		renderer = std::make_unique<olc::Renderer_OGLES10>();
 		simddrawer = std::make_unique<olc::SIMD_NONE>();
+		// TODO: To be updated in a future release: JG 21-Oct-2023
 		// TODO: Apple event manager
 
 		olc::Sprite::loader = std::make_unique<olc::ImageLoader_STB_iOS>();

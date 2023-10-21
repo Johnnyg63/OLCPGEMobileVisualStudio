@@ -1,6 +1,6 @@
 ﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
   <TemplateData>
-    <Name>OLC Pixel Game Engine Mobile Pre Release 2.2.0 for Android.</Name>
+    <Name>OLC Pixel Game Engine Mobile Release 2.2.1 for Android.</Name>
     <Description>The project template will create a project where you can create games using the OLC Pixel Game Engine 2.0 and deploy them to your Android device.</Description>
     <ProjectType>VC</ProjectType>
     <TemplateID>OLCPGEMobile.2.0.AndroidProjectGroup</TemplateID>
@@ -24,7 +24,7 @@
       </ProjectTemplateLink>
       <SolutionFolder Name="OLCPGEMobile" CreateOnDisk="true">
         <ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
-          OLCPGEMoblieAndroidNative\OLCPGEMoblieAndroidNative.vstemplate
+          OLCPGEMobileAndroidNative\OLCPGEMobileAndroidNative.vstemplate
         </ProjectTemplateLink>
       </SolutionFolder>
     </ProjectCollection>

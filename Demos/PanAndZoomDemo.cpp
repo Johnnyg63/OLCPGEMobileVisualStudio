@@ -1,8 +1,9 @@
 
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.8, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 03-July-2023                      //
-// Pan and Zoom Demo
+// Pixel Game Engine Mobile Release 2.2.1,                      //
+// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Full production release                                      //
+// Pan and Zoom Demo                                            //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////

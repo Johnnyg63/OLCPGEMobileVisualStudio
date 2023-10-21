@@ -75,6 +75,14 @@
 
 */
 
+//////////////////////////////////////////////////////////////////
+// Pixel Game Engine Mobile Release 2.2.1,                      //
+// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Full production release                                      //
+// Please report all bugs to https://discord.com/invite/WhwHUMV //
+// Or on Github: https://github.com/Johnnyg63					//
+//////////////////////////////////////////////////////////////////
+
 #ifndef OLC_PGEX_QUICKGUI_H
 #define OLC_PGEX_QUICKGUI_H
 

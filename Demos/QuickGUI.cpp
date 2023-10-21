@@ -1,8 +1,9 @@
 ﻿
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.0.8, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 09-July-2023                      //
-// Default Demo
+// Pixel Game Engine Mobile Release 2.2.1,                      //
+// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Full production release                                      //
+// Quick GUI Demo                                               //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -81,7 +82,7 @@ class PGE_Mobile : public olc::PixelGameEngine
 public:
 	PGE_Mobile()
 	{
-		sAppName = "OLC PGE Mobile BETA 2.0.8 Demo";
+		sAppName = "Quick GUI Demo";
 	}
 
 	/* Vectors */

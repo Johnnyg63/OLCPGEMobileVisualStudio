@@ -21,6 +21,14 @@
 @rem
 @rem ##########################################################################
 
+@rem //////////////////////////////////////////////////////////////////
+@rem // Pixel Game Engine Mobile Release 2.2.1,                      //
+@rem // John Galvin aka Johnngy63: 21-Oct-2023                       //
+@rem // Full production release                                      //
+@rem // Please report all bugs to https://discord.com/invite/WhwHUMV //
+@rem // Or on Github: https://github.com/Johnnyg63					          //
+@rem //////////////////////////////////////////////////////////////////
+
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 

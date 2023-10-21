@@ -1,13 +1,11 @@
 
 //////////////////////////////////////////////////////////////////
-// Pre-Release 2.2.0,                                           //
-// John Galvin aka Johnngy63: 07-Oct-2023                       //
-// Pre-Release Can now be used in production environments       //
-// Default Demo                                                 //
+// Pixel Game Engine Mobile Release 2.2.1,                      //
+// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Full production release                                      //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
-
 #include <malloc.h>
 #define OLC_PGE_APPLICATION
 #define OLC_IMAGE_STB 
@@ -96,7 +94,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "PGE Mobile Pre-Release 2.2.0";
+		std::string sPGEMobile = "PGE Mobile Release 2.2.1";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
@@ -104,7 +102,7 @@ public:
 
 		vecMessages.push_back(sLineBreak);
 
-		
+
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
 			for (int y = 0; y < ScreenHeight(); y++)
@@ -224,7 +222,7 @@ void android_main(struct android_app* initialstate) {
 	/*
 		Note it is best to use HD(1280, 720, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
 		without affecting performance... well it will have a very small affect, it will depend on your pixel size
-		Note: cohesion is currently not supported
+		Note: cohesion is currently not working
 	*/
 	demo.Construct(1280, 720, 4, 4, true, false, false);
 

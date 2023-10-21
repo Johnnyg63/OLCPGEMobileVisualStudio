@@ -1,5 +1,5 @@
-# OLC Pixel Game Engine Mobile Android Project Pre-Release 2.2.0
-<p><b>Pre-Release!!!</b> Can now be used in Production Environment, have fun!</p>
+# OLC Pixel Game Engine Mobile Android Project Release 2.2.1
+<p><b>Full Production Release!</b></p>
 <p>Please follow this steps folks:</p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -10,21 +10,21 @@
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/files/12837824/OLCPGEMobileAndroidProjectPreRelease220.zip">OLCPGEMobileAndroidProjectPreRelease220.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/files/12837824/OLCPGEMobileAndroidProjectPreRelease220.zip">OLCPGEMobileAndroidProjectRelease221.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/d1711b56-cddf-400f-8a26-daa9464722ce' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile Pre Release 2.2.0 for Android</p>
+<p>12: Select OLC Pixel Game Engine Mobile Release 2.2.1 for Android</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/2ced6dee-14cf-479e-8b7b-83e5bfcd645a' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c4f9c113-711b-449b-9da3-fbd2df73d2bd' /></p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
-<p><b>Beta Support Details</b></p>
+<p><b>Release 2.2.1 Support Details</b></p>
 <p>
 <ul>
   <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h</li>
@@ -54,6 +54,7 @@
   <li>2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32, Thank you @VasCoder</li>
   <li>2.11: Corrected offset error bug in Drawline,<br/> Added release config to build.gradle.template. Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://developer.android.com/studio/publish/app-signing"</a> and<br/> Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://stackoverflow.com/questions/9081877/how-do-i-debug-an-apk-that-is-signed-for-release</a> for more info<br/><b>NOTE: You cannot debug or deploy a release app unless you have a signing key (Android Developer Account)</b></i>
   <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debuging, some keys may not map correctly, directionaly keys will be out of sync as Andriod is mapped to a Direction Pad by default</i>
+  <li>2.21 <b>Full Production Release</b> </i>
 </ul>
 	
 </p>
