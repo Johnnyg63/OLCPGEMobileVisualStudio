@@ -10,17 +10,17 @@
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/files/12837824/OLCPGEMobileAndroidProjectPreRelease220.zip">OLCPGEMobileAndroidProjectRelease221.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/d1711b56-cddf-400f-8a26-daa9464722ce' /></p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/files/13060645/OLCPGEMobileAndroidProjectRelease221.zip">OLCPGEMobileAndroidProjectRelease221.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/913745c3-2a0a-4433-a157-0675044cca3f' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
 <p>12: Select OLC Pixel Game Engine Mobile Release 2.2.1 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/2ced6dee-14cf-479e-8b7b-83e5bfcd645a' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/710e6351-debb-4d12-af1a-1fd835fcd4a3' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c4f9c113-711b-449b-9da3-fbd2df73d2bd' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/72ed095c-aefc-432a-a3cb-72f6b0d162e7' /></p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
