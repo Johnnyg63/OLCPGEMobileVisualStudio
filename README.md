@@ -8,7 +8,7 @@
 	<b>Renderer_OGLES20:</b> Support for SDK 30 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
 	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
 
-<p><i>The Below steps are for Visual Studio on Windows, For Android Studio (Windows/Linux/MAC) please download this demo project: OLCTBA</i></p>
+<p><i>The Below steps are for Visual Studio on Windows, For Android Studio (Windows/Linux/MAC) please download this demo project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileASProject222.7z">Android Studio OLC PGE Mobile 2.2.2</a></i></p>
 <p><b>Please follow this steps folks:<br/></p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
