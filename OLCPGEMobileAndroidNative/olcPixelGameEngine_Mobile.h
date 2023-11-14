@@ -6,8 +6,8 @@
 	olcPixelGameEngine_Mobile.h
 
 	//////////////////////////////////////////////////////////////////
-	// Pixel Game Engine Mobile Release 2.2.1,                      //
-	// John Galvin aka Johnngy63: 21-Oct-2023                       //
+	// Pixel Game Engine Mobile Release 2.2.2,                      //
+	// John Galvin aka Johnngy63: 14-Nov-2023                       //
 	// Full production release                                      //
 	// Please report all bugs to https://discord.com/invite/WhwHUMV //
 	// Or on Github: https://github.com/Johnnyg63					//
@@ -245,6 +245,7 @@
 	2.11: Corrected small bug in DrawFillLine
 	2.20: Pre-Reslease. Includes Android Key mapping for GetKey();
 	2.21: Full Production Release
+	2.22: Full support for newer Android Devices AKA TechJellie's Mom's Nokia
 
 	!! Apple Platforms will not see these updates immediately !!
 	!! Starting on iOS port ASAP    !!
@@ -313,7 +314,7 @@ void android_main(struct android_app* initialstate)
 #define OLC_PGE_DEF	
 
 // Production release
-#define PGE_MOB_VER 221
+#define PGE_MOB_VER 222
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -373,11 +374,19 @@ void android_main(struct android_app* initialstate)
 #pragma GCC diagnostic pop
 
 /*
-	We only support Android (min ver 23 -> 32) and iOS (8.1 - 16.4)
+	We now support Android (min ver 23 -> 33 and beyond) and iOS (8.1 - 16.4)
 	however new versions of Android (33 example) and iOS are backward compatible within the range above
 	you might get a message warning you tho when debugging.
 
-	Like everything for mobile devices this is a cut down version of the full PGE
+	For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
+	there maybe updates in the future to support newer & newer Android GPUs coming to the market and I didn't want to end up in a mess of conditional
+	statements... well not yet anyway
+
+	The olc_ConfigureSystem() manages this:
+	Renderer_OGLES10: Support for SDK 23 - 29 This code better supports ARM devices, however ARM64 will work just find with it.
+	Renderer_OGLES20: Support for SDK 30 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support
+
+
 	olcPixelGameEngine_Mobile support OpenGLES 2.0 -> OpenGLES 3.0, however please note simulators do not support OpenGLES 3.0
 	Therefore there is code in the CreateDevice that will auto change the supported version when a simulator is been used
 	There are some restrictions when using OpenGLES, such as there is no hint GL_STREAM_DRAW, only GL_STATIC_DRAW & GL_DYNAMIC_DRAW
@@ -386,7 +395,6 @@ void android_main(struct android_app* initialstate)
 	0x88E0 moved to 0x88E4 called out as GL_STATIC_DRAW
 	0x8892 --> called out as GL_ARRAY_BUFFER
 
-	Lets KISS it first (KISS -> Keep It Simple Stupid)
 	Finally... there maybe a little to much commenting here, again we can we clean it up later
 
 */
@@ -633,6 +641,15 @@ namespace olc {
 		static constexpr int32_t RIGHT = 1;
 		static constexpr int32_t MIDDLE = 2;
 	};
+
+	namespace AndroidSDK
+	{
+		static constexpr int32_t GLESV1_MIN_SDK = 21;
+		static constexpr int32_t GLESV1_MAX_SDK = 29;
+		static constexpr int32_t GLESV2_MIN_SDK = 30;
+		static constexpr int32_t GLESV2_MAX_SDK = 34;
+
+	}
 
 	// O------------------------------------------------------------------------------O
 	// | olc::HWButton - Represents the state of a hardware button (mouse/key/joy)    |
@@ -1945,17 +1962,17 @@ namespace olc {
 	public:
 		virtual ~Renderer() = default;
 		virtual void       PrepareDevice() = 0;
-		virtual olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen, bool bVSYNC) = 0;
+		virtual olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen, bool bVSYNC, GLsizei nTextureCount = 1) = 0;
 		virtual olc::rcode DestroyDevice() = 0;
 		virtual void       DisplayFrame() = 0;
 		virtual void       PrepareDrawing() = 0;
 		virtual void	   SetDecalMode(const olc::DecalMode& mode) = 0;
 		virtual void       DrawLayerQuad(const olc::vf2d& offset, const olc::vf2d& scale, const olc::Pixel tint) = 0;
 		virtual void       DrawDecal(const olc::DecalInstance& decal) = 0;
-		virtual uint32_t   CreateTexture(const uint32_t width, const uint32_t height, const bool filtered = false, const bool clamp = true) = 0;
-		virtual void       UpdateTexture(uint32_t id, olc::Sprite* spr) = 0;
+		virtual uint32_t   CreateTexture(const uint32_t width, const uint32_t height, const bool filtered = false, const bool clamp = true, GLsizei nTextureCount = 1) = 0;
+		virtual void       UpdateTexture(uint32_t id, olc::Sprite* spr, GLint nlevel = 0, GLint nborder = 0) = 0;
 		virtual void       ReadTexture(uint32_t id, olc::Sprite* spr) = 0;
-		virtual uint32_t   DeleteTexture(const uint32_t id) = 0;
+		virtual uint32_t   DeleteTexture(const uint32_t id, GLsizei nTextureCount = 1) = 0;
 		virtual void       ApplyTexture(uint32_t id) = 0;
 		virtual void       UpdateViewport(const olc::vi2d& pos, const olc::vi2d& size) = 0;
 		virtual void       ClearBuffer(olc::Pixel p, bool bDepth) = 0;
@@ -6304,8 +6321,8 @@ namespace olc {
 				DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
 			}
 
-		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile Release 2.2.1");
-		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile Release 2.2.1", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+		olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.2");
+		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.2", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 		vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
 		DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -8517,6 +8534,10 @@ namespace olc {
 
 #if defined (__ANDROID__)
 
+	/// <summary>
+	///  For olderSDKs only Android 23 --> 28 Android 6 to 9
+	///  Supports OpenGLES v1.0, v2.0, v3.0
+	/// </summary>
 	class Renderer_OGLES10 : public olc::Renderer
 	{
 
@@ -8580,7 +8601,7 @@ namespace olc {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
-		olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false) override
+		olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false, GLsizei nTextureCount = 1) override
 		{
 			// This is a heavy going function, but must run in order to ensure the app loads
 
@@ -8874,7 +8895,7 @@ namespace olc {
 
 		}
 
-		uint32_t CreateTexture(const uint32_t width, const uint32_t height, const bool filtered, const bool clamp) override
+		uint32_t CreateTexture(const uint32_t width, const uint32_t height, const bool filtered, const bool clamp, GLsizei nTextureCount) override
 		{
 			UNUSED(width);
 			UNUSED(height);
@@ -8909,13 +8930,13 @@ namespace olc {
 			return id;
 		}
 
-		uint32_t DeleteTexture(const uint32_t id) override
+		uint32_t DeleteTexture(const uint32_t id, GLsizei nTextureCount) override
 		{
 			glDeleteTextures(1, &id);
 			return id;
 		}
 
-		void UpdateTexture(uint32_t id, olc::Sprite* spr) override
+		void UpdateTexture(uint32_t id, olc::Sprite* spr, GLint nlevel, GLint nborder) override
 		{
 			UNUSED(id);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spr->width, spr->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spr->GetData());
@@ -8941,6 +8962,512 @@ namespace olc {
 		void UpdateViewport(const olc::vi2d& pos, const olc::vi2d& size) override
 		{
 			glViewport(pos.x, pos.y, size.x, size.y);
+		}
+
+
+	};
+
+	/// <summary>
+	/// For latest GPU Android 29 --> 33 Android 10 to 13
+	/// Supports OpenGLES v2.0, v3.0 -> 3.2
+	/// </summary>
+	class Renderer_OGLES20 : public olc::Renderer
+	{
+
+	private:
+		EGLDisplay olc_Display;
+		EGLConfig olc_Config;
+		EGLContext olc_Context;
+		EGLSurface olc_Surface;
+
+	private:
+		locCreateShader_t* locCreateShader = nullptr;
+		locShaderSource_t* locShaderSource = nullptr;
+		locCompileShader_t* locCompileShader = nullptr;
+		locDeleteShader_t* locDeleteShader = nullptr;
+		locCreateProgram_t* locCreateProgram = nullptr;
+		locDeleteProgram_t* locDeleteProgram = nullptr;
+		locLinkProgram_t* locLinkProgram = nullptr;
+		locAttachShader_t* locAttachShader = nullptr;
+		locBindBuffer_t* locBindBuffer = nullptr;
+		locBufferData_t* locBufferData = nullptr;
+		locGenBuffers_t* locGenBuffers = nullptr;
+		locVertexAttribPointer_t* locVertexAttribPointer = nullptr;
+		locEnableVertexAttribArray_t* locEnableVertexAttribArray = nullptr;
+		locUseProgram_t* locUseProgram = nullptr;
+		locBindVertexArray_t* locBindVertexArray = nullptr;
+		locGenVertexArrays_t* locGenVertexArrays = nullptr;
+		locSwapInterval_t* locSwapInterval = nullptr;
+		locGetShaderInfoLog_t* locGetShaderInfoLog = nullptr;
+
+		uint32_t m_nFS = 0;
+		GLsizei m_nShaderSourceCount = 1;
+		uint32_t m_nVS = 0;
+		uint32_t m_nQuadShader = 0;
+		GLsizei m_nGenBufferSize = 1;
+		GLsizei m_nGenVerTexArraysSize = 1;
+		GLuint  m_vbQuad = 0;
+		GLuint  m_vaQuad = 0;
+		uint32_t m_nBlankTextureWidth = 1;
+		uint32_t m_nBlankTextureHeight = 2;
+
+		int32_t m_nRectLeft = 0;
+		int32_t m_nRectTop = 0;
+		EGLint m_nRectRight = 0; // Width
+		EGLint m_nRectButtom = 0; // Height
+
+
+
+		struct locVertex
+		{
+			float pos[3];
+			olc::vf2d tex;
+			olc::Pixel col;
+		};
+
+		locVertex pVertexMem[OLC_MAX_VERTS];
+
+		olc::Renderable rendBlankQuad;
+
+
+	private:
+		bool mFullScreen = false;
+		bool bSync = false;			// Left in for backward comp. will not work anymore :( I will think of something for you folks
+		olc::DecalMode nDecalMode = olc::DecalMode(-1); // Thanks Gusgo & Bispoo
+		olc::DecalStructure nDecalStructure = olc::DecalStructure(-1);
+
+#pragma GCC diagnostic pop
+	public:
+
+		void PrepareDevice() override
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		}
+
+		olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false, GLsizei nTextureCount = 1) override
+		{
+			// This is a heavy going function, but must run in order to ensure the app loads
+			//EGLint w, h; // format;
+
+			// 1: Get a pointer to our App (Android = MyAndroidApp, iOS = MyiOSApp), get our screen size
+			android_app* app = renderer->ptrPGE->pOsEngine.app;
+			int32_t nFullScreenWidth = ANativeWindow_getWidth(app->window);
+			int32_t nFullScreenHeight = ANativeWindow_getHeight(app->window);
+
+			// 2: Get, Initialize and configure our display
+			constexpr EGLint attribs[] = {
+					EGL_SURFACE_TYPE,
+					EGL_OPENGL_ES2_BIT,
+					EGL_RED_SIZE, 8,
+					EGL_GREEN_SIZE, 8,
+					EGL_BLUE_SIZE, 8,
+					EGL_ALPHA_SIZE, 8,
+					EGL_NONE };
+
+			// The default display is probably what you want on Android
+			auto display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+			eglInitialize(display, nullptr, nullptr);
+
+			//4: Figure out how many configs there are
+			EGLint numConfigs;
+			eglChooseConfig(display, attribs, nullptr, 0, &numConfigs);
+
+			// Get the list of supported configurations
+			std::unique_ptr<EGLConfig[]> supportedConfigs(new EGLConfig[numConfigs]);
+			eglChooseConfig(display, attribs, supportedConfigs.get(), numConfigs, &numConfigs);
+
+			// Find a config that suits our needs
+			auto config = *std::find_if(
+				supportedConfigs.get(),
+				supportedConfigs.get() + numConfigs,
+				[&display](const EGLConfig& config) {
+					EGLint red, green, blue, alpha;
+					if (eglGetConfigAttrib(display, config, EGL_RED_SIZE, &red)
+						&& eglGetConfigAttrib(display, config, EGL_GREEN_SIZE, &green)
+						&& eglGetConfigAttrib(display, config, EGL_BLUE_SIZE, &blue)
+						&& eglGetConfigAttrib(display, config, EGL_ALPHA_SIZE, &alpha)) {
+
+						return red == 8 && green == 8 && blue == 8 && alpha == 8;
+					}
+					return false;
+				});
+
+
+			//5: Create a GLES 2.0 context, don't worry 3.0 is backwards compatible with 2.0
+			EGLint format;
+			eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+			EGLSurface surface = eglCreateWindowSurface(display, config, app->window, nullptr);
+
+			EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+			EGLContext context = eglCreateContext(display, config, nullptr, contextAttribs);
+
+			//6: Lets see if our config works and set our PGE EGL-> Display, Surface, Context and config
+			auto madeCurrent = eglMakeCurrent(display, surface, surface, context);
+			//assert(madeCurrent);
+
+			olc_Display = display;
+			olc_Surface = surface;
+			olc_Context = context;
+			olc_Config = config;
+
+
+			// 7: Configure our display for FullScreen | Viewport
+			mFullScreen = bFullScreen;
+			if (bFullScreen)
+			{
+				// Set the buffer to auto scale te app to fit the screen
+				olc::vi2d vSize = renderer->ptrPGE->GetScreenSize();
+				ANativeWindow_setBuffersGeometry(app->window, vSize.x, vSize.y, format);
+				ANativeActivity_setWindowFormat(app->activity, format);
+
+
+			}
+			else
+			{
+				// Set the buffer to display the app in the centre of the screen
+				ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
+			}
+
+			// 8: AWINDOW_FLAG_FULLSCREEN tell Android to hide title bar, status etc
+			// See: https://developer.android.com/ndk/reference/group/native-activity and https://developer.android.com/ndk/reference/group/native-activity#group___native_activity_1gga2f1398dba5e4a5616b83437528bdb28eaca1f1d91313d7c32bb7982d8a5abcd71
+			ANativeActivity_setWindowFlags(app->activity, 0x00000400, 0);
+
+
+			// 9: Setup buffers interval
+			locSwapInterval = &eglSwapInterval;
+			locSwapInterval(olc_Display, bVSYNC ? 1 : 0);
+
+			// 10: Setup Linkage to OpenGLES Command
+			locCreateShader = OGL_LOAD(locCreateShader_t, glCreateShader);
+			locCompileShader = OGL_LOAD(locCompileShader_t, glCompileShader);
+			locShaderSource = OGL_LOAD(locShaderSource_t, glShaderSource);
+			locDeleteShader = OGL_LOAD(locDeleteShader_t, glDeleteShader);
+			locCreateProgram = OGL_LOAD(locCreateProgram_t, glCreateProgram);
+			locDeleteProgram = OGL_LOAD(locDeleteProgram_t, glDeleteProgram);
+			locLinkProgram = OGL_LOAD(locLinkProgram_t, glLinkProgram);
+			locAttachShader = OGL_LOAD(locAttachShader_t, glAttachShader);
+			locBindBuffer = OGL_LOAD(locBindBuffer_t, glBindBuffer);
+			locBufferData = OGL_LOAD(locBufferData_t, glBufferData);
+			locGenBuffers = OGL_LOAD(locGenBuffers_t, glGenBuffers);
+			locVertexAttribPointer = OGL_LOAD(locVertexAttribPointer_t, glVertexAttribPointer);
+			locEnableVertexAttribArray = OGL_LOAD(locEnableVertexAttribArray_t, glEnableVertexAttribArray);
+			locUseProgram = OGL_LOAD(locUseProgram_t, glUseProgram);
+			locGetShaderInfoLog = OGL_LOAD(locGetShaderInfoLog_t, glGetShaderInfoLog);
+
+			// 11: Bind our Arrays
+			locBindVertexArray = glBindVertexArrayOES;
+			locGenVertexArrays = glGenVertexArraysOES;
+
+			// 12: Load & Compile Quad Shader - assumes no errors
+			// 0x8B30 = GL_FRAGMENT_SHADER
+			m_nFS = locCreateShader(GL_FRAGMENT_SHADER);
+
+			//*************************************************************
+			// Now we need to create a program that will link the PGE
+			// To OPENGLES Engine:
+			// TODO: To be updated in a future release: JG 21-Oct-2023
+			// TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
+			//*************************************************************
+			const GLchar* strFS =
+#if defined(__arm__) || defined(__aarch64__)
+				"#version 300 es\n"
+				"precision mediump float;"
+#else
+				"#version 200 es\n"
+				"precision mediump float;"
+#endif
+				"out vec4 pixel;\n""in vec2 oTex;\n"
+				"in vec4 oCol;\n""uniform sampler2D sprTex;\n""void main(){pixel = texture(sprTex, oTex) * oCol;}";
+			locShaderSource(m_nFS, m_nShaderSourceCount, &strFS, NULL);
+
+			locCompileShader(m_nFS);
+
+			// 0x8B31 = GL_VERTEX_SHADER
+			m_nVS = locCreateShader(GL_VERTEX_SHADER);
+			const GLchar* strVS =
+#if defined(__arm__) || defined(__aarch64__)
+				"#version 300 es\n"
+				"precision mediump float;"
+#else
+				"#version 200 es\n"
+				"precision mediump float;"
+#endif
+				"layout(location = 0) in vec3 aPos;\n""layout(location = 1) in vec2 aTex;\n"
+				"layout(location = 2) in vec4 aCol;\n""out vec2 oTex;\n""out vec4 oCol;\n"
+				"void main(){ float p = 1.0 / aPos.z; gl_Position = p * vec4(aPos.x, aPos.y, 0.0, 1.0); oTex = p * aTex; oCol = aCol;}";
+
+			// 13: Configure our Shaders, Buffers, Textures
+			locShaderSource(m_nVS, m_nShaderSourceCount, &strVS, NULL);
+			locCompileShader(m_nVS);
+			m_nQuadShader = locCreateProgram();
+			locAttachShader(m_nQuadShader, m_nFS);
+			locAttachShader(m_nQuadShader, m_nVS);
+			locLinkProgram(m_nQuadShader);
+
+			// 14: Create Quads
+			locGenBuffers(m_nGenBufferSize, &m_vbQuad);
+			locGenVertexArrays(m_nGenVerTexArraysSize, &m_vaQuad);
+			locBindVertexArray(m_vaQuad);
+			locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+
+			locVertex verts[OLC_MAX_VERTS];
+			// 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
+			locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * OLC_MAX_VERTS, verts, GL_STATIC_DRAW);
+			locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
+			locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
+			locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
+			locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+			locBindVertexArray(m_vaQuad);
+
+
+			// 15: Create blank texture for no sprite decals
+			rendBlankQuad.Create(m_nBlankTextureWidth, m_nBlankTextureHeight);
+			rendBlankQuad.Sprite()->GetData()[0] = olc::WHITE;
+			rendBlankQuad.Decal()->Update();
+
+			// 16: Update the pOSEngine struct, so we can use it later
+			eglQuerySurface(olc_Display, olc_Surface, EGL_WIDTH, &m_nRectRight);
+			eglQuerySurface(olc_Display, olc_Surface, EGL_HEIGHT, &m_nRectButtom);
+
+			renderer->ptrPGE->pOsEngine.display = olc_Display;
+			renderer->ptrPGE->pOsEngine.surface = olc_Surface;
+			renderer->ptrPGE->pOsEngine.context = olc_Context;
+			renderer->ptrPGE->pOsEngine.viewHeight = m_nRectButtom;
+			renderer->ptrPGE->pOsEngine.viewWidth = m_nRectRight;
+			renderer->ptrPGE->pOsEngine.screenHeight = nFullScreenHeight;
+			renderer->ptrPGE->pOsEngine.screenWidth = nFullScreenWidth;
+
+			// Create the content RECT, this is where your game graphics live
+			app->contentRect.left = m_nRectLeft;
+			app->contentRect.top = m_nRectTop;
+			app->contentRect.right = m_nRectRight;
+			app->contentRect.bottom = m_nRectButtom;
+			olc::vi2d vWindowSize = { m_nRectRight, m_nRectButtom };
+
+			// 17: Create plane and update
+			if (platform->CreateWindowPane({ m_nRectLeft, m_nRectTop }, vWindowSize, bFullScreen) != olc::OK) return olc::FAIL;
+			platform->ptrPGE->olc_UpdateWindowSize(vWindowSize.x, vWindowSize.y);
+
+			return olc::rcode::OK;
+		}
+
+		olc::rcode DestroyDevice() override
+		{
+
+			if (olc_Display != EGL_NO_DISPLAY) {
+
+				eglMakeCurrent(olc_Display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+
+				if (olc_Context != EGL_NO_CONTEXT) {
+					eglDestroyContext(olc_Display, olc_Context);
+				}
+
+				if (olc_Surface != EGL_NO_SURFACE) {
+					eglDestroySurface(olc_Display, olc_Surface);
+				}
+
+				eglTerminate(olc_Display);
+			}
+			renderer->ptrPGE->pOsEngine.animating = 0;
+			olc_Display = EGL_NO_DISPLAY;
+			olc_Context = EGL_NO_CONTEXT;
+			olc_Surface = EGL_NO_SURFACE;
+			return olc::rcode::OK;
+		}
+
+		void DisplayFrame() override
+		{
+			if (olc_Display == NULL)
+			{
+				// Nothing is displaying just return
+				return;
+			}
+
+			eglSwapBuffers(olc_Display, olc_Surface);
+
+		}
+
+		void PrepareDrawing() override
+		{
+			glEnable(GL_BLEND);
+			nDecalMode = DecalMode::NORMAL;
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			locUseProgram(m_nQuadShader);
+			locBindVertexArray(m_vaQuad);
+
+			locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0);
+			locEnableVertexAttribArray(0);
+			locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float)));
+			locEnableVertexAttribArray(1);
+			locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));
+			locEnableVertexAttribArray(2);
+
+		}
+
+		void SetDecalMode(const olc::DecalMode& mode) override
+		{
+
+			if (mode != nDecalMode)
+			{
+				switch (mode)
+				{
+				case olc::DecalMode::NORMAL:
+				case olc::DecalMode::MODEL3D:
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					break;
+				case olc::DecalMode::ADDITIVE:
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+					break;
+				case olc::DecalMode::MULTIPLICATIVE:
+					glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+					break;
+				case olc::DecalMode::STENCIL:
+					glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
+					break;
+				case olc::DecalMode::ILLUMINATE:
+					glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+					break;
+				case olc::DecalMode::WIREFRAME:
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					break;
+				}
+
+				nDecalMode = mode;
+			}
+
+		}
+
+		void DrawLayerQuad(const olc::vf2d& offset, const olc::vf2d& scale, const olc::Pixel tint) override
+		{
+			locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+			locVertex verts[4] = {
+					{{-1.0f, -1.0f, 1.0}, {0.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
+					{{+1.0f, -1.0f, 1.0}, {1.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
+					{{-1.0f, +1.0f, 1.0}, {0.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
+					{{+1.0f, +1.0f, 1.0}, {1.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
+			};
+
+			locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * 4, verts, GL_STATIC_DRAW);
+
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+
+		}
+
+		void DrawDecal(const olc::DecalInstance& decal) override
+		{
+			// 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
+			// 0x8892 == GL_ARRAY_BUFFER,
+			SetDecalMode(decal.mode);
+			if (decal.decal == nullptr)
+			{
+				glBindTexture(GL_TEXTURE_2D, rendBlankQuad.Decal()->id);
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, decal.decal->id);
+			}
+
+			locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+
+			for (uint32_t i = 0; i < decal.points; i++)
+			{
+				pVertexMem[i] = { { decal.pos[i].x, decal.pos[i].y, decal.w[i] }, { decal.uv[i].x, decal.uv[i].y }, decal.tint[i] };
+			}
+
+			locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * decal.points, pVertexMem, GL_STATIC_DRAW);
+
+			if (nDecalMode == DecalMode::WIREFRAME)
+			{
+				glDrawArrays(GL_LINE_LOOP, 0, decal.points);
+			}
+			else
+			{
+				if (decal.structure == olc::DecalStructure::FAN)
+					glDrawArrays(GL_TRIANGLE_FAN, 0, decal.points);
+				else if (decal.structure == olc::DecalStructure::STRIP)
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, decal.points);
+				else if (decal.structure == olc::DecalStructure::LIST)
+					glDrawArrays(GL_TRIANGLES, 0, decal.points);
+			}
+
+
+		}
+
+		uint32_t CreateTexture(const uint32_t width, const uint32_t height, const bool filtered, const bool clamp, GLsizei nTextureCount) override
+		{
+			UNUSED(width);
+			UNUSED(height);
+			uint32_t id = 0;
+			glGenTextures(nTextureCount, &id);
+			glBindTexture(GL_TEXTURE_2D, id);
+
+			if (filtered)
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			}
+			else
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
+
+			if (clamp)
+			{
+				// GL_CLAMP not supported, replaced with GL_CLAMP_TO_EDGE
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			}
+			else
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			}
+
+			return id;
+		}
+
+		uint32_t DeleteTexture(const uint32_t id, GLsizei nTextureCount) override
+		{
+			glDeleteTextures(nTextureCount, &id);;
+			return id;
+		}
+
+		void UpdateTexture(uint32_t id, olc::Sprite* spr, GLint nlevel, GLint nborder) override
+		{
+			UNUSED(id);
+			glTexImage2D(GL_TEXTURE_2D, nlevel, GL_RGBA, spr->width, spr->height, nborder, GL_RGBA, GL_UNSIGNED_BYTE, spr->GetData());
+
+		}
+
+		void ReadTexture(uint32_t id, olc::Sprite* spr) override
+		{
+			glReadPixels(0, 0, spr->width, spr->height, GL_RGBA, GL_UNSIGNED_BYTE, spr->GetData());
+
+		}
+
+		void ApplyTexture(uint32_t id) override
+		{
+			glBindTexture(GL_TEXTURE_2D, id);
+
+		}
+
+		void ClearBuffer(olc::Pixel p, bool bDepth) override
+		{
+			glClearColor(float(p.r) / 255.0f, float(p.g) / 255.0f, float(p.b) / 255.0f, float(p.a) / 255.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			if (bDepth) glClear(GL_DEPTH_BUFFER_BIT);
+
+		}
+
+		void UpdateViewport(const olc::vi2d& pos, const olc::vi2d& size) override
+		{
+			glViewport(pos.x, pos.y, size.x, size.y);
+
 		}
 
 
@@ -12443,8 +12970,6 @@ namespace olc
 
 #if defined(__ANDROID__)
 		platform = std::make_unique<olc::Platform_Android>();
-		renderer = std::make_unique<olc::Renderer_OGLES10>();
-		platform->ptrPGE = this;
 
 		struct android_app* android_app = (struct android_app*)MyAndroidApp;
 		memset(&this->pOsEngine, 0, sizeof(olc::OSEngineInstance));
@@ -12454,6 +12979,26 @@ namespace olc
 		MyAndroidApp->onAppCmd = &EventManager::getInstance().HandleCommand;
 		MyAndroidApp->onInputEvent = &EventManager::getInstance().HandleInput;
 		this->pOsEngine.app = android_app;
+
+		int32_t SDK = this->pOsEngine.app->activity->sdkVersion;
+		int32_t minSDK = 0x1d; //(29) TODO: move to a property
+
+
+		if (SDK <= minSDK)
+		{
+			// Old code, but still the best in my mind ;) SDK 23 --> 29
+			renderer = std::make_unique<olc::Renderer_OGLES10>();
+		}
+		else
+		{
+			// New code to handle latest GPUs SDK 30 to 33 and beyond
+			renderer = std::make_unique<olc::Renderer_OGLES20>();
+		}
+
+
+
+		platform->ptrPGE = this;
+
 		olc::Sprite::loader = std::make_unique<olc::ImageLoader_STB_ANDROID>();
 
 		filehandler = std::make_unique<olc::FileHandler_ANDROID>();

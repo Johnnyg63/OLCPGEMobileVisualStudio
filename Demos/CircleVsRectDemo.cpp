@@ -1,9 +1,9 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.1,                      //
-// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Pixel Game Engine Mobile 2.2.2,                      //
+// John Galvin aka Johnngy63: 14-Nov-2023                       //
 // Full production release                                      //
-// Circle Vs Rectangle Demo                                     //
+// Circle V Rect                                              //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "PGE Mobile Release 2.2.1";
+		std::string sPGEMobile = "PGE Mobile 2.2.2";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);

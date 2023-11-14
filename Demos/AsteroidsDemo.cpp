@@ -1,7 +1,7 @@
 ﻿
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.1,                      //
-// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Pixel Game Engine Mobile 2.2.2,                      //
+// John Galvin aka Johnngy63: 14-Nov-2023                       //
 // Full production release                                      //
 // Asteroids Demo                                               //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -228,7 +228,7 @@ public:
 		nScore = false;
 	}
 
-	// Implements "wrap around" for various in-game sytems
+	// Implements "wrap around" for various in-game systems
 	void WrapCoordinates(float ix, float iy, float& ox, float& oy)
 	{
 		ox = ix;
@@ -239,7 +239,7 @@ public:
 		if (iy >= (float)ScreenHeight()) oy = iy - (float)ScreenHeight();
 	}
 
-	// Overriden to handle toroidal drawing routines
+	// Overridden to handle toroidal drawing routines
 	virtual bool Draw(int x, int y, olc::Pixel col = olc::WHITE)
 	{
 		float fx, fy;
@@ -267,7 +267,7 @@ public:
 		std::string sTitle = "OneLoneCoder.com";
 		vecMessages.push_back(sTitle);
 
-		std::string sPGEMobile = "PGE Mobile Release 2.2.1";
+		std::string sPGEMobile = "PGE Mobile 2.2.2";
 		vecMessages.push_back(sPGEMobile);
 
 		std::string sFps = sAppName + " - FPS: " + std::to_string(nFrameCount);
@@ -291,7 +291,7 @@ public:
 		player.x += player.dx * fElapsedTime;
 		player.y += player.dy * fElapsedTime;
 
-		// Keep ship in gamespace
+		// Keep ship in game space
 		WrapCoordinates(player.x, player.y, player.x, player.y);
 
 		// Create a vector to the mouse/touch point
@@ -407,7 +407,7 @@ public:
 
 			// Add two new asteroids, but in a place where the player is not, we'll simply
 			// add them 90 degrees left and right to the player, their coordinates will
-			// be wrapped by th enext asteroid update
+			// be wrapped by the next asteroid update
 			vecAsteroids.push_back({ (int)16, 30.0f * sinf(player.angle - 3.14159f / 2.0f) + player.x,
 											  30.0f * cosf(player.angle - 3.14159f / 2.0f) + player.y,
 											  10.0f * sinf(player.angle), 10.0f * cosf(player.angle), 0.0f });
@@ -500,7 +500,7 @@ public:
 	float get_angle_2points(int p1x, int p1y, int p2x, int p2y)
 	{
 		//Make point1 the origin, make point2 relative to the origin so we do point1 - point1, and point2-point1,
-		//since we dont need point1 for the equation to work, the equation works correctly with the origin 0,0.
+		//since we don't need point1 for the equation to work, the equation works correctly with the origin 0,0.
 		int deltaY = p2y - p1y;
 		int deltaX = p2x - p1x; //Vector 2 is now relative to origin, the angle is the same, we have just transformed it to use the origin.
 
@@ -526,7 +526,7 @@ public:
 	float get_angleRadians_2points(int p1x, int p1y, int p2x, int p2y)
 	{
 		//Make point1 the origin, make point2 relative to the origin so we do point1 - point1, and point2-point1,
-		//since we dont need point1 for the equation to work, the equation works correctly with the origin 0,0.
+		//since we don't need point1 for the equation to work, the equation works correctly with the origin 0,0.
 		int deltaY = p2y - p1y;
 		int deltaX = p2x - p1x; //Vector 2 is now relative to origin, the angle is the same, we have just transformed it to use the origin.
 
