@@ -1,4 +1,6 @@
-# OLC Pixel Game Engine Mobile Android Project 2.2.2
+# OLC Pixel Game Engine Mobile Android Project 2.2.3
+<p><b><i>!!! NOW WITH SOUND !!!</i></b></p>
+<p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
 <p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 23 --> 33 and beyond</p>
 <p>For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
 	there maybe updates in the future to support newer & newer Android GPUs coming to the market and I didn't want to end up in a mess of conditional
@@ -8,7 +10,8 @@
 	<b>Renderer_OGLES20:</b> Support for SDK 30 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
 	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
 
-<p><i>The Below steps are for Visual Studio on Windows, For Android Studio (Windows/Linux/MAC) please download this demo project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileASProject222.7z">Android Studio OLC PGE Mobile 2.2.2</a></i></p>
+<p><i>The Below steps are for Visual Studio on Windows, <br/>
+		For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.2 for Android Studio</a></i></p>
 <p><b>Please follow this steps folks:<br/></p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -33,7 +36,7 @@
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
-<p><b>Release 2.2.2 Support Details</b></p>
+<p><b>Release 2.2.3 Support Details</b></p>
 <p>
 <ul>
   <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h</li>
@@ -66,6 +69,9 @@
   <li>2.21 <b>Full Production Release</b> </i>
   <li>2.22 Better support for the latest Android phones<br/>
 			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings			</i>
+  <li>2.23 Now with Sound, supports olcPGE_MiniAudio <a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138
+		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
+  </i>
 </ul>
 	
 </p>

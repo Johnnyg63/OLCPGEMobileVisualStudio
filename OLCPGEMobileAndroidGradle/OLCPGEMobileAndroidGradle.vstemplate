@@ -1,7 +1,7 @@
 ﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>Basic Application (Android, Gradle)</Name>
-    <Description>An Android application with a sample activity that displays ‘OLC PGE Mobile 2.2.2’ on the screen</Description>
+    <Description>An Android application with a sample activity that displays ‘OLC PGE Mobile 2.2.3’ on the screen</Description>
     <TemplateID>Microsoft.MDD.VC.GradleApplication</TemplateID>
     <ProjectType>VC</ProjectType>
     <CreateInPlace>true</CreateInPlace>
@@ -30,8 +30,15 @@
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\car_top1.png</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\City_Roads1_mip0.png</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\dirtblock.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\images\olcpgemobilelogo.png</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\maps\example1.city</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\objectfiles\unitcube.obj</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\Sample_Test_44100.wav</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\Sample_Test_48000.wav</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\SampleA.wav</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\SampleB.wav</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\SampleC.wav</ProjectItem>
+      <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\song1.mp3</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\sounds\testmusic.mp3</ProjectItem>
     </Project>
   </TemplateContent>

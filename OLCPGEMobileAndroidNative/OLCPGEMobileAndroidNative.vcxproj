@@ -117,9 +117,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -128,9 +129,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-	  <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+	  <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -139,9 +141,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -150,9 +153,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-	  <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+	  <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -161,9 +165,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -172,10 +177,11 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
       <AdditionalOptions>-lm</AdditionalOptions>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -183,9 +189,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -194,15 +201,18 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CppLanguageStandard>c++1z</CppLanguageStandard>
+      <ExceptionHandling>Enabled</ExceptionHandling>
     </ClCompile>
     <Link>
-      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;EGL;</LibraryDependencies>
+      <LibraryDependencies>$(StlLibraryName);%(LibraryDependencies);GLESv2;GLESv3;EGL;OpenSLES;</LibraryDependencies>
       <AdditionalOptions>-lm</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="android_native_app_glue.h" />
     <ClInclude Include="olcPixelGameEngine_Mobile.h" />
+    <ClInclude Include="olcPGEX_MiniAudio.h" />
+    <ClInclude Include="miniaudio.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="sse2neon.h" />
     <ClInclude Include="stb_image.h" />
