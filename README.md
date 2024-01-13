@@ -1,4 +1,7 @@
 # OLC Pixel Game Engine Mobile Android Project 2.2.3
+
+<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.3 for Android Studio</a></i></p>
+
 <p><b><i>!!! NOW WITH SOUND !!!</i></b></p>
 <p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
 <p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 23 --> 33 and beyond</p>
