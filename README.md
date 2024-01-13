@@ -2,7 +2,28 @@
 
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.3 for Android Studio</a></i></p>
 
-<p><b><i>!!! NOW WITH SOUND !!!</i></b></p>
+<p><b><i>!!! WE NEED YOUR FEEDBACK Please !!!</i></b></p>
+
+<hr/>
+<p><i><b>Thank you for cloning the OLC Pixel Game Engine 2.0 Mobile.</b><br/><br/>
+	A tremendous amount of work went into getting this engine to work smoothy with Android and iOS plus keep it simple so you can create amazing games.<br/>
+ 	We can see that this repro an <b>unbelievable number of unique clones</b>, therefore we want to hear from you!<br/>
+  	Please come visit me and all the volunteers at One Lone Coder and join our community.
+   	<ul>
+		<li>Discord: <a href="https://discord.com/invite/WhwHUMV">One Lone Coder</a></li>
+		<li>YouTube: <a href="https://www.youtube.com/c/javidx9">One Lone Coder</a> </li>
+		<li>Twitch: <a href="https://www.twitch.tv/javidx9">One Lone Coder</a></li>
+		<li>Website: <a href="https://community.onelonecoder.com/">www.onelonecoder.com</a></li>
+	</ul>
+ <br/>
+ Kind regards<br/>
+ <br/>
+ John (aka Johnnyg63)
+</i></p>
+<hr/>
+
+
+<p><b>Now with sound support</b></p>
 <p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
 <p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 23 --> 33 and beyond</p>
 <p>For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
@@ -53,7 +74,7 @@
   <li>2.07a: Corrected two small bugs in main.cpp</li>
   <li>2.08: Added ClearTouchPoints(int8_t startIndex = 0) for clearing of touch points at index x, some bug fixes too<br/> <i>Added Demos folder with some demos. Just Copy and Paste the code into main.cpp</i></li>
   <li>2.09: Added Demos folder with some demos</i>
-	<br/> Added: FileManager: for gaining acccess to the Andriod Assets APK and iOS Zip Packages
+	<br/> Added: FileManager: for gaining acccess to the Android Assets APK and iOS Zip Packages
 				<br/> app_LoadFileFromAssets()
 				<br/> app_ExtractFileFromAssets()
 				<br/> app_GetInternalAppStorage()
@@ -68,7 +89,7 @@
   </li>
   <li>2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32, Thank you @VasCoder</li>
   <li>2.11: Corrected offset error bug in Drawline,<br/> Added release config to build.gradle.template. Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://developer.android.com/studio/publish/app-signing"</a> and<br/> Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://stackoverflow.com/questions/9081877/how-do-i-debug-an-apk-that-is-signed-for-release</a> for more info<br/><b>NOTE: You cannot debug or deploy a release app unless you have a signing key (Android Developer Account)</b></i>
-  <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debuging, some keys may not map correctly, directionaly keys will be out of sync as Andriod is mapped to a Direction Pad by default</i>
+  <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debugging, some keys may not map correctly, directionally keys will be out of sync as Android is mapped to a Direction Pad by default</i>
   <li>2.21 <b>Full Production Release</b> </i>
   <li>2.22 Better support for the latest Android phones<br/>
 			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings			</i>
