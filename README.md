@@ -63,7 +63,7 @@
 <p><b>Release 2.2.3 Support Details</b></p>
 <p>
 <ul>
-  <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h</li>
+  <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h. Thanks @Javidx9</li>
   <li>2.02: Corrected support for X86</li>
   <li>2.03: Update EventManager to handle, Touch, Mouse and Keyboard events</li>
   <li>2.04: Corrected Touch offset, added 1 touch point, unlinked Mouse & Touch Events</li>
