@@ -7,7 +7,7 @@
 <hr/>
 <p><i><b>Thank you for cloning the OLC Pixel Game Engine 2.0 Mobile.</b><br/><br/>
 	A tremendous amount of work went into getting this engine to work smoothy with Android and iOS plus keep it simple so you can create amazing games.<br/>
- 	We can see that this repro has an <b>unbelievable number of unique clones</b>, therefore we want to hear from you!<br/>
+ 	We can see that this repro gets an <b>unbelievable number of unique clones</b>, therefore we want to hear from you!<br/>
   	Please come visit me and all the volunteers at One Lone Coder and join our community.
    	<ul>
 		<li>Discord: <a href="https://discord.com/invite/WhwHUMV">One Lone Coder</a></li>
