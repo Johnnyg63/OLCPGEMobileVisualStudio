@@ -54,7 +54,7 @@
     Homepage:	https://www.moros1138.com
 */
 
-#if defined (__ANDROID__)
+#if defined (__ANDROID__)||(__APPLE__)
 
 #include "olcPixelGameEngine_Mobile.h"
 #else
@@ -312,8 +312,8 @@ namespace olc
         if (!std::filesystem::exists(soundPath))
         {
             //2: nope ok lets try to extract it
-            std::string songFullPath = (std::string)olc::filehandler->GetInternalAppStorage() + "/sounds/song1.mp3";
-            olc::rcode result = olc::filehandler->ExtractFileFromAssets("sounds/song1.mp3", songFullPath);
+            std::string songFullPath = (std::string)olc::filehandler->GetInternalAppStorage() + soundPath;
+            olc::rcode result = olc::filehandler->ExtractFileFromAssets(soundPath, songFullPath);
 
             switch (result) {
 
@@ -390,8 +390,8 @@ namespace olc
         if (!std::filesystem::exists(soundPath))
         {
             //2: nope ok lets try to extract it
-            std::string songFullPath = (std::string)olc::filehandler->GetInternalAppStorage() + "/sounds/song1.mp3";
-            olc::rcode result = olc::filehandler->ExtractFileFromAssets("sounds/song1.mp3", songFullPath);
+            std::string songFullPath = (std::string)olc::filehandler->GetInternalAppStorage() + soundPath;
+            olc::rcode result = olc::filehandler->ExtractFileFromAssets(soundPath, songFullPath);
 
             switch (result) {
 
