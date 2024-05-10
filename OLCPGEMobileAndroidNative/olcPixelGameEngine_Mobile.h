@@ -6,9 +6,9 @@
     olcPixelGameEngine_Mobile.h
 
     //////////////////////////////////////////////////////////////////
-    // Pixel Game Engine Mobile Release 2.2.3,                      //
-    // John Galvin aka Johnngy63: 21-Nov-2023                       //
-    // Now With Sound!                                              //
+    // Pixel Game Engine Mobile Release 2.2.4,                      //
+    // John Galvin aka Johnngy63: 10-May-2024                       //
+    // New Support for iOS beta. iOS sensors not supported yet      //
     // Please report all bugs to https://discord.com/invite/WhwHUMV //
     // Or on Github: https://github.com/Johnnyg63					//
     //////////////////////////////////////////////////////////////////
@@ -248,9 +248,8 @@
     2.22: Full support for newer Android Devices AKA TechJellie's Mom's Nokia
     2.23: Now with Sound, supports olcPGE_MiniAudio https://github.com/Moros1138/olcPGEX_MiniAudio/ thanks @Moros1138
           ++ Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
+    2.24: iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS
 
-    !! Apple Platforms will not see these updates immediately !!
-    !! Starting on iOS port ASAP    !!
 */
 #pragma endregion
 
@@ -316,7 +315,7 @@ void android_main(struct android_app* initialstate)
 #define OLC_PGE_DEF
 
 // Production release
-#define PGE_MOB_VER 222
+#define PGE_MOB_VER 224
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -366,8 +365,13 @@ void android_main(struct android_app* initialstate)
 #endif
 
 #if defined (__APPLE__)
-#include "ios_native_app_glue.h"
+//#include "ios_native_app_glue.h"
 #include "EGL/egl.h"
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
+#include <OpenGLES/ES3/gl.h>
+#include <OpenGLES/ES3/glext.h>
+
 
 #endif
 
@@ -628,20 +632,122 @@ namespace olc {
     // Apple iOS Keyboard map
     enum Key
     {
-        NONE,
-        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-        K0, K1, K2, K3, K4, K5, K6, K7, K8, K9,
-        F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
-        UP, DOWN, LEFT, RIGHT,
-        SPACE, TAB, SHIFT, CTRL, INS, DEL, HOME, END, PGUP, PGDN,
-        BACK, ESCAPE, RETURN, ENTER, PAUSE, SCROLL,
-        NP0, NP1, NP2, NP3, NP4, NP5, NP6, NP7, NP8, NP9,
-        NP_MUL, NP_DIV, NP_ADD, NP_SUB, NP_DECIMAL, PERIOD,
-        EQUALS, COMMA, MINUS,
-        OEM_1, OEM_2, OEM_3, OEM_4, OEM_5, OEM_6, OEM_7, OEM_8,
-        CAPS_LOCK, ENUM_END
+        NONE = 0x00,
+        BACK_BUTTON = 0x2A,    /* Delete (Backspace) */
+        K1 = 0x1E,    /* 1 or ! */
+        K2 = 0x1F,    /* 2 or @ */
+        K3 = 0x20,    /* 3 or # */
+        K4 = 0x21,    /* 4 or $ */
+        K5 = 0x22,    /* 5 or % */
+        K6 = 0x23,    /* 6 or ^ */
+        K7 = 0x24,    /* 7 or & */
+        K8 = 0x25,    /* 8 or * */
+        K9 = 0x26,    /* 9 or ( */
+        K0 = 0x27,    /* 0 or ) */
+        OEM_7 = 0x32,    /* Non-US # or _ */
+        /* Typical language mappings: US: \| Belg: μ`£ FrCa: <}> Dan:’* Dutch: <> Fren:*μ
+         Ger: #’ Ital: ù§ LatAm: }`] Nor:,* Span: }Ç Swed: ,*
+         Swiss: $£ UK: #~. */
+        UP = 0x52,    /* Up Arrow */
+        DOWN = 0x51,    /* Down Arrow */
+        LEFT = 0x50,    /* Left Arrow */
+        RIGHT = 0x4F,    /* Right Arrow */
+        VOLUME_UP = 0x80,    /* Volume Up */
+        VOLUME_DOWN = 0x81,    /* Volume Down */ // Cannot be captured
+        VOLUME_MUTE = 0x7F,    /* Mute */
+        CAMERA_BTN = 0x00,     /* NOT Supported in iOS */
+        POWER_BTN = 0x66,    /* Power */
+        A = 0x04,    /* a or A */
+        B = 0x05,    /* b or B */
+        C = 0x06,    /* c or C */
+        D = 0x07,    /* d or D */
+        E = 0x08,    /* e or E */
+        F = 0x09,    /* f or F */
+        G = 0x0A,    /* g or G */
+        H = 0x0B,    /* h or H */
+        I = 0x0C,    /* i or I */
+        J = 0x0D,    /* j or J */
+        K = 0x0E,    /* k or K */
+        L = 0x0F,    /* l or L */
+        M = 0x10,    /* m or M */
+        N = 0x11,    /* n or N */
+        O = 0x12,    /* o or O */
+        P = 0x13,    /* p or P */
+        Q = 0x14,    /* q or Q */
+        R = 0x15,    /* r or R */
+        S = 0x16,    /* s or S */
+        T = 0x17,    /* t or T */
+        U = 0x18,    /* u or U */
+        V = 0x19,    /* v or V */
+        W = 0x1A,    /* w or W */
+        X = 0x1B,    /* x or X */
+        Y = 0x1C,    /* y or Y */
+        Z = 0x1D,    /* z or Z */
+        COMMA = 0x36,    /* , or < */
+        PERIOD = 0x37,    /* . or > */
+        SHIFT_LEFT = 0xE1,    /* Left Shift */
+        SHIFT_RIGHT = 0xE5,    /* Right Shift */
+        SHIFT = 0xE1 | 0xE5,
+        TAB = 0x2B,    /* Tab */
+        OEM_8 = 0x2B,    /* Tab */
+        SPACE = 0x2C,    /* Spacebar */
+        ENTER = 0x28,    /* Return (Enter) */
+        ANY_ENTER = 0x28 | 0x58,
+        DEL = 0x4C,    /* Delete Forward */
+        MINUS = 0x2D,    /* - or _ */
+        EQUALS = 0x2E,    /* = or + */
+        OEM_6 = 0x2F,    /* [ or { */
+        OEM_4 = 0x30,    /* ] or } */
+        OEM_5 = 0x31,    /* \ or | */
+        OEM_1 = 0x33,    /* ; or : */
+        OEM_3 = 0x34,    /* ' or " */
+        OEM_2 = 0x38,    /* / or ? */
+        PGUP = 0x4B,    /* Page Up */
+        PGDN = 0x4E,    /* Page Down */
+        ESCAPE = 0x29,    /* Escape */
+        BACK = 0x2A,    /* Delete (Backspace) */
+        CTRL_LEFT = 0xE0,    /* Left Control */
+        CTRL_RIGHT = 0xE4,    /* Right Control */
+        CTRL = 0xE0 | 0xE4,
+        CAPS_LOCK = 0x39,    /* Caps Lock */
+        SCROLL = 0x47,    /* Scroll Lock */
+        PAUSE = 0x48,    /* Pause */
+        HOME = 0x4A,    /* Home */
+        END = 0x4D,    /* End */
+        INS = 0x49,    /* Insert */
+        F1 = 0x3A,    /* F1 */
+        F2 = 0x3B,    /* F2 */
+        F3 = 0x3C,    /* F3 */
+        F4 = 0x3D,    /* F4 */
+        F5 = 0x3E,    /* F5 */
+        F6 = 0x3F,    /* F6 */
+        F7 = 0x40,    /* F7 */
+        F8 = 0x41,    /* F8 */
+        F9 = 0x42,    /* F9 */
+        F10 = 0x43,    /* F10 */
+        F11 = 0x44,    /* F11 */
+        F12 = 0x45,    /* F12 */
+        NP1 = 0x59,    /* Keypad 1 or End */
+        NP2 = 0x5A,    /* Keypad 2 or Down Arrow */
+        NP3 = 0x5B,    /* Keypad 3 or Page Down */
+        NP4 = 0x5C,    /* Keypad 4 or Left Arrow */
+        NP5 = 0x5D,    /* Keypad 5 */
+        NP6 = 0x5E,    /* Keypad 6 or Right Arrow */
+        NP7 = 0x5F,    /* Keypad 7 or Home */
+        NP8 = 0x60,    /* Keypad 8 or Up Arrow */
+        NP9 = 0x61,    /* Keypad 9 or Page Up */
+        NP0 = 0x62,    /* Keypad 0 or Insert */
+        NP_DIV = 0x54,    /* Keypad / */
+        NP_MUL = 0x55,    /* Keypad * */
+        NP_SUB = 0x56,    /* Keypad - */
+        NP_ADD = 0x57,    /* Keypad + */
+        NP_DECIMAL = 0x63,    /* Keypad . or Delete */
+        RETURN = 0x58,    /* Keypad Enter */
+
+        ENUM_END = 0x90
     };
 #endif
+
     namespace Mouse
     {
         static constexpr int32_t LEFT = 0;
@@ -1935,7 +2041,7 @@ namespace olc {
     /// </summary>
     struct OSEngineInstance
     {
-        struct iOS_app* app;		// Allows access to iOS OS App
+        //IOSNativeApp* app;		    // Allows access to iOS OS App
         int animating = 0;			// Set to 0 when app is pause, else 1
         bool StartPGE = false;		// Set to true when it is safe to start the PGE Engine
         bool LostFocus = false;		// Is set when the app has lost focus but is not paused by the OS
@@ -1946,7 +2052,14 @@ namespace olc {
         int32_t viewHeight = 0;		// Height of the viewable Rectangle
         int32_t screenWidth = 0;	// Width of the phone screen
         int32_t screenHeight = 0;	// Height of the phone screen
+        bool bFullScreen = false;   // Stores if full screen is enabled
+        float fScaleFactor = 0.00f; // Stores the scale factor for full screen
+        bool bMaintainAspectRatio = false;  // Maintain Aspect Ratio for full screen
         void* lastGameState = nullptr;		// A pointer to your save state struct
+        std::string strInternalAppStorage = "ACCESS_DENIED";    // Stores the path (UTF8String) to the Internal App Storage, returns ACCESS_DENIED when iOS permission not set
+        std::string strExternalAppStorage = "ACCESS_DENIED";    // Stores the path (UTF8String) to the Exernal App Storage (/Documents/), returns ACCESS_DENIED when iOS permission not set
+        std::string strPublicAppStorage = "ACCESS_DENIED";      // Stores the path (UTF8String) to the Public App Storage , returns ACCESS_DENIED when iOS permission not set
+
 
         // Coming Soon....
         //ASensorManager* sensorManager;
@@ -1959,7 +2072,7 @@ namespace olc {
         //	ASensorEventQueue* sensorEventQueue;
     };
 
-#endif // __Andriod__
+#endif // __APPLE__
 
     /// <summary>
     /// Class Renderer used to your pixels to the screen
@@ -1983,6 +2096,8 @@ namespace olc {
         virtual void       ApplyTexture(uint32_t id) = 0;
         virtual void       UpdateViewport(const olc::vi2d& pos, const olc::vi2d& size) = 0;
         virtual void       ClearBuffer(olc::Pixel p, bool bDepth) = 0;
+        virtual void       CheckForGLError() = 0;
+
         static olc::PixelGameEngine* ptrPGE;
 
 
@@ -3882,7 +3997,16 @@ namespace olc {
             CAPTURED = 1	// The event was captured and handled
         };
 
-        static void HandleCommand(int32_t cmd);
+        enum DirectEvents {
+            FINISHED_LAUNCH = 0,   // Override point for customization after application launch.
+            RESIGN_ACTIVE,          // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+            ENTERED_BACKGROUND,     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+            ENTERED_FOREGROUND,     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+            BECOME_ACTIVE,          // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+            TERMINATE               // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        };
+
+        static void HandleCommand(int8_t eventId);
         static int32_t HandleInput(int32_t tbd);
 
         ~EventManager();
@@ -3924,9 +4048,6 @@ namespace olc {
     Apple no longer support OpenGl (although they still do... thats "Apple" for you, is all I can say about) they want you to use their version call Metal
     There isn't a whole lot of gain by changing to Metal, so we just Silence the warning
 */
-
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
 
 #endif
 
@@ -4590,16 +4711,98 @@ namespace olc {
 
     olc::rcode PixelGameEngine::Construct(int32_t screen_w, int32_t screen_h, int32_t pixel_w, int32_t pixel_h, bool full_screen, bool vsync, bool cohesion)
     {
+
+#if defined (__APPLE__)
+        // Pre Checks
+        if (screen_w < 1 || full_screen == true) screen_w = pOsEngine.screenWidth;
+        if (screen_h < 1 || full_screen == true) screen_h = pOsEngine.screenHeight;
+        if (pixel_w < 1) pixel_w = 1;
+        if (pixel_h < 1) pixel_h = 1;
+
+        // Lets work out our new Hight and Width that will support the pixel sizes
+        // For example 1280x720X4X4 == 320X180X1X1 . If fullscreen is enabled the OS will scale it correctly for us
+        screen_w = screen_w / pixel_w;
+        screen_h = screen_h / pixel_h;
+
+        // Now we have a new screen sixe we need to set our pixels 1
+        pixel_w = 1;
+        pixel_h = 1;
+
+        if (full_screen)
+        {
+            pOsEngine.bFullScreen = true;   // Tell the OS we want full screen
+            float fScaleFactor = 1.0f;      // Set default fScaleFactor
+
+            // Maintain Aspect Ratio
+            if (pOsEngine.bMaintainAspectRatio)
+            {
+                // Generaly we scale objects by width, and in our case most games with be set in landscape
+                float fNewScaler = ((float)pOsEngine.screenWidth / (float)screen_w);
+
+                // However there can be cases when the scaled object is greater than the hieght of the screen
+                if ((screen_h * fNewScaler) > pOsEngine.screenHeight)
+                {
+                    fNewScaler = ((float)pOsEngine.screenHeight / (float)screen_h);
+                }
+
+                // Lets set our new scale
+                //screen_w = screen_w * fNewScaler;
+                //screen_h = screen_h * fNewScaler;
+                //int32_t nOSFullScreenWidth = pOsEngine.screenWidth;
+                //fScaleFactor = float(screen_w) / float(nOSFullScreenWidth);
+                pOsEngine.fScaleFactor = fScaleFactor / fNewScaler;
+
+
+            }
+            else
+            {
+                if (screen_w > pOsEngine.screenWidth)
+                {
+                    // we want full screen but our Screen width is too big
+                    // we cannot scale beyond the max of our screen
+                    // therefore we just set our max size to the max screen
+                    screen_w = pOsEngine.screenWidth;
+                    screen_h = pOsEngine.screenHeight;
+
+                }
+                // 2: Get the iOS Full screen size
+                int32_t nOSFullScreenWidth = pOsEngine.screenWidth;
+                fScaleFactor = float(screen_w) / float(nOSFullScreenWidth);
+                pOsEngine.fScaleFactor = fScaleFactor;
+            }
+
+
+
+        }
+
+
+        bPixelCohesion = cohesion;
+        vScreenSize = { screen_w, screen_h };
+        vInvScreenSize = { 1.0f / float(screen_w), 1.0f / float(screen_h) };
+        vPixelSize = { pixel_w, pixel_h };
+        vWindowSize = vScreenSize * vPixelSize;
+        bFullScreen = full_screen;
+        bEnableVSYNC = vsync;
+        vPixel = 2.0f / vScreenSize;
+        vPixel = 2.0f / vScreenSize;
+
+        if (vPixelSize.x <= 0 || vPixelSize.y <= 0 || vScreenSize.x <= 0 || vScreenSize.y <= 0)
+            return olc::FAIL;
+
+
+#endif
+
+#if defined (__ANDROID__)
+
         // Pre Checks
         if (screen_w < 1) screen_w = 1280;
         if (screen_h < 1) screen_h = 720;
         if (pixel_w < 1) pixel_w = 1;
         if (pixel_h < 1) pixel_h = 1;
 
-        bPixelCohesion = cohesion;
-
         screen_h = screen_h / pixel_h;
         screen_w = screen_w / pixel_w;
+
         vScreenSize = { screen_w, screen_h };
 
         vInvScreenSize = { 1.0f / float(screen_w), 1.0f / float(screen_h) };
@@ -4609,9 +4812,14 @@ namespace olc {
         bFullScreen = full_screen;
         bEnableVSYNC = vsync;
         vPixel = 2.0f / vScreenSize;
+        bPixelCohesion = cohesion;
+
+
 
         if (vPixelSize.x <= 0 || vPixelSize.y <= 0 || vScreenSize.x <= 0 || vScreenSize.y <= 0)
             return olc::FAIL;
+
+#endif
 
         return olc::OK;
     }
@@ -4627,9 +4835,9 @@ namespace olc {
             layer.bUpdate = true;
         }
         SetDrawTarget(nullptr);
-        renderer->ClearBuffer(olc::BLACK, true);
+        renderer->ClearBuffer(olc::BLUE, true);
         renderer->DisplayFrame();
-        renderer->ClearBuffer(olc::BLACK, true);
+        renderer->ClearBuffer(olc::BLUE, true);
         renderer->UpdateViewport(vViewPos, vViewSize);
     }
 
@@ -4640,6 +4848,9 @@ namespace olc {
 
         if (platform->ApplicationStartUp() != olc::OK) return olc::FAIL;
 
+
+
+#if defined(__ANDROID__)
         // Construct the window
         if (platform->CreateWindowPane({ 0, 0 }, vWindowSize, bFullScreen) != olc::OK) return olc::FAIL;
         olc_UpdateWindowSize(vWindowSize.x, vWindowSize.y);
@@ -4647,26 +4858,28 @@ namespace olc {
         // Start the thread
         bAtomActive = true;
 
-#if defined(__ANDROID__)
         // Android handles it own threading therefore we just need to call the engine
         EngineThread();
+
+        if (platform->ApplicationCleanUp() != olc::OK) return olc::FAIL;
 #endif
 
 #if defined(__APPLE__)
         // TODO: To be updated in a future release: JG 21-Oct-2023
         // TODO: Explain how this works within iOS
 
-        std::thread t = std::thread(&PixelGameEngine::EngineThread, this);
+        // Start the thread
+        bAtomActive = true;
+
+        EngineThread();
+        //std::thread t = std::thread(&PixelGameEngine::EngineThread, this);
 
         // Some implementations may form an event loop here
-        platform->StartSystemEventLoop();
+        //platform->StartSystemEventLoop();
 
         // Wait for thread to be exited
-        t.join();
+        //t.join();
 #endif
-
-
-        if (platform->ApplicationCleanUp() != olc::OK) return olc::FAIL;
 
         return olc::OK;
     }
@@ -5122,12 +5335,12 @@ namespace olc {
         // https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
         static constexpr int SEG_I = 0b0000, SEG_L = 0b0001, SEG_R = 0b0010, SEG_B = 0b0100, SEG_T = 0b1000;
         auto Segment = [&vScreenSize = vScreenSize](const olc::vi2d& v)
-        {
-            int i = SEG_I;
-            if (v.x < 0) i |= SEG_L; else if (v.x > vScreenSize.x) i |= SEG_R;
-            if (v.y < 0) i |= SEG_B; else if (v.y > vScreenSize.y) i |= SEG_T;
-            return i;
-        };
+            {
+                int i = SEG_I;
+                if (v.x < 0) i |= SEG_L; else if (v.x > vScreenSize.x) i |= SEG_R;
+                if (v.y < 0) i |= SEG_B; else if (v.y > vScreenSize.y) i |= SEG_T;
+                return i;
+            };
 
         int s1 = Segment(in_p1), s2 = Segment(in_p2);
 
@@ -6328,11 +6541,11 @@ namespace olc {
                 DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
             }
 
-        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.3");
-        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.3", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.4");
+        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.4", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
-        vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2023.");
-        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2023", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+        vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2024.");
+        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2024", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
 
         return true;
@@ -6440,7 +6653,6 @@ namespace olc {
         int32_t ww = vScreenSize.x * vPixelSize.x;
         int32_t wh = vScreenSize.y * vPixelSize.y;
         float wasp = (float)ww / (float)wh;
-
 
         if (bPixelCohesion)
         {
@@ -6598,6 +6810,10 @@ namespace olc {
 
     void PixelGameEngine::olc_UpdateTouch(int32_t x, int32_t y, int32_t index)
     {
+
+        // Edge case iOS, sends some crazy numbers at time
+        if (index >= INT8_MAX) return;
+
         /* Touch coords come in OS Screen Size
          Therefore we need to update the offset, if any for Auto FullScreen mode
          The OS Screen size will always have a pixelSize of 1 i.e. {1,1}
@@ -6664,8 +6880,9 @@ namespace olc {
     void PixelGameEngine::olc_UpdateTouchState(int32_t touchPoint, bool state)
     {
         // We need locks as the sensors can sample up to 10000 times per second
+        // Edge case iOS, sends some crazy numbers at time
+        if (touchPoint >= INT8_MAX) return;
         mutexTouchPoints.lock();
-
         pTouchNewStateCache[touchPoint] = state;
 
         if (state == false)
@@ -7053,10 +7270,10 @@ namespace olc {
         if (platform->ThreadStartUp() == olc::FAIL)	return;
 
         // Do engine context specific initialisation
-        olc_PrepareEngine();
+        //olc_PrepareEngine();
 
         // Create the CopyRight Sprite : DO NOT REMOVED
-        CreateCRSprite();
+        //CreateCRSprite();
 
         // Create user resources as part of this thread
         for (auto& ext : vExtensions) ext->OnBeforeUserCreate();
@@ -7064,20 +7281,20 @@ namespace olc {
         for (auto& ext : vExtensions) ext->OnAfterUserCreate();
 
 
-        while (bAtomActive)
-        {
+        //while (bAtomActive)
+        //{
             // Run as fast as possible
-            while (bAtomActive) { olc_CoreUpdate(); }
+        //    while (bAtomActive) { olc_CoreUpdate(); }
 
             // Allow the user to free resources if they have overrided the destroy function
-            if (!OnUserDestroy())
-            {
+        //    if (!OnUserDestroy())
+        //    {
                 // User denied destroy for some reason, so continue running
-                bAtomActive = true;
-            }
-        }
+        //        bAtomActive = true;
+        //    }
+       // }
 
-        platform->ThreadCleanUp();
+        //platform->ThreadCleanUp();
     }
 #endif
 
@@ -7127,6 +7344,7 @@ namespace olc {
         vLayers[0].bShow = true;
         SetDrawTarget(nullptr);
 
+        CreateCRSprite();
 
         m_tp2 = std::chrono::system_clock::now();
     }
@@ -7148,27 +7366,27 @@ namespace olc {
 
         // Compare hardware input states from previous frame
         auto ScanHardware = [&](HWButton* pKeys, bool* pStateOld, bool* pStateNew, uint32_t nKeyCount)
-        {
-            for (uint32_t i = 0; i < nKeyCount; i++)
             {
-                pKeys[i].bPressed = false;
-                pKeys[i].bReleased = false;
-                if (pStateNew[i] != pStateOld[i])
+                for (uint32_t i = 0; i < nKeyCount; i++)
                 {
-                    if (pStateNew[i])
+                    pKeys[i].bPressed = false;
+                    pKeys[i].bReleased = false;
+                    if (pStateNew[i] != pStateOld[i])
                     {
-                        pKeys[i].bPressed = !pKeys[i].bHeld;
-                        pKeys[i].bHeld = true;
+                        if (pStateNew[i])
+                        {
+                            pKeys[i].bPressed = !pKeys[i].bHeld;
+                            pKeys[i].bHeld = true;
+                        }
+                        else
+                        {
+                            pKeys[i].bReleased = true;
+                            pKeys[i].bHeld = false;
+                        }
                     }
-                    else
-                    {
-                        pKeys[i].bReleased = true;
-                        pKeys[i].bHeld = false;
-                    }
+                    pStateOld[i] = pStateNew[i];
                 }
-                pStateOld[i] = pStateNew[i];
-            }
-        };
+            };
 
 
         // We need some locks as the sensors can sample to 10000 times a second
@@ -7213,7 +7431,7 @@ namespace olc {
 
             // Display Frame
             renderer->UpdateViewport(vViewPos, vViewSize);
-            renderer->ClearBuffer(olc::BLACK, true);
+            renderer->ClearBuffer(olc::RED, true);
         }
         else
         {
@@ -7230,7 +7448,7 @@ namespace olc {
 
             // Display Frame
             renderer->UpdateViewport(vViewPos, vViewSize);
-            renderer->ClearBuffer(olc::BLACK, true);
+            renderer->ClearBuffer(olc::GREEN, true);
         }
 
 
@@ -8096,20 +8314,20 @@ namespace olc {
 
             // A little auto to update the touch points if pressed / unpressed
             auto updateTouchPoints = [&](int pointerIndex, bool touchState, bool movement = false)
-            {
-                //int32_t pointerId = AMotionEvent_getPointerId(event, pointerIndex);	// Gets the touch pionter device Id
-                int32_t tPosX = AMotionEvent_getX(event, pointerIndex);				// Gets the current x position of this touch point
-                int32_t tPosY = AMotionEvent_getY(event, pointerIndex);				// Gets the current y position of the toucy point
-                platform->ptrPGE->olc_UpdateTouch(tPosX, tPosY, pointerIndex);		// Update the PGE Engine {X, Y} for this touch point
-                platform->ptrPGE->olc_UpdateTouchState(pointerIndex, touchState);	// Update the touchState true/false
-
-                // strange edge case, ensures that lost touch pointers removed
-                if (tPosX == 0 && tPosY == 0)
                 {
-                    platform->ptrPGE->olc_UpdateTouchState(pointerIndex, false);
-                }
+                    //int32_t pointerId = AMotionEvent_getPointerId(event, pointerIndex);	// Gets the touch pionter device Id
+                    int32_t tPosX = AMotionEvent_getX(event, pointerIndex);				// Gets the current x position of this touch point
+                    int32_t tPosY = AMotionEvent_getY(event, pointerIndex);				// Gets the current y position of the toucy point
+                    platform->ptrPGE->olc_UpdateTouch(tPosX, tPosY, pointerIndex);		// Update the PGE Engine {X, Y} for this touch point
+                    platform->ptrPGE->olc_UpdateTouchState(pointerIndex, touchState);	// Update the touchState true/false
 
-            };
+                    // strange edge case, ensures that lost touch pointers removed
+                    if (tPosX == 0 && tPosY == 0)
+                    {
+                        platform->ptrPGE->olc_UpdateTouchState(pointerIndex, false);
+                    }
+
+                };
 
 
             switch (device)
@@ -8375,6 +8593,8 @@ namespace olc {
     {
         static EventManager instance;
         return instance;
+
+
     }
 
     EventManager::~EventManager() {}
@@ -8383,13 +8603,82 @@ namespace olc {
 
     void EventManager::operator=(EventManager const&) {}
 
-    void EventManager::HandleCommand(int32_t cmd)
+    void EventManager::HandleCommand(int8_t eventId)
     {
-        //platform->engine_handle_cmd(app, cmd);
+        switch (eventId)
+        {
+        case 0:
+        {
+            // FINISHED_LAUNCH
+            // TODO: Create some pre PGE Init methods here
+            break;
+        }
+        case 1:
+        {
+            // RESIGN_ACTIVE
+            platform->ptrPGE->pOsEngine.animating = 0;
+            platform->ptrPGE->pOsEngine.StartPGE = false;
+            platform->ptrPGE->SetFocused(false);
+            platform->ptrPGE->OnSaveStateRequested();
+            break;
+        }
+        case 2:
+        {
+            // ENTERED_BACKGROUND
+            platform->ptrPGE->pOsEngine.animating = 0;
+            platform->ptrPGE->pOsEngine.StartPGE = true;
+            platform->ptrPGE->SetFocused(false);
+            break;
+        }
+        case 3:
+        {
+            // ENTERED_FOREGROUND
+            platform->ptrPGE->pOsEngine.animating = 1;
+            platform->ptrPGE->pOsEngine.StartPGE = true;
+            platform->ptrPGE->SetFocused(true);
+            break;
+        }
+        case 4:
+        {
+            // BECOME_ACTIVE
+            platform->ptrPGE->pOsEngine.animating = 1;
+            platform->ptrPGE->pOsEngine.StartPGE = true;
+            platform->ptrPGE->SetFocused(true);
+            platform->ptrPGE->OnRestoreStateRequested();
+            break;
+        }
+        case 5:
+        {
+            // TERMINATE
+            // Note: when the iOS terminates your app it is terminate Fast very Fast
+            // Ensure you have your ducks in a row folks
+            platform->ptrPGE->pOsEngine.animating = 0;
+            platform->ptrPGE->pOsEngine.StartPGE = false;
+            platform->ptrPGE->SetFocused(false);
+            platform->ptrPGE->olc_Terminate();
+            break;
+        }
+        default:
+            break;
+        }
     }
 
-    int32_t EventManager::HandleInput(int32_t tbd)
+    int32_t EventManager::HandleInput(int32_t cmd)
     {
+        switch (cmd)
+        {
+        case 10:
+        {
+            platform->ptrPGE->olc_UpdateMouseState(1, true);
+            break;
+        }
+        default:
+        {
+            break;
+        }
+
+        };
+
         return 0;
     }
 
@@ -8558,6 +8847,7 @@ namespace olc {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-private-field"
 
+// Andriod Only
 #if defined (__ANDROID__)
 
     /// <summary>
@@ -8827,6 +9117,11 @@ namespace olc {
 
         }
 
+        void CheckForGLError() override
+        {
+            //TBA
+        }
+
         void PrepareDrawing() override
         {
             glEnable(GL_BLEND);
@@ -8993,8 +9288,10 @@ namespace olc {
 
     };
 
+#endif
+
     /// <summary>
-    /// For latest GPU Android 29 --> 33 Android 10 to 13
+    /// For latest GPU Android 29 --> 33 Android 10 to 13, iOS 12 - 17.2
     /// Supports OpenGLES v2.0, v3.0 -> 3.2
     /// </summary>
     class Renderer_OGLES20 : public olc::Renderer
@@ -9039,8 +9336,8 @@ namespace olc {
 
         int32_t m_nRectLeft = 0;
         int32_t m_nRectTop = 0;
-        EGLint m_nRectRight = 0; // Width
-        EGLint m_nRectButtom = 0; // Height
+        int32_t m_nRectRight = 0; // Width
+        int32_t m_nRectButtom = 0; // Height
 
 
 
@@ -9067,11 +9364,15 @@ namespace olc {
 
         void PrepareDevice() override
         {
+            // TODO: Throwing an error in ios
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         }
+
+#if defined (__ANDROID__)
+
 
         olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false, GLsizei nTextureCount = 1) override
         {
@@ -9279,7 +9580,6 @@ namespace olc {
 
             return olc::rcode::OK;
         }
-
         olc::rcode DestroyDevice() override
         {
 
@@ -9315,13 +9615,309 @@ namespace olc {
             eglSwapBuffers(olc_Display, olc_Surface);
 
         }
+#endif
+
+#if defined (__APPLE__)
+        olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false, GLsizei nTextureCount = 1) override
+        {
+            // This is a heavy going function, but must run in order to ensure the app loads
+
+            // 1: Get a pointer to our App (Android = MyAndroidApp, iOS = MyiOSApp), get our screen size
+            //auto* app = renderer->ptrPGE->pOsEngine.app;
+
+
+            // 7: Configure our display for FullScreen | Viewport
+            olc::vi2d vSize = renderer->ptrPGE->GetScreenSize();
+            int32_t nScreenWidth = vSize.x;
+            int32_t nScreenHeight = vSize.y;
+            mFullScreen = bFullScreen;
+
+
+            // 10: Setup Linkage to OpenGLES Command
+            locCreateShader = OGL_LOAD(locCreateShader_t, glCreateShader);
+            locCompileShader = OGL_LOAD(locCompileShader_t, glCompileShader);
+            locShaderSource = OGL_LOAD(locShaderSource_t, glShaderSource);
+            locDeleteShader = OGL_LOAD(locDeleteShader_t, glDeleteShader);
+            locCreateProgram = OGL_LOAD(locCreateProgram_t, glCreateProgram);
+            locDeleteProgram = OGL_LOAD(locDeleteProgram_t, glDeleteProgram);
+            locLinkProgram = OGL_LOAD(locLinkProgram_t, glLinkProgram);
+            locAttachShader = OGL_LOAD(locAttachShader_t, glAttachShader);
+            locBindBuffer = OGL_LOAD(locBindBuffer_t, glBindBuffer);
+            locBufferData = OGL_LOAD(locBufferData_t, glBufferData);
+            locGenBuffers = OGL_LOAD(locGenBuffers_t, glGenBuffers);
+            locVertexAttribPointer = OGL_LOAD(locVertexAttribPointer_t, glVertexAttribPointer);
+            locEnableVertexAttribArray = OGL_LOAD(locEnableVertexAttribArray_t, glEnableVertexAttribArray);
+            locUseProgram = OGL_LOAD(locUseProgram_t, glUseProgram);
+            locGetShaderInfoLog = OGL_LOAD(locGetShaderInfoLog_t, glGetShaderInfoLog);
+
+            // 11: Bind our Arrays
+            locBindVertexArray = glBindVertexArrayOES;
+            locGenVertexArrays = glGenVertexArraysOES;
+
+            // 12: Load & Compile Quad Shader - assumes no errors
+            // 0x8B30 = GL_FRAGMENT_SHADER
+            m_nFS = locCreateShader(GL_FRAGMENT_SHADER);
+
+            //*************************************************************
+            // Now we need to create a program that will link the PGE
+            // To OPENGLES Engine:
+            // TODO: To be updated in a future release: JG 21-Oct-2023
+            // TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
+            //*************************************************************
+
+            GLint majVers = 0, minVers = 0;
+            glGetIntegerv(GL_MAJOR_VERSION, &majVers);
+            glGetIntegerv(GL_MINOR_VERSION, &minVers);
+
+            const GLchar* strFS;
+            if (majVers > 0x2)
+            {
+                strFS =
+                    "#version 300 es\n"
+                    "precision mediump float;"
+                    "out vec4 pixel;\n"
+                    "in vec2 oTex;\n"
+                    "in vec4 oCol;\n"
+                    "uniform sampler2D sprTex;\n"
+                    "void main(){pixel = texture(sprTex, oTex) * oCol;}";
+            }
+            else
+            {
+                strFS =
+                    "#version 100 es\n"
+                    "precision mediump float;"
+                    "varying vec4 pixel;\n"
+                    "varying vec2 oTex;\n"
+                    "varying vec4 oCol;\n"
+                    "uniform sampler2D sprTex;\n"
+                    "void main(){pixel = texture2D(sprTex, oTex) * oCol;}";
+            }
+
+
+            locShaderSource(m_nFS, m_nShaderSourceCount, &strFS, NULL);
+
+            locCompileShader(m_nFS);
+
+            // 0x8B31 = GL_VERTEX_SHADER
+            m_nVS = locCreateShader(GL_VERTEX_SHADER);
+
+            const GLchar* strVS;
+            if (majVers > 0x2)
+            {
+                strVS =
+                    "#version 300 es\n"
+                    "precision mediump float;"
+                    "layout(location = 0) in vec3 aPos;\n"
+                    "layout(location = 1) in vec2 aTex;\n"
+                    "layout(location = 2) in vec4 aCol;\n"
+                    "out vec2 oTex;\n"
+                    "out vec4 oCol;\n"
+                    "void main(){ float p = 1.0 / aPos.z; gl_Position = p * vec4(aPos.x, aPos.y, 0.0, 1.0); oTex = p * aTex; oCol = aCol;}";
+            }
+            else
+            {
+                strVS =
+                    "#version 100 es\n"
+                    "precision mediump float;"
+                    "attribute mediump vec3 aPos;\n"
+                    "attribute mediump vec2 aTex;\n"
+                    "attribute mediump vec4 aCol;\n"
+                    "varying vec2 oTex;\n"
+                    "varying vec4 oCol;\n"
+                    "void main(){ float p = 1.0 / aPos.z; gl_Position = p * vec4(aPos.x, aPos.y, 0.0, 1.0); oTex = p * aTex; oCol = aCol;}";
+            }
+
+
+            // 13: Configure our Shaders, Buffers, Textures
+            locShaderSource(m_nVS, m_nShaderSourceCount, &strVS, NULL);
+            locCompileShader(m_nVS);
+            m_nQuadShader = locCreateProgram();
+            locAttachShader(m_nQuadShader, m_nFS);
+            locAttachShader(m_nQuadShader, m_nVS);
+            locLinkProgram(m_nQuadShader);
+
+            // 14: Create Quads
+            locGenBuffers(m_nGenBufferSize, &m_vbQuad);
+            locGenVertexArrays(m_nGenVerTexArraysSize, &m_vaQuad);
+            locBindVertexArray(m_vaQuad);
+            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+
+            locVertex verts[OLC_MAX_VERTS];
+            // 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
+            locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * OLC_MAX_VERTS, verts, GL_STATIC_DRAW);
+            locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
+            locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
+            locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
+            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
+            locBindVertexArray(m_vaQuad);
+
+
+            // 15: Create blank texture for no sprite decals
+            rendBlankQuad.Create(m_nBlankTextureWidth, m_nBlankTextureHeight);
+            rendBlankQuad.Sprite()->GetData()[0] = olc::WHITE;
+            rendBlankQuad.Decal()->Update();
+
+            // 16: Update the pOSEngine struct, so we can use it later
+          /*  eglQuerySurface(olc_Display, olc_Surface, EGL_WIDTH, &m_nRectRight);
+            eglQuerySurface(olc_Display, olc_Surface, EGL_HEIGHT, &m_nRectButtom);*/
+
+            renderer->ptrPGE->pOsEngine.display = olc_Display;
+            renderer->ptrPGE->pOsEngine.surface = olc_Surface;
+            renderer->ptrPGE->pOsEngine.context = olc_Context;
+            renderer->ptrPGE->pOsEngine.viewHeight = m_nRectButtom;
+            renderer->ptrPGE->pOsEngine.viewWidth = m_nRectRight;
+            renderer->ptrPGE->pOsEngine.screenHeight = nScreenHeight;
+            renderer->ptrPGE->pOsEngine.screenWidth = nScreenWidth;
+
+            // Create the content RECT, this is where your game graphics live
+            /*app->contentRect.left = m_nRectLeft;
+            app->contentRect.top = m_nRectTop;
+            app->contentRect.right = m_nRectRight;
+            app->contentRect.bottom = m_nRectButtom;
+            olc::vi2d vWindowSize = { m_nRectRight, m_nRectButtom };*/
+
+            olc::vi2d vWindowSize = { nScreenWidth, nScreenHeight };
+
+            // 17: Create plane and update
+            if (platform->CreateWindowPane({ 0, 0 }, vWindowSize, bFullScreen) != olc::OK) return olc::FAIL;
+            platform->ptrPGE->olc_UpdateWindowSize(vWindowSize.x, vWindowSize.y);
+
+            return olc::rcode::OK;
+        }
+
+        olc::rcode DestroyDevice() override
+        {
+            renderer->ptrPGE->pOsEngine.animating = 0;
+            return olc::rcode::OK;
+        }
+
+        void DisplayFrame() override
+        {
+            CheckForGLError();
+        }
+
+        GLuint CompileShader(GLenum type, const std::string& source)
+        {
+            GLuint shader = glCreateShader(type);
+
+
+            const char* sourceArray[1] = { source.c_str() };
+            glShaderSource(shader, 1, sourceArray, NULL);
+            glCompileShader(shader);
+
+            GLint compileResult;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
+
+            if (compileResult == 0)
+            {
+                GLint infoLogLength;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+                std::vector<GLchar> infoLog(infoLogLength);
+                glGetShaderInfoLog(shader, (GLsizei)infoLog.size(), NULL, infoLog.data());
+
+                std::string errorMessage = std::string("Shader compilation failed: ");
+                errorMessage += std::string(infoLog.begin(), infoLog.end());
+
+                throw std::runtime_error(errorMessage.c_str());
+            }
+
+            return shader;
+        }
+
+        GLuint CompileProgram(const std::string& vsSource, const std::string& fsSource)
+        {
+
+            GLuint program = glCreateProgram();
+
+            if (program == 0)
+            {
+                throw std::runtime_error("Program creation failed");
+            }
+
+            GLuint vs = CompileShader(GL_VERTEX_SHADER, vsSource);
+            GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
+
+            if (vs == 0 || fs == 0)
+            {
+                glDeleteShader(fs);
+                glDeleteShader(vs);
+                glDeleteProgram(program);
+                return 0;
+            }
+
+            glAttachShader(program, vs);
+            glDeleteShader(vs);
+
+            glAttachShader(program, fs);
+            glDeleteShader(fs);
+
+            glLinkProgram(program);
+
+            GLint linkStatus;
+            glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+            if (linkStatus == 0)
+            {
+                GLint infoLogLength;
+                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+                std::vector<GLchar> infoLog(infoLogLength);
+                glGetProgramInfoLog(program, (GLsizei)infoLog.size(), NULL, infoLog.data());
+
+                std::string errorMessage = std::string("Program link failed: ");
+                errorMessage += std::string(infoLog.begin(), infoLog.end());
+
+                throw std::runtime_error(errorMessage.c_str());
+            }
+
+            return program;
+        }
+
+#endif
+
+        void CheckForGLError() override
+        {
+            GLenum err(glGetError());
+
+            while (err != GL_NO_ERROR) {
+                std::string error;
+
+                switch (err) {
+                case GL_INVALID_ENUM:
+                    error = "GL_INVALID_ENUM";
+                    break;
+                case GL_INVALID_VALUE:
+                    error = "GL_INVALID_VALUE";
+                    break;
+                case GL_INVALID_OPERATION:
+                    error = "GL_INVALID_OPERATION";
+                    break;
+                case GL_INVALID_FRAMEBUFFER_OPERATION:
+                    error = "GL_INVALID_FRAMEBUFFER_OPERATION";
+                    break;
+                case GL_OUT_OF_MEMORY:
+                    error = "GL_OUT_OF_MEMORY";
+                    break;
+                default:
+                    error = "(Error: Unknown Error Enum)";
+                    break;
+                }
+
+                //std::cerr << "GL_" << error.c_str() << " - " << file << ":" << line << std::endl;
+                err = glGetError();
+            }
+
+        }
 
         void PrepareDrawing() override
         {
+            CheckForGLError();
             glEnable(GL_BLEND);
             nDecalMode = DecalMode::NORMAL;
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             locUseProgram(m_nQuadShader);
+            CheckForGLError();
             locBindVertexArray(m_vaQuad);
 
             locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0);
@@ -9330,6 +9926,7 @@ namespace olc {
             locEnableVertexAttribArray(1);
             locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));
             locEnableVertexAttribArray(2);
+
 
         }
 
@@ -9499,640 +10096,7 @@ namespace olc {
 
     };
 
-#endif
 
-#if defined (__APPLE__)
-
-    class Renderer_OGLES10 : public olc::Renderer
-    {
-
-    private:
-        EGLDisplay olc_Display;
-        EGLConfig olc_Config;
-        EGLContext olc_Context;
-        EGLSurface olc_Surface;
-
-    private:
-        locCreateShader_t* locCreateShader = nullptr;
-        locShaderSource_t* locShaderSource = nullptr;
-        locCompileShader_t* locCompileShader = nullptr;
-        locDeleteShader_t* locDeleteShader = nullptr;
-        locCreateProgram_t* locCreateProgram = nullptr;
-        locDeleteProgram_t* locDeleteProgram = nullptr;
-        locLinkProgram_t* locLinkProgram = nullptr;
-        locAttachShader_t* locAttachShader = nullptr;
-        locBindBuffer_t* locBindBuffer = nullptr;
-        locBufferData_t* locBufferData = nullptr;
-        locGenBuffers_t* locGenBuffers = nullptr;
-        locVertexAttribPointer_t* locVertexAttribPointer = nullptr;
-        locEnableVertexAttribArray_t* locEnableVertexAttribArray = nullptr;
-        locUseProgram_t* locUseProgram = nullptr;
-        locBindVertexArray_t* locBindVertexArray = nullptr;
-        locGenVertexArrays_t* locGenVertexArrays = nullptr;
-        locSwapInterval_t* locSwapInterval = nullptr;
-        locGetShaderInfoLog_t* locGetShaderInfoLog = nullptr;
-
-        uint32_t m_nFS = 0;
-        uint32_t m_nVS = 0;
-        uint32_t m_nQuadShader = 0;
-        uint32_t m_vbQuad = 0;
-        uint32_t m_vaQuad = 0;
-
-        struct locVertex
-        {
-            float pos[3];
-            olc::vf2d tex;
-            olc::Pixel col;
-        };
-
-        locVertex pVertexMem[OLC_MAX_VERTS];
-
-        olc::Renderable rendBlankQuad;
-
-
-    private:
-        bool mFullScreen = false;
-        bool bSync = false;			// Left in for backward comp. will not work anymore :( I will think of something for you folks
-        olc::DecalMode nDecalMode = olc::DecalMode(-1); // Thanks Gusgo & Bispoo
-        olc::DecalStructure nDecalStructure = olc::DecalStructure(-1);
-
-#pragma GCC diagnostic pop
-    public:
-
-        void PrepareDevice() override
-        {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-
-#if defined (__ANDROID__)
-        olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false) override
-        {
-            // This is a heavy going function, but must run in order to ensure the app loads
-
-            // 1: Setup out OpenGLES settings (NOTE: these are not the same as in the PGE 2.0)
-            EGLint const attribute_list[] = { EGL_SURFACE_TYPE, EGL_OPENGL_ES2_BIT, EGL_RED_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_NONE };
-            EGLint const context_config[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
-            EGLint num_config;
-            EGLint w, h, format;
-
-            // 2: Get a pointer to our App (Android = MyAndroidApp, iOS = MyiOSApp), get our screen size
-            android_app* app = renderer->ptrPGE->pOsEngine.app;
-            int32_t nFullScreenWidth = ANativeWindow_getWidth(app->window);
-            int32_t nFullScreenHeight = ANativeWindow_getHeight(app->window);
-
-            // 3: Get, Initialize and configure our display
-            olc_Display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-            eglInitialize(olc_Display, nullptr, nullptr);
-            eglChooseConfig(olc_Display, attribute_list, &olc_Config, 1, &num_config);
-            eglGetConfigAttrib(olc_Display, olc_Config, EGL_NATIVE_VISUAL_ID, &format);
-
-            // 4: Configure our display for FullScreen | Viewport
-            mFullScreen = bFullScreen;
-            if (bFullScreen)
-            {
-                // Set the buffer to auto scale te app to fit the screen
-                olc::vi2d vSize = renderer->ptrPGE->GetScreenSize();
-                ANativeWindow_setBuffersGeometry(app->window, vSize.x, vSize.y, format);
-                ANativeActivity_setWindowFormat(app->activity, format);
-
-
-            }
-            else
-            {
-                // Set the buffer to display the app in the centre of the screen
-                ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
-            }
-
-            // 5: AWINDOW_FLAG_FULLSCREEN tell Android to hide title bar, status etc
-            // See: https://developer.android.com/ndk/reference/group/native-activity and https://developer.android.com/ndk/reference/group/native-activity#group___native_activity_1gga2f1398dba5e4a5616b83437528bdb28eaca1f1d91313d7c32bb7982d8a5abcd71
-            ANativeActivity_setWindowFlags(app->activity, 0x00000400, 0);
-
-            // 6: Create an EGL rendering context
-            olc_Context = eglCreateContext(olc_Display, olc_Config, EGL_NO_CONTEXT, context_config);
-            olc_Surface = eglCreateWindowSurface(olc_Display, olc_Config, app->window, nullptr);
-            eglMakeCurrent(olc_Display, olc_Surface, olc_Surface, olc_Context);
-
-            // 7: Setup buffers interval
-            locSwapInterval = &eglSwapInterval;
-            locSwapInterval(olc_Display, bVSYNC ? 1 : 0);
-
-            // 8: Setup Linkage to OpenGLES Command
-            locCreateShader = OGL_LOAD(locCreateShader_t, glCreateShader);
-            locCompileShader = OGL_LOAD(locCompileShader_t, glCompileShader);
-            locShaderSource = OGL_LOAD(locShaderSource_t, glShaderSource);
-            locDeleteShader = OGL_LOAD(locDeleteShader_t, glDeleteShader);
-            locCreateProgram = OGL_LOAD(locCreateProgram_t, glCreateProgram);
-            locDeleteProgram = OGL_LOAD(locDeleteProgram_t, glDeleteProgram);
-            locLinkProgram = OGL_LOAD(locLinkProgram_t, glLinkProgram);
-            locAttachShader = OGL_LOAD(locAttachShader_t, glAttachShader);
-            locBindBuffer = OGL_LOAD(locBindBuffer_t, glBindBuffer);
-            locBufferData = OGL_LOAD(locBufferData_t, glBufferData);
-            locGenBuffers = OGL_LOAD(locGenBuffers_t, glGenBuffers);
-            locVertexAttribPointer = OGL_LOAD(locVertexAttribPointer_t, glVertexAttribPointer);
-            locEnableVertexAttribArray = OGL_LOAD(locEnableVertexAttribArray_t, glEnableVertexAttribArray);
-            locUseProgram = OGL_LOAD(locUseProgram_t, glUseProgram);
-            locGetShaderInfoLog = OGL_LOAD(locGetShaderInfoLog_t, glGetShaderInfoLog);
-
-            // 9: Bind our Arrays
-            locBindVertexArray = glBindVertexArrayOES;
-            locGenVertexArrays = glGenVertexArraysOES;
-
-            // 10: Load & Compile Quad Shader - assumes no errors
-            // 0x8B30 = GL_FRAGMENT_SHADER
-            m_nFS = locCreateShader(GL_FRAGMENT_SHADER);
-
-            //*************************************************************
-            // 11: Now we need to create a program that will link the PGE
-            // To OPENGLES Engine:
-            // TODO: To be updated in a future release: JG 21-Oct-2023
-            // TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
-            //*************************************************************
-            const GLchar* strFS =
-#if defined(__arm__) || defined(__aarch64__)
-                "#version 300 es\n"
-                "precision mediump float;"
-#else
-                "#version 200 es\n"
-                "precision mediump float;"
-#endif
-                "out vec4 pixel;\n""in vec2 oTex;\n"
-                "in vec4 oCol;\n""uniform sampler2D sprTex;\n""void main(){pixel = texture(sprTex, oTex) * oCol;}";
-            locShaderSource(m_nFS, 1, &strFS, NULL);
-            locCompileShader(m_nFS);
-
-            // 0x8B31 = GL_VERTEX_SHADER
-            m_nVS = locCreateShader(GL_VERTEX_SHADER);
-            const GLchar* strVS =
-#if defined(__arm__) || defined(__aarch64__)
-                "#version 300 es\n"
-                "precision mediump float;"
-#else
-                "#version 200 es\n"
-                "precision mediump float;"
-#endif
-                "layout(location = 0) in vec3 aPos;\n""layout(location = 1) in vec2 aTex;\n"
-                "layout(location = 2) in vec4 aCol;\n""out vec2 oTex;\n""out vec4 oCol;\n"
-                "void main(){ float p = 1.0 / aPos.z; gl_Position = p * vec4(aPos.x, aPos.y, 0.0, 1.0); oTex = p * aTex; oCol = aCol;}";
-
-            // 12: Configure our Shaders, Buffers, Textures
-            locShaderSource(m_nVS, 1, &strVS, NULL);
-            locCompileShader(m_nVS);
-            m_nQuadShader = locCreateProgram();
-            locAttachShader(m_nQuadShader, m_nFS);
-            locAttachShader(m_nQuadShader, m_nVS);
-            locLinkProgram(m_nQuadShader);
-
-            // 14: Create Quads
-            locGenBuffers(1, &m_vbQuad);
-            locGenVertexArrays(1, &m_vaQuad);
-            locBindVertexArray(m_vaQuad);
-            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
-
-            locVertex verts[OLC_MAX_VERTS];
-            // 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
-            locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * OLC_MAX_VERTS, verts, GL_STATIC_DRAW);
-            locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
-            locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
-            locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
-            locBindBuffer(GL_ARRAY_BUFFER, 0);
-            locBindVertexArray(0);
-
-            // 15: Create blank texture for no sprite decals
-            rendBlankQuad.Create(1, 1);
-            rendBlankQuad.Sprite()->GetData()[0] = olc::WHITE;
-            rendBlankQuad.Decal()->Update();
-
-            // 16: Update the pOSEngine struct, so we can use it later
-            eglQuerySurface(olc_Display, olc_Surface, EGL_WIDTH, &w);
-            eglQuerySurface(olc_Display, olc_Surface, EGL_HEIGHT, &h);
-
-            renderer->ptrPGE->pOsEngine.display = olc_Display;
-            renderer->ptrPGE->pOsEngine.surface = olc_Surface;
-            renderer->ptrPGE->pOsEngine.context = olc_Context;
-            renderer->ptrPGE->pOsEngine.viewHeight = h;
-            renderer->ptrPGE->pOsEngine.viewWidth = w;
-            renderer->ptrPGE->pOsEngine.screenHeight = nFullScreenHeight;
-            renderer->ptrPGE->pOsEngine.screenWidth = nFullScreenWidth;
-
-            // Create the content RECT, this is where your game graphics live
-            app->contentRect.left = 0;
-            app->contentRect.top = 0;
-            app->contentRect.right = w;
-            app->contentRect.bottom = h;
-            olc::vi2d vWindowSize = { w, h };
-
-            // 17: Create plane and update
-            if (platform->CreateWindowPane({ 0, 0 }, vWindowSize, bFullScreen) != olc::OK) return olc::FAIL;
-            platform->ptrPGE->olc_UpdateWindowSize(vWindowSize.x, vWindowSize.y);
-
-            return olc::rcode::OK;
-        }
-
-        olc::rcode DestroyDevice() override
-        {
-
-            if (olc_Display != EGL_NO_DISPLAY) {
-
-                eglMakeCurrent(olc_Display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-
-                if (olc_Context != EGL_NO_CONTEXT) {
-                    eglDestroyContext(olc_Display, olc_Context);
-                }
-
-                if (olc_Surface != EGL_NO_SURFACE) {
-                    eglDestroySurface(olc_Display, olc_Surface);
-                }
-
-                eglTerminate(olc_Display);
-            }
-            renderer->ptrPGE->pOsEngine.animating = 0;
-            olc_Display = EGL_NO_DISPLAY;
-            olc_Context = EGL_NO_CONTEXT;
-            olc_Surface = EGL_NO_SURFACE;
-            return olc::rcode::OK;
-        }
-
-#endif
-
-#if defined (__APPLE__)
-
-        olc::rcode CreateDevice(std::vector<void*> params, bool bFullScreen = true, bool bVSYNC = false) override
-        {
-            // This is a heavy going function, but must run in order to ensure the app loads
-
-            // 1: Setup out OpenGLES settings (NOTE: these are not the same as in the PGE 2.0)
-            EGLint const attribute_list[] = { EGL_SURFACE_TYPE, EGL_OPENGL_ES2_BIT, EGL_RED_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_NONE };
-            EGLint const context_config[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
-            EGLint num_config;
-            EGLint w, h, format;
-
-            // 2: Get a pointer to our App (Android = MyAndroidApp, iOS = MyiOSApp), get our screen size
-            //android_app* app = renderer->ptrPGE->pOsEngine.app;
-            int32_t nFullScreenWidth = 1280; //ANativeWindow_getWidth(app->window);
-            int32_t nFullScreenHeight = 780; //ANativeWindow_getHeight(app->window);
-
-            // 3: Get, Initialize and configure our display
-            olc_Display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-            eglInitialize(olc_Display, nullptr, nullptr);
-            eglChooseConfig(olc_Display, attribute_list, &olc_Config, 1, &num_config);
-            eglGetConfigAttrib(olc_Display, olc_Config, EGL_NATIVE_VISUAL_ID, &format);
-
-            // 4: Configure our display for FullScreen | Viewport
-            mFullScreen = bFullScreen;
-            if (bFullScreen)
-            {
-                // Set the buffer to auto scale te app to fit the screen
-                olc::vi2d vSize = renderer->ptrPGE->GetScreenSize();
-                /*ANativeWindow_setBuffersGeometry(app->window, vSize.x, vSize.y, format);
-                ANativeActivity_setWindowFormat(app->activity, format);*/
-
-
-            }
-            else
-            {
-                // Set the buffer to display the app in the centre of the screen
-                // ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
-            }
-
-            // 5: AWINDOW_FLAG_FULLSCREEN tell Android to hide title bar, status etc
-            // See: https://developer.android.com/ndk/reference/group/native-activity and https://developer.android.com/ndk/reference/group/native-activity#group___native_activity_1gga2f1398dba5e4a5616b83437528bdb28eaca1f1d91313d7c32bb7982d8a5abcd71
-            // ANativeActivity_setWindowFlags(app->activity, 0x00000400, 0);
-
-            // 6: Create an EGL rendering context
-            olc_Context = eglCreateContext(olc_Display, olc_Config, EGL_NO_CONTEXT, context_config);
-            //olc_Surface = eglCreateWindowSurface(olc_Display, olc_Config, app->window, nullptr);
-            eglMakeCurrent(olc_Display, olc_Surface, olc_Surface, olc_Context);
-
-            // 7: Setup buffers interval
-            locSwapInterval = &eglSwapInterval;
-            locSwapInterval(olc_Display, bVSYNC ? 1 : 0);
-
-            // 8: Setup Linkage to OpenGLES Command
-            locCreateShader = OGL_LOAD(locCreateShader_t, glCreateShader);
-            locCompileShader = OGL_LOAD(locCompileShader_t, glCompileShader);
-            locShaderSource = OGL_LOAD(locShaderSource_t, glShaderSource);
-            locDeleteShader = OGL_LOAD(locDeleteShader_t, glDeleteShader);
-            locCreateProgram = OGL_LOAD(locCreateProgram_t, glCreateProgram);
-            locDeleteProgram = OGL_LOAD(locDeleteProgram_t, glDeleteProgram);
-            locLinkProgram = OGL_LOAD(locLinkProgram_t, glLinkProgram);
-            locAttachShader = OGL_LOAD(locAttachShader_t, glAttachShader);
-            locBindBuffer = OGL_LOAD(locBindBuffer_t, glBindBuffer);
-            locBufferData = OGL_LOAD(locBufferData_t, glBufferData);
-            locGenBuffers = OGL_LOAD(locGenBuffers_t, glGenBuffers);
-            locVertexAttribPointer = OGL_LOAD(locVertexAttribPointer_t, glVertexAttribPointer);
-            locEnableVertexAttribArray = OGL_LOAD(locEnableVertexAttribArray_t, glEnableVertexAttribArray);
-            locUseProgram = OGL_LOAD(locUseProgram_t, glUseProgram);
-            locGetShaderInfoLog = OGL_LOAD(locGetShaderInfoLog_t, glGetShaderInfoLog);
-
-            // 9: Bind our Arrays
-            locBindVertexArray = glBindVertexArrayOES;
-            locGenVertexArrays = glGenVertexArraysOES;
-
-            // 10: Load & Compile Quad Shader - assumes no errors
-            // 0x8B30 = GL_FRAGMENT_SHADER
-            m_nFS = locCreateShader(GL_FRAGMENT_SHADER);
-
-            //*************************************************************
-            // 11: Now we need to create a program that will link the PGE
-            // To OPENGLES Engine:
-            // TODO: To be updated in a future release: JG 21-Oct-2023
-            // TODO: Temp set "#version 200 es\n" as x86_64 simulators do not support OpenGLES 3
-            //*************************************************************
-            const GLchar* strFS =
-#if defined(__arm__) || defined(__aarch64__)
-                "#version 300 es\n"
-                "precision mediump float;"
-#else
-                "#version 200 es\n"
-                "precision mediump float;"
-#endif
-                "out vec4 pixel;\n""in vec2 oTex;\n"
-                "in vec4 oCol;\n""uniform sampler2D sprTex;\n""void main(){pixel = texture(sprTex, oTex) * oCol;}";
-            locShaderSource(m_nFS, 1, &strFS, NULL);
-            locCompileShader(m_nFS);
-
-            // 0x8B31 = GL_VERTEX_SHADER
-            m_nVS = locCreateShader(GL_VERTEX_SHADER);
-            const GLchar* strVS =
-#if defined(__arm__) || defined(__aarch64__)
-                "#version 300 es\n"
-                "precision mediump float;"
-#else
-                "#version 200 es\n"
-                "precision mediump float;"
-#endif
-                "layout(location = 0) in vec3 aPos;\n""layout(location = 1) in vec2 aTex;\n"
-                "layout(location = 2) in vec4 aCol;\n""out vec2 oTex;\n""out vec4 oCol;\n"
-                "void main(){ float p = 1.0 / aPos.z; gl_Position = p * vec4(aPos.x, aPos.y, 0.0, 1.0); oTex = p * aTex; oCol = aCol;}";
-
-            // 12: Configure our Shaders, Buffers, Textures
-            locShaderSource(m_nVS, 1, &strVS, NULL);
-            locCompileShader(m_nVS);
-            m_nQuadShader = locCreateProgram();
-            locAttachShader(m_nQuadShader, m_nFS);
-            locAttachShader(m_nQuadShader, m_nVS);
-            locLinkProgram(m_nQuadShader);
-
-            // 14: Create Quads
-            locGenBuffers(1, &m_vbQuad);
-            locGenVertexArrays(1, &m_vaQuad);
-            locBindVertexArray(m_vaQuad);
-            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
-
-            locVertex verts[OLC_MAX_VERTS];
-            // 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
-            locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * OLC_MAX_VERTS, verts, GL_STATIC_DRAW);
-            locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
-            locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
-            locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
-            locBindBuffer(GL_ARRAY_BUFFER, 0);
-            locBindVertexArray(0);
-
-            // 15: Create blank texture for no sprite decals
-            rendBlankQuad.Create(1, 1);
-            rendBlankQuad.Sprite()->GetData()[0] = olc::WHITE;
-            rendBlankQuad.Decal()->Update();
-
-            // 16: Update the pOSEngine struct, so we can use it later
-            eglQuerySurface(olc_Display, olc_Surface, EGL_WIDTH, &w);
-            eglQuerySurface(olc_Display, olc_Surface, EGL_HEIGHT, &h);
-
-            renderer->ptrPGE->pOsEngine.display = olc_Display;
-            renderer->ptrPGE->pOsEngine.surface = olc_Surface;
-            renderer->ptrPGE->pOsEngine.context = olc_Context;
-            renderer->ptrPGE->pOsEngine.viewHeight = h;
-            renderer->ptrPGE->pOsEngine.viewWidth = w;
-            renderer->ptrPGE->pOsEngine.screenHeight = nFullScreenHeight;
-            renderer->ptrPGE->pOsEngine.screenWidth = nFullScreenWidth;
-
-            // Create the content RECT, this is where your game graphics live
-            /*app->contentRect.left = 0;
-            app->contentRect.top = 0;
-            app->contentRect.right = w;
-            app->contentRect.bottom = h;
-            olc::vi2d vWindowSize = { w, h };*/
-
-            olc::vi2d vWindowSize = { 1280, 780 };
-
-            // 17: Create plane and update
-            if (platform->CreateWindowPane({ 0, 0 }, vWindowSize, bFullScreen) != olc::OK) return olc::FAIL;
-            platform->ptrPGE->olc_UpdateWindowSize(vWindowSize.x, vWindowSize.y);
-
-            return olc::rcode::OK;
-        }
-
-        olc::rcode DestroyDevice() override
-        {
-
-            if (olc_Display != EGL_NO_DISPLAY) {
-
-                eglMakeCurrent(olc_Display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-
-                if (olc_Context != EGL_NO_CONTEXT) {
-                    eglDestroyContext(olc_Display, olc_Context);
-                }
-
-                if (olc_Surface != EGL_NO_SURFACE) {
-                    eglDestroySurface(olc_Display, olc_Surface);
-                }
-
-                eglTerminate(olc_Display);
-            }
-            renderer->ptrPGE->pOsEngine.animating = 0;
-            olc_Display = EGL_NO_DISPLAY;
-            olc_Context = EGL_NO_CONTEXT;
-            olc_Surface = EGL_NO_SURFACE;
-            return olc::rcode::OK;
-        }
-
-#endif
-
-
-
-
-
-        void DisplayFrame() override
-        {
-
-            if (olc_Display == NULL)
-            {
-                // Nothing is displaying just return
-                return;
-            }
-
-            eglSwapBuffers(olc_Display, olc_Surface);
-
-        }
-
-        void PrepareDrawing() override
-        {
-            glEnable(GL_BLEND);
-            nDecalMode = DecalMode::NORMAL;
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            locUseProgram(m_nQuadShader);
-            locBindVertexArray(m_vaQuad);
-
-            locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
-            locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
-            locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
-
-        }
-
-        void SetDecalMode(const olc::DecalMode& mode) override
-        {
-            if (mode != nDecalMode)
-            {
-                switch (mode)
-                {
-                case olc::DecalMode::NORMAL:
-                case olc::DecalMode::MODEL3D:
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                    break;
-                case olc::DecalMode::ADDITIVE:
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-                    break;
-                case olc::DecalMode::MULTIPLICATIVE:
-                    glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
-                    break;
-                case olc::DecalMode::STENCIL:
-                    glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
-                    break;
-                case olc::DecalMode::ILLUMINATE:
-                    glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-                    break;
-                case olc::DecalMode::WIREFRAME:
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                    break;
-                }
-
-                nDecalMode = mode;
-            }
-        }
-
-        void DrawLayerQuad(const olc::vf2d& offset, const olc::vf2d& scale, const olc::Pixel tint) override
-        {
-            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
-            locVertex verts[4] = {
-                {{-1.0f, -1.0f, 1.0}, {0.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
-                {{+1.0f, -1.0f, 1.0}, {1.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
-                {{-1.0f, +1.0f, 1.0}, {0.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
-                {{+1.0f, +1.0f, 1.0}, {1.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
-            };
-
-            locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * 4, verts, GL_STATIC_DRAW);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-
-        }
-
-        void DrawDecal(const olc::DecalInstance& decal) override
-        {
-            // 0x8892 == GL_ARRAY_BUFFER, 0x88E0 == GL_DRAW_STREAM of which is not supported, replaced with 0x88E4 GL_STATIC_DRAW
-            // 0x8892 == GL_ARRAY_BUFFER,
-
-            SetDecalMode(decal.mode);
-            if (decal.decal == nullptr)
-                glBindTexture(GL_TEXTURE_2D, rendBlankQuad.Decal()->id);
-            else
-                glBindTexture(GL_TEXTURE_2D, decal.decal->id);
-
-            locBindBuffer(GL_ARRAY_BUFFER, m_vbQuad);
-
-            for (uint32_t i = 0; i < decal.points; i++)
-                pVertexMem[i] = { { decal.pos[i].x, decal.pos[i].y, decal.w[i] }, { decal.uv[i].x, decal.uv[i].y }, decal.tint[i] };
-
-            locBufferData(GL_ARRAY_BUFFER, sizeof(locVertex) * decal.points, pVertexMem, GL_STATIC_DRAW);
-
-            if (nDecalMode == DecalMode::WIREFRAME)
-                glDrawArrays(GL_LINE_LOOP, 0, decal.points);
-            else
-            {
-                if (decal.structure == olc::DecalStructure::FAN)
-                    glDrawArrays(GL_TRIANGLE_FAN, 0, decal.points);
-                else if (decal.structure == olc::DecalStructure::STRIP)
-                    glDrawArrays(GL_TRIANGLE_STRIP, 0, decal.points);
-                else if (decal.structure == olc::DecalStructure::LIST)
-                    glDrawArrays(GL_TRIANGLES, 0, decal.points);
-            }
-
-
-        }
-
-        uint32_t CreateTexture(const uint32_t width, const uint32_t height, const bool filtered, const bool clamp) override
-        {
-            UNUSED(width);
-            UNUSED(height);
-            uint32_t id = 0;
-            glGenTextures(1, &id);
-            glBindTexture(GL_TEXTURE_2D, id);
-
-            if (filtered)
-            {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            }
-            else
-            {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            }
-
-            if (clamp)
-            {
-                // GL_CLAMP not suppored, replaced with GL_CLAMP_TO_EDGE
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            }
-            else
-            {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            }
-
-
-            return id;
-        }
-
-        uint32_t DeleteTexture(const uint32_t id) override
-        {
-            glDeleteTextures(1, &id);
-            return id;
-        }
-
-        void UpdateTexture(uint32_t id, olc::Sprite* spr) override
-        {
-            UNUSED(id);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spr->width, spr->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spr->GetData());
-        }
-
-        void ReadTexture(uint32_t id, olc::Sprite* spr) override
-        {
-            glReadPixels(0, 0, spr->width, spr->height, GL_RGBA, GL_UNSIGNED_BYTE, spr->GetData());
-        }
-
-        void ApplyTexture(uint32_t id) override
-        {
-            glBindTexture(GL_TEXTURE_2D, id);
-        }
-
-        void ClearBuffer(olc::Pixel p, bool bDepth) override
-        {
-            glClearColor(float(p.r) / 255.0f, float(p.g) / 255.0f, float(p.b) / 255.0f, float(p.a) / 255.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-            if (bDepth) glClear(GL_DEPTH_BUFFER_BIT);
-        }
-
-        void UpdateViewport(const olc::vi2d& pos, const olc::vi2d& size) override
-        {
-            glViewport(pos.x, pos.y, size.x, size.y);
-        }
-
-
-    };
-
-#endif
 
 
 
@@ -10435,6 +10399,10 @@ namespace olc
             UNUSED(pack);
             // clear out existing sprite
             spr->pColData.clear();
+            std::vector<char> buffer;
+            std::string sAssestFile;
+            sAssestFile = (sImageFile[0] == '/') ? sAssestFile = sImageFile : sAssestFile = '/' + sImageFile;
+
             // Open file
             stbi_uc* bytes = nullptr;
             int w = 0, h = 0, cmp = 0;
@@ -10446,8 +10414,9 @@ namespace olc
             else
             {
                 // Check file exists
-                /*if (!_gfs::exists(sImageFile)) return olc::rcode::NO_FILE;
-                bytes = stbi_load(sImageFile.c_str(), &w, &h, &cmp, 4);*/
+                std::string test = platform->ptrPGE->pOsEngine.strInternalAppStorage + sAssestFile;
+                //bytes = stbi_load(sImageFile.c_str(), &w, &h, &cmp, STBI_rgb_alpha);
+                bytes = stbi_load(test.c_str(), &w, &h, &cmp, 4);
             }
 
             if (!bytes) return olc::rcode::FAIL;
@@ -10460,6 +10429,7 @@ namespace olc
 
         olc::rcode GetImageBuffer(olc::Sprite* spr, const std::string& sImageFile, std::vector<char>* buffer) override
         {
+
             return olc::rcode::OK;
         }
 
@@ -10488,28 +10458,31 @@ namespace olc
 
         virtual olc::rcode ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath) override
         {
+            std::ifstream file(sAppStorageFilePath, std::ios::in | std::ios::binary);
+
+            if (file)
+            {
+                file.close();
+                return rcode::OK;
+            }
+
             return rcode::FAIL;
         }
 
         virtual const char* GetInternalAppStorage() override
         {
-            const char* cPath = nullptr;
+            return platform->ptrPGE->pOsEngine.strInternalAppStorage.c_str();
 
-            return cPath;
         }
 
         virtual const char* GetExternalAppStorage() override
         {
-            const char* cPath = nullptr;
-
-            return cPath;
+            return platform->ptrPGE->pOsEngine.strExternalAppStorage.c_str();
         }
 
         virtual const char* GetPublicAppStorage() override
         {
-            const char* cPath = nullptr;
-
-            return cPath;
+            return platform->ptrPGE->pOsEngine.strPublicAppStorage.c_str();
         }
 
     };
@@ -10562,10 +10535,10 @@ namespace olc
                 int d = 3 - 2 * radius;
 
                 auto drawline = [&](int sx, int ex, int y)
-                {
-                    for (int x = sx; x <= ex; x++)
-                        platform->ptrPGE->Draw(x, y, p);
-                };
+                    {
+                        for (int x = sx; x <= ex; x++)
+                            platform->ptrPGE->Draw(x, y, p);
+                    };
 
                 while (y0 >= x0)
                 {
@@ -10953,7 +10926,7 @@ namespace olc
 
 
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || (__APPLE__)
 
 #if defined(__arm__ ) || defined(__aarch64__)
 #include "sse2neon.h"
@@ -13094,21 +13067,19 @@ namespace olc
 
 #if defined(__APPLE__)
         platform = std::make_unique<olc::Platform_iOS>();
-        renderer = std::make_unique<olc::Renderer_OGLES10>();
-        simddrawer = std::make_unique<olc::SIMD_NONE>();
-        // TODO: To be updated in a future release: JG 21-Oct-2023
-        // TODO: Apple event manager
+        renderer = std::make_unique<olc::Renderer_OGLES20>();
 
         olc::Sprite::loader = std::make_unique<olc::ImageLoader_STB_iOS>();
-#if defined (__arm__ )
-        simddrawer = std::make_unique<olc::SIMD_NEON_ARM>();
-#endif
+        filehandler = std::make_unique<olc::FileHandler_IOS>();
 
-        //#if defined (__aarch64__)
-        //		simddrawer = std::make_unique<olc::SIMD_NEON_ARM64>();
-        //#else
-        //		simddrawer = std::make_unique<olc::SIMD_NONE>();
-        //#endif // __arm__ || __aarch64__
+#if defined (__arm__) || (__aarch64__)
+
+        simddrawer = std::make_unique<olc::SIMD_NEON_ARM>();
+
+#else
+        simddrawer = std::make_unique<olc::SIMD_NONE>();
+
+#endif // __arm__ || __aarch64__
 
 #endif// __APPLE__
         // Associate components with PGE instance

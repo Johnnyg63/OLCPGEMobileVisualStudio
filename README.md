@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile Android Project 2.2.3
+# OLC Pixel Game Engine Mobile Android Project 2.2.4
 
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.3 for Android Studio</a></i></p>
 
@@ -23,7 +23,7 @@
 <hr/>
 
 
-<p><b>Now with sound support</b></p>
+<p><b>Now with iOS Support</b></p>
 <p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
 <p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 23 --> 33 and beyond</p>
 <p>For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
@@ -53,7 +53,7 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile 2.2.3 for Android</p>
+<p>12: Select OLC Pixel Game Engine Mobile 2.2.4 for Android</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/cffcf9c5-29b2-4be7-935b-6ada42d296e3' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/68dc726f-e254-4828-9942-1a8f92ae1732' /></p>
@@ -96,6 +96,7 @@
   <li>2.23 Now with Sound, supports olcPGE_MiniAudio <a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138
 		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
   </i>
+  <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</i>
 </ul>
 	
 </p>
