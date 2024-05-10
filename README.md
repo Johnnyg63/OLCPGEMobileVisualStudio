@@ -2,7 +2,17 @@
 
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.3 for Android Studio</a></i></p>
 
-<p><b><i>!!! WE NEED YOUR FEEDBACK Please !!!</i></b></p>
+<hr/>
+<p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
+<p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b></p>
+
+<p><i>Visual Studio Android & iOS template project coming soon.</i></p>
+<p><i>Apple xCode template project coming soon.</i></p>
+<p>NOTE: iOS Beta 2.2.4 does not yet support sensors</p>
+<hr/>
+
+
+<p><b><i>WE NEED YOUR FEEDBACK PLEASE</i></b></p>
 
 <hr/>
 <p><i><b>Thank you for cloning the OLC Pixel Game Engine 2.0 Mobile.</b><br/><br/>
@@ -46,17 +56,17 @@
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease223.zip">OLCPGEMobileAndroidProjectRelease223.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/0a01f1f8-1eb9-47c4-a3be-912bdd421716' /></p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease224.zip">OLCPGEMobileAndroidProjectRelease223.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/91d4505a-8ce5-4312-ae21-1867ee8c27b5' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
 <p>12: Select OLC Pixel Game Engine Mobile 2.2.4 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/cffcf9c5-29b2-4be7-935b-6ada42d296e3' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/791bf229-3670-4bce-91eb-5cfbd1e3ce94' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/assets/96908304/68dc726f-e254-4828-9942-1a8f92ae1732' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/b0e7ac50-9b8d-4c58-b2e0-8ea7a35daac9' /></p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
@@ -102,5 +112,6 @@
 </p>
 <p>
 	<b>Apple Platforms will not see these updates immediately</b><br/>
-	<b>iOS port in progress. Beta release due soon</b>
+	<b>iOS port completed. xCode and new Visual Studio Template projects coming sooh. For the moment get developing on Android<br/></b>
+	<b>as anything you develop for Android will work on the iOS</b>
 </p>
