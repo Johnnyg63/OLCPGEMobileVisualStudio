@@ -111,7 +111,5 @@
 	
 </p>
 <p>
-	<b>Apple Platforms will not see these updates immediately</b><br/>
-	<b>iOS port completed. xCode and new Visual Studio Template projects coming sooh. For the moment get developing on Android<br/></b>
-	<b>as anything you develop for Android will work on the iOS</b>
+	<b>iOS port completed. xCode and new Visual Studio Template projects coming sooh. For the moment get developing on Android, as anything you develop for Android will work on the iOS</b>
 </p>
