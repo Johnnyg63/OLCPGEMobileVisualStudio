@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.4,                      //
-// John Galvin aka Johnngy63: 10-May-2024                       //
+// Pixel Game Engine Mobile Release 2.2.5,                      //
+// John Galvin aka Johnngy63: 11-May-2024                       //
 // New Support for iOS beta. iOS sensors not supported yet      //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
@@ -223,7 +223,7 @@ public:
         std::string sMessage = "OneLoneCoder.com";
         vecMessages.push_back(sMessage);
 
-        sMessage = "PGE Mobile Release 2.2.4";
+        sMessage = "PGE Mobile Release 2.2.5";
         vecMessages.push_back(sMessage);
 
         sMessage = "Now With iOS Support";
