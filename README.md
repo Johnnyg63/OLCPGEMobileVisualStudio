@@ -1,6 +1,6 @@
-# OLC Pixel Game Engine Mobile Android Project 2.2.4
+# OLC Pixel Game Engine Mobile Android Project 2.2.5
 
-<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.4 for Android Studio</a></i></p>
+<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
 
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
@@ -8,7 +8,7 @@
 
 <p><i>Visual Studio Android & iOS template project coming soon.</i></p>
 <p><i>Apple xCode template project coming soon.</i></p>
-<p>NOTE: iOS Beta 2.2.4 does not yet support sensors</p>
+<p>NOTE: iOS Beta 2.2.5 does not yet support sensors</p>
 <hr/>
 
 
@@ -56,14 +56,14 @@
 <p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease224.zip">OLCPGEMobileAndroidProjectRelease223.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease225.zip">OLCPGEMobileAndroidProjectRelease225.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/91d4505a-8ce5-4312-ae21-1867ee8c27b5' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile 2.2.4 for Android</p>
+<p>12: Select OLC Pixel Game Engine Mobile 2.2.5 for Android</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/791bf229-3670-4bce-91eb-5cfbd1e3ce94' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/b0e7ac50-9b8d-4c58-b2e0-8ea7a35daac9' /></p>
@@ -107,6 +107,7 @@
 		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
   </i>
   <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</i>
+  <li>2.25 Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the 1</i>
 </ul>
 	
 </p>
