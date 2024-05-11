@@ -45,7 +45,7 @@
 	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
 
 <p><i>The Below steps are for Visual Studio on Windows, <br/>
-		For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.3 for Android Studio</a></i></p>
+		For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
 <p><b>Please follow this steps folks:<br/></p>
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -57,16 +57,16 @@
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
 <p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease225.zip">OLCPGEMobileAndroidProjectRelease225.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/91d4505a-8ce5-4312-ae21-1867ee8c27b5' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/558b85f9-e839-460b-84fc-a9dd6ee9c746' /></p>
 <p>9: Put your Android phone into Development Mode: https://developer.android.com/studio/debug/dev-options</p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
 <p>12: Select OLC Pixel Game Engine Mobile 2.2.5 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/791bf229-3670-4bce-91eb-5cfbd1e3ce94' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/d3378a4e-e8c2-4e1e-ad44-ddf4de4dc224' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/b0e7ac50-9b8d-4c58-b2e0-8ea7a35daac9' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/7dc6794d-2d1f-472f-9924-ca4de08910db' /></p>
 <p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
