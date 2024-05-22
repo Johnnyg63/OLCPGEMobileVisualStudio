@@ -3,6 +3,27 @@
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
 
 <hr/>
+<p><b><i>!!! IMPORTANT NOTICE!!!</i></b></p>
+<p>There was a step missing from the below instructions, I did not know until today that folks where having issues with the template<br/>
+	Please reach out to us on Discord: <a href="https://discord.com/invite/WhwHUMV">One Lone Coder</a> if every you are having issues.
+	<br/>
+	<br/>
+	<i>You must accept the Android Terms and Conditions in order to use OLC PGE Mobile STEP 6 Below:</i>
+	<ul>
+  		<li><b><i>Windows</i></b> </li>
+		<li>Open Command Prompt in Administrator Mode</li>
+		<li>setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</li>
+		<li>Navigate to: "C:\Program Files (x86)\Android\android-sdk\cmdline-tools\11.0\bin" </li>
+		<li>Enter: "sdkmanager.bat --update" </li>
+		<li>Accept: "Y" </li>
+		<li><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/680faaa3-8123-479b-ba15-18f3a8aeae88'</li>
+		<li><b><i>Linux, MacOS</i></b> </li>
+		<li>Navigate to: "sdk/tools/bin" </li>
+		<li>Enter: "sudo ./sdkmanager --licenses" </li>
+		<li>Accept: "Y" </li>
+	</ul>
+</p>
+<hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
 <p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b></p>
 
@@ -53,7 +74,22 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/5812774f-54fa-4875-90ec-4f2e2d7a9899' />
 </p>
 <p>5: Install Java 17: https://www.oracle.com/java/technologies/downloads/#java17</p>
-<p>6: Open Command Prompt in Administrator Mode, enter: setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</p>
+<p>6:<b>Accept Android Terms and condidtions: </b>
+<br/>
+	<ul>
+  		<li><b><i>Windows</i></b> </li>
+		<li>Open Command Prompt in Administrator Mode</li>
+		<li>setx -m JAVA_HOME "C:\Program Files\Java\jdk-17"</li>
+		<li>Navigate to: "C:\Program Files (x86)\Android\android-sdk\cmdline-tools\11.0\bin" </li>
+		<li>Enter: "sdkmanager.bat --update" </li>
+		<li>Accept: "Y" </li>
+		<li><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/680faaa3-8123-479b-ba15-18f3a8aeae88'</li>
+		<li><b><i>Linux, MacOS</i></b> </li>
+		<li>Navigate to: "sdk/tools/bin" </li>
+		<li>Enter: "sudo ./sdkmanager --licenses" </li>
+		<li>Accept: "Y" </li>
+	</ul>
+</p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
 <p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease225.zip">OLCPGEMobileAndroidProjectRelease225.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
@@ -67,10 +103,16 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/d3378a4e-e8c2-4e1e-ad44-ddf4de4dc224' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/7dc6794d-2d1f-472f-9924-ca4de08910db' /></p>
-<p>14: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
+<p>14: First time build: <br/>
+	The first time you create a project from the template it may take several minutes to build.<br/>
+	This happens because the template needs to download/update all the files you need in order for the PGE Mobile to be successful <br/>
+	<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/53d26371-cd8f-47ca-babc-b914d6bf5973' /></p>
+</p>
+</p>
+<p>15: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
-<p><b>Release 2.2.3 Support Details</b></p>
+<p><b>Release 2.2.5 Support Details</b></p>
 <p>
 <ul>
   <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h. Thanks @Javidx9</li>
