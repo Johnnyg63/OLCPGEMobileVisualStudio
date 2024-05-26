@@ -103,6 +103,8 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/d3378a4e-e8c2-4e1e-ad44-ddf4de4dc224' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/7dc6794d-2d1f-472f-9924-ca4de08910db' /></p>
+<p>Please Note: Keep in mind that you need see your device name appear near the solution configuration, if not, it may not build</p>
+<p><img src='https://github.com/ZikriBen/OLCPGEMobileVisualStudio/assets/57237262/a6d9f14f-d39c-4b82-b837-6d7c53c35097' /></p>
 <p>14: First time build: <br/>
 	The first time you create a project from the template it may take several minutes to build.<br/>
 	This happens because the template needs to download/update all the files you need in order for the PGE Mobile to be successful <br/>
@@ -156,3 +158,4 @@
 <p>
 	<b>iOS port completed. xCode and new Visual Studio Template projects coming sooh. For the moment get developing on Android, as anything you develop for Android will work on the iOS</b>
 </p>
+
