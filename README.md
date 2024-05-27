@@ -1,7 +1,7 @@
 # OLC Pixel Game Engine Mobile Android Project 2.2.5
 
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
-
+<p><i>Please see installation steps for Windows Visual Studio towards the bottom of this page</i></p>
 <hr/>
 <p><b><i>!!! IMPORTANT NOTICE!!!</i></b></p>
 <p>There was a step missing from the below instructions, I did not know until today that folks where having issues with the template<br/>
@@ -22,6 +22,11 @@
 		<li>Enter: "sudo ./sdkmanager --licenses" </li>
 		<li>Accept: "Y" </li>
 	</ul>
+</p>
+<hr/>
+<p><b><i>!!! Known Issues !!!</i></b></p>
+<p>If you see a Segmentation Fault at the start of debugging (can occur up to 4 times, Visual Studion 2019/2022) just click Continue, I am working on this at the moment.</p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/eea76342-054c-4593-a6fb-2a6f213ec735' />
 </p>
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
