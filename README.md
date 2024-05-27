@@ -69,10 +69,11 @@
 	<b>Renderer_OGLES10:</b> Support for SDK 23 - 29 This code better supports ARM devices, however ARM64 will work just fine with it.<br/>
 	<b>Renderer_OGLES20:</b> Support for SDK 30 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
 	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
+<hr/>
 
-<p><i>The Below steps are for Visual Studio on Windows, <br/>
-		For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
-<p><b>Please follow this steps folks:<br/></p>
+<p><b><i>!!! Visual Studion Installation !!!</i></b></p>
+<p>For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</p>
+
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
 <p>3: Install Mobile Development with C++ </p>
@@ -119,7 +120,10 @@
 <p>15: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
 
-<p><b>Release 2.2.5 Support Details</b></p>
+<hr/>
+
+<p><b><i>!!! Release 2.2.5 Support Details !!!</i></b></p>
+
 <p>
 <ul>
   <li>2.01: BETA Port code from olcPixelGameEngine.h to olcPixelGameEngine_mobile.h. Thanks @Javidx9</li>
