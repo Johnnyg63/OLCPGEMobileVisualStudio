@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile Android and iOS Project Template 2.2.6
+# OLC Pixel Game Engine Mobile Android and iOS Project Template 2.2.6 ISSUE WITH BUILD. Please use : https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android 
 
 <p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.6 for Android Visual Studio</a>!!! </b></p>
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.6 for Android Studio</a></i></p>
@@ -33,7 +33,7 @@
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
 <p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b></p>
-
+. ISSUE 
 <p><i>Visual Studio Android & iOS template project coming soon.</i></p>
 <p><i>Apple xCode template project coming soon.</i></p>
 <p>NOTE: iOS Beta 2.2.6 does not yet support sensors</p>
