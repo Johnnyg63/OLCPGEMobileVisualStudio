@@ -1,4 +1,13 @@
 #pragma once
+
+//////////////////////////////////////////////////////////////////
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
+// Please report all bugs to https://discord.com/invite/WhwHUMV //
+// Or on Github: https://github.com/Johnnyg63					//
+//////////////////////////////////////////////////////////////////
+
 /*
     olcPGEX_MiniAudio.h
 
@@ -54,7 +63,7 @@
     Homepage:	https://www.moros1138.com
 */
 
-#if defined (__ANDROID__)
+#if defined (__ANDROID__) || (__APPLE__)
 
 #include "olcPixelGameEngine_Mobile.h"
 #else
@@ -351,7 +360,7 @@ namespace olc
         }
 
         // no empty slots, make more room!
-        const int id = vecSounds.size();
+        const int id = (int)vecSounds.size();
         vecSounds.push_back(sound);
 
         return id;
@@ -427,7 +436,7 @@ namespace olc
 
     void MiniAudio::Pause(const int id)
     {
-        auto it = vecSounds.begin() + id;
+        //auto it = vecSounds.begin() + id;
         ma_sound_stop(vecSounds.at(id));
     }
 

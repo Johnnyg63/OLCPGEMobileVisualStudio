@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile Android Project 2.2.5
+# OLC Pixel Game Engine Mobile Android Project 2.2.6
 
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
 <p><i>Please see installation steps for Windows Visual Studio towards the bottom of this page</i></p>
@@ -34,7 +34,7 @@
 
 <p><i>Visual Studio Android & iOS template project coming soon.</i></p>
 <p><i>Apple xCode template project coming soon.</i></p>
-<p>NOTE: iOS Beta 2.2.5 does not yet support sensors</p>
+<p>NOTE: iOS Beta 2.2.6 does not yet support sensors</p>
 <hr/>
 
 
@@ -66,8 +66,8 @@
 	there maybe updates in the future to support newer & newer Android GPUs coming to the market and I didn't want to end up in a mess of conditional
 	statements... well not yet anyway.</p>
 	<p>The olc_ConfigureSystem() manages this:<br/>
-	<b>Renderer_OGLES10:</b> Support for SDK 23 - 29 This code better supports ARM devices, however ARM64 will work just fine with it.<br/>
-	<b>Renderer_OGLES20:</b> Support for SDK 30 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
+	<b>Renderer_OGLES10:</b> Support for SDK 21 - 25 This code better supports ARM devices, however ARM64 will work just fine with it.<br/>
+	<b>Renderer_OGLES20:</b> Support for SDK 26 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
 	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
 <hr/>
 
@@ -105,7 +105,7 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile 2.2.5 for Android</p>
+<p>12: Select OLC Pixel Game Engine Mobile 2.2.6 for Android</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/d3378a4e-e8c2-4e1e-ad44-ddf4de4dc224' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/7dc6794d-2d1f-472f-9924-ca4de08910db' /></p>
@@ -122,7 +122,7 @@
 
 <hr/>
 
-<p><b><i>!!! Release 2.2.5 Support Details !!!</i></b></p>
+<p><b><i>!!! Release 2.2.6 Support Details !!!</i></b></p>
 
 <p>
 <ul>
@@ -161,6 +161,7 @@
   </i>
   <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</i>
   <li>2.25 Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the 1</i>
+  <li>2.25 Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!</i>
 </ul>
 	
 </p>

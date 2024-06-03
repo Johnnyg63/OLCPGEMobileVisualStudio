@@ -1,8 +1,8 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.2,                      //
-// John Galvin aka Johnngy63: 14-Nov-2023                       //
-// Full production release                                      //
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -30,13 +30,12 @@
 
 // NOTE: Do not depend on this header for using Sensors
 // This will change in future beta releases
-#include <android/sensor.h> 
-
-
+#include <android/sensor.h>
 #include <android/log.h>
 
 // This header is used to activate your application
 #include "android_native_app_glue.h"
+#include <malloc.h>
 
 
 
