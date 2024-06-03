@@ -1,6 +1,6 @@
 # OLC Pixel Game Engine Mobile Android Project 2.2.6
 
-<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</a></i></p>
+<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.6 for Android Studio</a></i></p>
 <p><i>Please see installation steps for Windows Visual Studio towards the bottom of this page</i></p>
 <hr/>
 <p><b><i>!!! IMPORTANT NOTICE!!!</i></b></p>
@@ -72,7 +72,7 @@
 <hr/>
 
 <p><b><i>!!! Visual Studio Installation !!!</i></b></p>
-<p>For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.5 for Android Studio</p>
+<p>For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.6 for Android Studio</p>
 
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -161,7 +161,7 @@
   </i>
   <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</i>
   <li>2.25 Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the 1</i>
-  <li>2.25 Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!</i>
+  <li>2.26 Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!</i>
 </ul>
 	
 </p>
