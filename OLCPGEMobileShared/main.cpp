@@ -15,8 +15,7 @@
 // Set up headers for the different platforms
 #if defined (__ANDROID__)
 
-//#include "../PGEMobileAllInOne.Android/pch.h"
-#include "pch.h"
+#include "../PGEMobileAllInOne.Android/pch.h"
 
 #endif
 
@@ -558,13 +557,13 @@ int ios_main(IOSNativeApp* pIOSNatvieApp)
     //
 
     /*
-        Note it is best to use HD(0, 0, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
+        Note it is best to use HD(1280, 720, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
         without affecting performance... well it will have a very small affect, it will depend on your pixel size
         Note: cohesion is currently not working
         Note: It is best to set maintain_aspect_ratio to false, Fullscreen to true and use the olcPGEX_TransformView.h to manage your world-view
         in short iOS does not want to play nice, the screen ratios and renta displays make maintaining a full screen with aspect radio a pain to manage
     */
-    pIOSNatvieApp->SetPGEConstruct(0, 0, 2, 2, true, true, false);
+    pIOSNatvieApp->SetPGEConstruct(1280, 720, 2, 2, true, true, false);
 
 
     // We now need to return SUCCESS or FAILURE to get the party stated!!!!
