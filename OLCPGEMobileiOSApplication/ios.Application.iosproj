@@ -93,14 +93,14 @@
     <Content Include="$projectname$.iOS\GameViewController.mm" />
     <Content Include="$projectname$.iOS\Info.plist" />
     <Content Include="$projectname$.iOS\main.mm" />
-    <Content Include="$projectname$.iOS\ios_native_app_glue.mm" />
-	<Content Include="$projectname$.iOS\ios_native_app_glue.mm" />
+    <Content Include="$projectname$.iOS\ios_native_app_glue.h" />
+	<Content Include="$projectname$.iOS\ios_native_app_glue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Pbxproj Include="$projectname$.iOS.Application.xcodeproj\project.pbxproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\$projectname$.iOS.StaticLibrary\$projectname$.iOS.StaticLibrary.vcxproj" />
+    <ProjectReference Include="..\$projectname$.iOS\$projectname$.iOS.vcxproj" />
   </ItemGroup>
   <Import Project="$(iOSTargetsPath)\iOS.targets" />
   <ImportGroup Label="ExtensionTargets" />

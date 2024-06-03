@@ -18,29 +18,29 @@
 		<Project TargetFileNameExact="$projectname$.iOS.Application.xcodeproj\project.pbxproj" File="project.pbxproj" ReplaceParameters="true">
 			<ProjectItem TargetFileName="$projectname$.iOS\Base.lproj\Main.storyboard">Main.storyboard</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\Images.xcassets\AppIcon.appiconset\Contents.json">Contents.json</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\car_top.png">car_top.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\car_top1.png">car_top1.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\City_Roads1_mip0.png">City_Roads1_mip0.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\dirtblock.png">dirtblock.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\north_south_east_west_logo.png">north_south_east_west_logo.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\olcpgemobilelogo.png">olcpgemobilelogo.png</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\maps\example1.city">example1.city</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\objectfiles\unitcube.obj">unitcube.obj</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleA.wav">SampleA.wav</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleB.wav">SampleB.wav</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleC.wav">SampleC.wav</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\Sample_Test_44100.wav">Sample_Test_44100.wav</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\Sample_Test_48000.wav">Sample_Test_48000.wav</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\song1.mp3">song1.mp3</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\testmusic.mp3">testmusic.mp3</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\car_top.png">assets\images\car_top.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\car_top1.png">assets\images\car_top1.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\City_Roads1_mip0.png">assets\images\City_Roads1_mip0.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\dirtblock.png">assets\images\dirtblock.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\north_south_east_west_logo.png">assets\images\north_south_east_west_logo.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\images\olcpgemobilelogo.png">assets\images\olcpgemobilelogo.png</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\maps\example1.city">assets\maps\example1.city</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\objectfiles\unitcube.obj">assets\objectfiles\unitcube.obj</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleA.wav">assets\sounds\SampleA.wav</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleB.wav">assets\sounds\SampleB.wav</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\SampleC.wav">assets\sounds\SampleC.wav</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\Sample_Test_44100.wav">assets\sounds\Sample_Test_44100.wav</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\Sample_Test_48000.wav">assets\sounds\Sample_Test_48000.wav</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\song1.mp3">assets\sounds\song1.mp3</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\assets\sounds\testmusic.mp3">assets\sounds\testmusic.mp3</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\AppDelegate.h">AppDelegate.h</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\AppDelegate.mm">AppDelegate.mm</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\GameViewController.h">GameViewController.h</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\GameViewController.mm" ReplaceParameters="true">GameViewController.mm</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\Info.plist">Info.plist</ProjectItem>
 			<ProjectItem TargetFileName="$projectname$.iOS\main.mm">main.mm</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\main.mm">ios_native_app_glue.h</ProjectItem>
-			<ProjectItem TargetFileName="$projectname$.iOS\main.mm">ios_native_app_glue.cpp</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\ios_native_app_glue.h">ios_native_app_glue.h</ProjectItem>
+			<ProjectItem TargetFileName="$projectname$.iOS\ios_native_app_glue.cpp">ios_native_app_glue.cpp</ProjectItem>
 		</Project>
 	</TemplateContent>
 </VSTemplate>
