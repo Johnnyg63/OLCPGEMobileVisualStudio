@@ -1,12 +1,13 @@
 ﻿
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile 2.2.2,                      //
-// John Galvin aka Johnngy63: 14-Nov-2023                       //
-// Full production release                                      //
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
 // Asteroids Demo                                               //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
+
 
 /*
 OneLoneCoder.com - Code-It-Yourself! Asteroids at the command prompt (quick and simple c++)
