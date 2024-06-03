@@ -37,11 +37,11 @@
 	<PropertyGroup Label="Globals">
 		<ProjectGuid>{cca583c9-be7f-4b91-bab8-cf5ecd4e616b}</ProjectGuid>
 		<Keyword>Android</Keyword>
-		<RootNamespace>PGEMobileAllInOne</RootNamespace>
+		<RootNamespace>$projectname$</RootNamespace>
 		<MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
 		<ApplicationType>Android</ApplicationType>
 		<ApplicationTypeRevision>3.0</ApplicationTypeRevision>
-		<ProjectName>PGEMobileAllInOne.Android</ProjectName>
+		<ProjectName>$projectname$.Android</ProjectName>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">

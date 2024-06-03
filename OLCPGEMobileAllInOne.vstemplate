@@ -6,7 +6,7 @@
 		<TemplateID>OLCPGEMobile.2.0.AndroidiOSProjectGroup</TemplateID>
 		<SortOrder>1000</SortOrder>
 		<LanguageTag>Cpp</LanguageTag>
-		<PlatformTag>Android iOS</PlatformTag>
+		<PlatformTag>Android</PlatformTag>
 		<CreateNewFolder>true</CreateNewFolder>
 		<CreateInPlace>true</CreateInPlace>
 		<DefaultName>MyPGEMobileGameName</DefaultName>
@@ -19,20 +19,20 @@
 	</TemplateData>
 	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
 		<ProjectCollection>
-			<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+			<ProjectTemplateLink ProjectName="$projectname$.Android.Application" CopyParameters="true">
 				OLCPGEMobileAndroidGradle\OLCPGEMobileAndroidGradle.vstemplate
 			</ProjectTemplateLink>
-			<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+			<ProjectTemplateLink ProjectName="$projectname$.iOS.Application" CopyParameters="true">
 				OLCPGEMobileiOSApplication\OLCPGEMobileiOSApplication.vstemplate
 			</ProjectTemplateLink>
 			<SolutionFolder Name="OLCPGEMobile" CreateOnDisk="true">
-				<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+				<ProjectTemplateLink ProjectName="$projectname$.Android" CopyParameters="true">
 					OLCPGEMobileAndroidNative\OLCPGEMobileAndroidNative.vstemplate
 				</ProjectTemplateLink>
-				<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+				<ProjectTemplateLink ProjectName="$projectname$.iOS" CopyParameters="true">
 					OLCPGEMobileiOSNative\OLCPGEMobileiOSNative.vstemplate
 				</ProjectTemplateLink>
-				<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+				<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">
 					OLCPGEMobileShared\OLCPGEMobileShared.vstemplate
 				</ProjectTemplateLink>
 			</SolutionFolder>

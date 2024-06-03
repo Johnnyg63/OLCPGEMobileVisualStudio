@@ -14,8 +14,8 @@
     <Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent PreferedSolutionConfiguration="Debug|ARM">
-    <Project TargetFileName="$projectname$.iOS.StaticLibrary.vcxproj" File="OLCPGEMobileiOSNative.vcxproj" ReplaceParameters="true">
-      <ProjectItem TargetFileName="$projectname$.iOS.StaticLibrary.vcxproj.filters">OLCPGEMobileiOSNative.vcxproj.filters</ProjectItem>
+    <Project TargetFileName="$projectname$.iOS.vcxproj" File="OLCPGEMobileiOSNative.vcxproj" ReplaceParameters="true">
+      <ProjectItem TargetFileName="$projectname$.iOS.vcxproj.filters">OLCPGEMobileiOSNative.vcxproj.filters</ProjectItem>
 		<ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
     </Project>
   </TemplateContent>

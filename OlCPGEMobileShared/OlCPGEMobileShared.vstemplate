@@ -15,7 +15,8 @@
 	</TemplateData>
 	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
 		<Project TargetFileName="$ext_projectname$.Shared.vcxitems" File="OlCPGEMobileShared.vcxitems" ReplaceParameters="true">
-			<ProjectItem OpenInEditor="true">ios_native_app_glue.h</ProjectItem>
+			<ProjectItem>ios_native_app_glue.h</ProjectItem>
+			<ProjectItem OpenInEditor="true">main.cpp</ProjectItem>
 			<ProjectItem>miniaudio.cpp</ProjectItem>
 			<ProjectItem>olcPGEX_MiniAudio.h</ProjectItem>
 			<ProjectItem>olcPixelGameEngine_Mobile.h</ProjectItem>

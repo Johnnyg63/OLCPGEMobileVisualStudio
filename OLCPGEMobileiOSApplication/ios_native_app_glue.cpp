@@ -15,7 +15,7 @@
 // This file is used by the template to render a basic scene using GL.
 //
 //#include "pch.h"
-#include "../OLCPGEMobile/PGEMobileAllInOne.Shared/olcPixelGameEngine_Mobile.h"
+#include "../OLCPGEMobile/$projectname$.Shared/olcPixelGameEngine_Mobile.h"
 #include "ios_native_app_glue.h"
 
 IOSNativeApp::IOSNativeApp()

@@ -15,7 +15,7 @@
 // Set up headers for the different platforms
 #if defined (__ANDROID__)
 
-#include "../PGEMobileAllInOne.Android/pch.h"
+#include "../$projectname$.Android/pch.h"
 
 #endif
 
