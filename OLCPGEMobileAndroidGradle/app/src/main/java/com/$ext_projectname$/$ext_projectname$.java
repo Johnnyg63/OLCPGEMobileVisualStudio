@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.widget.TextView;
 import android.os.Bundle;
 
-public class $safeprojectname$ extends Activity
+public class $ext_projectname$ extends Activity
 {
     /** Called when the activity is first created. */
     @Override

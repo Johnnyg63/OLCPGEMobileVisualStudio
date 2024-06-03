@@ -23,7 +23,7 @@
       <ProjectItem ReplaceParameters="true">app\build.gradle.template</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\proguard-rules.pro</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\AndroidManifest.xml.template</ProjectItem>
-      <ProjectItem ReplaceParameters="true" OpenInEditor="true">app\src\main\java\com\$projectname$\$safeprojectname$.java</ProjectItem>
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">app\src\main\java\com\$ext_projectname$\$ext_projectname$.java</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\res\values\strings.xml</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\north_south_east_west_logo.png</ProjectItem>
       <ProjectItem ReplaceParameters="true">app\src\main\assets\images\car_top.png</ProjectItem>

@@ -1,6 +1,6 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.6,                      //
+// Pixel Game Engine Mobile All In One Release 2.2.6            //
 // John Galvin aka Johnngy63: 03-Jun-2024                       //
 // iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -15,7 +15,7 @@
 // Set up headers for the different platforms
 #if defined (__ANDROID__)
 
-#include "../$projectname$.Android/pch.h"
+#include "../$ext_projectname$.Android/pch.h"
 
 #endif
 

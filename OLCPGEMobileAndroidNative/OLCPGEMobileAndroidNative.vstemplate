@@ -1,5 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
-  <TemplateData>
+ 
+	<TemplateData>
     <Name>OLCPGEMobileAndroidNative</Name>
     <Description>OLC Pixel Game Engine Android Native Activity 2.2.6</Description>
     <ProjectType>VC</ProjectType>

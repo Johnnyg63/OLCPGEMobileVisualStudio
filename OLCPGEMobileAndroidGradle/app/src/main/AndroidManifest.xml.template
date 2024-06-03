@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Release 2.2.6 -->
+<!-- Release 2.2.6 All In One -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.$safeprojectname$"
+          package="com.$ext_projectname$"
           android:versionCode="1"
           android:versionName="1.0">
   <application

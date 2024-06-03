@@ -118,7 +118,7 @@
     <GradleTemplate Include="gradle\wrapper\gradle-wrapper.properties.template" />
   </ItemGroup>
   <ItemGroup>
-    <JavaCompile Include="app\src\main\java\com\$projectname$\$safeprojectname$.java" />
+    <JavaCompile Include="app\src\main\java\com\$ext_projectname$\$ext_projectname$.java" />
   </ItemGroup>
   <ItemGroup>
 	<Content Include="app\proguard-rules.pro" />

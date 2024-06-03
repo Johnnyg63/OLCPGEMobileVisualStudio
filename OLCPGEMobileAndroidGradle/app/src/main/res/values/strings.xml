@@ -3,5 +3,6 @@
 <!-- Release 2.2.6 -->
 
 <resources>
-    <string name="app_name">$projectname$</string>
+    <string name="app_name">$ext_projectname$</string>
+	<string name="pge_mobile_version">2.2.6</string>
 </resources>
