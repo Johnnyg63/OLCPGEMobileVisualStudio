@@ -21,13 +21,13 @@
 @rem
 @rem ##########################################################################
 
-@rem //////////////////////////////////////////////////////////////////
-@rem // Pixel Game Engine Mobile Release 2.2.1,                      //
-@rem // John Galvin aka Johnngy63: 21-Oct-2023                       //
-@rem // Full production release                                      //
-@rem // Please report all bugs to https://discord.com/invite/WhwHUMV //
-@rem // Or on Github: https://github.com/Johnnyg63					          //
-@rem //////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
+// Please report all bugs to https://discord.com/invite/WhwHUMV //
+// Or on Github: https://github.com/Johnnyg63					//
+//////////////////////////////////////////////////////////////////
 
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
