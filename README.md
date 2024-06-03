@@ -61,7 +61,7 @@
 
 <p><b>!!! Android Engine Updates !!!</b></p>
 <p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
-<p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 23 --> 33 and beyond</p>
+<p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 21 --> 33 and beyond</p>
 <p>For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
 	there maybe updates in the future to support newer & newer Android GPUs coming to the market and I didn't want to end up in a mess of conditional
 	statements... well not yet anyway.</p>
@@ -98,17 +98,17 @@
 </p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease225.zip">OLCPGEMobileAndroidProjectRelease225.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/558b85f9-e839-460b-84fc-a9dd6ee9c746' /></p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectRelease221/blob/master/OLCPGEMobileAndroidProjectRelease226.zip">OLCPGEMobileAndroidProjectRelease226.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/723490c9-f09d-461b-8083-e8ec3c1f04bc)' /></p>
 <p>9: Put your Android phone into <a href="https://developer.android.com/studio/debug/dev-options#enable"> Development Mode</a> and enable <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">USB Debugging.</a></p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
 <p>12: Select OLC Pixel Game Engine Mobile 2.2.6 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/d3378a4e-e8c2-4e1e-ad44-ddf4de4dc224' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/224dd051-780b-4827-8c49-95416bbe5398' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/7dc6794d-2d1f-472f-9924-ca4de08910db' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/2f69298f-8dac-4119-abc7-31752b3e37ef' /></p>
 <p>Please Note: Keep in mind that you need see your device name appear near the solution configuration, if not, it may not build</p>
 <p><img src='https://github.com/ZikriBen/OLCPGEMobileVisualStudio/assets/57237262/a6d9f14f-d39c-4b82-b837-6d7c53c35097' /></p>
 <p>14: First time build: <br/>
@@ -155,7 +155,7 @@
   <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debugging, some keys may not map correctly, directionally keys will be out of sync as Android is mapped to a Direction Pad by default</i>
   <li>2.21 <b>Full Production Release</b> </i>
   <li>2.22 Better support for the latest Android phones<br/>
-			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings			</i>
+			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings</i>
   <li>2.23 Now with Sound, supports olcPGE_MiniAudio <a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138
 		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
   </i>
@@ -166,6 +166,7 @@
 	
 </p>
 <p>
-	<b>iOS port completed. xCode and new Visual Studio Template projects coming sooh. For the moment get developing on Android, as anything you develop for Android will work on the iOS</b>
+	<b>iOS port completed. Click this link TBA<br/>
+		For the moment get developing on Android, as anything you develop for Android will work on the iOS</b>
 </p>
 
