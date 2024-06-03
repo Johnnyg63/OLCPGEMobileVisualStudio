@@ -85,22 +85,22 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Content Include="$projectname$.iOS\Base.lproj\Main.storyboard" />
-    <Content Include="$projectname$.iOS\Images.xcassets\AppIcon.appiconset\Contents.json" />
-    <Content Include="$projectname$.iOS\AppDelegate.h" />
-    <Content Include="$projectname$.iOS\AppDelegate.mm" />
-    <Content Include="$projectname$.iOS\GameViewController.h" />
-    <Content Include="$projectname$.iOS\GameViewController.mm" />
-    <Content Include="$projectname$.iOS\Info.plist" />
-    <Content Include="$projectname$.iOS\main.mm" />
-    <Content Include="$projectname$.iOS\ios_native_app_glue.h" />
-	<Content Include="$projectname$.iOS\ios_native_app_glue.cpp" />
+    <Content Include="$ext_projectname$.iOS\Base.lproj\Main.storyboard" />
+    <Content Include="$ext_projectname$.iOS\Images.xcassets\AppIcon.appiconset\Contents.json" />
+    <Content Include="$ext_projectname$.iOS\AppDelegate.h" />
+    <Content Include="$ext_projectname$.iOS\AppDelegate.mm" />
+    <Content Include="$ext_projectname$.iOS\GameViewController.h" />
+    <Content Include="$ext_projectname$.iOS\GameViewController.mm" />
+    <Content Include="$ext_projectname$.iOS\Info.plist" />
+    <Content Include="$ext_projectname$.iOS\main.mm" />
+    <Content Include="$ext_projectname$.iOS\ios_native_app_glue.h" />
+	<Content Include="$ext_projectname$.iOS\ios_native_app_glue.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Pbxproj Include="$projectname$.iOS.Application.xcodeproj\project.pbxproj" />
+    <Pbxproj Include="$ext_projectname$.iOS.Application.xcodeproj\project.pbxproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\$projectname$.iOS\$projectname$.iOS.vcxproj" />
+    <ProjectReference Include="....\OLCPGEMobile\$ext_projectname$.iOS\$ext_projectname$.iOS.vcxproj" />
   </ItemGroup>
   <Import Project="$(iOSTargetsPath)\iOS.targets" />
   <ImportGroup Label="ExtensionTargets" />

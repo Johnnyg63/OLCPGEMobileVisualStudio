@@ -16,8 +16,8 @@
   <TemplateContent PreferedSolutionConfiguration="Debug|ARM" BuildOnLoad="false">
     <Project TargetFileName="$projectname$.vcxproj" File="OLCPGEMobileAndroidNative.vcxproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$.vcxproj.filters">OLCPGEMobileAndroidNative.vcxproj.filters</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="android_native_app_glue.h">android_native_app_glue.h</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="android_native_app_glue.h">android_native_app_glue.h</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="pch.h">pch.h</ProjectItem>
     </Project>
   </TemplateContent>
   <WizardExtension>

@@ -140,7 +140,7 @@
     <Content Include="app\src\main\res\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OLCPGEMobile\$safeprojectname$\$projectname$.vcxproj" />
+    <ProjectReference Include="..\OLCPGEMobile\$ext_projectname$.Android\$ext_projectname$.Android.vcxproj" />
   </ItemGroup>
   <Import Project="$(AndroidTargetsPath)\Android.targets" />
   <ImportGroup Label="ExtensionTargets" />
