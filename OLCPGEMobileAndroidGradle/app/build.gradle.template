@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.2,                      //
-// John Galvin aka Johnngy63: 14-Nov-2023                       //
-// Full production release                                      //
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ android {
     defaultConfig.with {
         $(ApplicationId)
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion $(AndroidAPILevelNumber)
     }
 
      //see: https://developer.android.com/studio/publish/app-signing#sign_release
@@ -30,14 +30,14 @@ android {
 
     compileOptions.with {
          // Default VERSION_1_7
-        sourceCompatibility=JavaVersion.VERSION_1_7
-        targetCompatibility=JavaVersion.VERSION_1_7
+        sourceCompatibility=JavaVersion.VERSION_1_8
+        targetCompatibility=JavaVersion.VERSION_1_8
 
         // Un Comment as required
         //sourceCompatibility=JavaVersion.VERSION_1_6
         //targetCompatibility=JavaVersion.VERSION_1_6
-        //sourceCompatibility=JavaVersion.VERSION_1_8
-        //targetCompatibility=JavaVersion.VERSION_1_8
+        //sourceCompatibility=JavaVersion.VERSION_1_7
+        //targetCompatibility=JavaVersion.VERSION_1_7
         //sourceCompatibility JavaVersion.VERSION_11
         //targetCompatibility JavaVersion.VERSION_11
     }
