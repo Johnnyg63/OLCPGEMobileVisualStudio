@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile Android and iOS Project Template 2.2.6 ISSUE WITH BUILD. Please use : https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android 
+# OLC Pixel Game Engine Mobile Android and iOS Project Template 2.2.6
 
 <p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.6 for Android Visual Studio</a>!!! </b></p>
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.6 for Android Studio</a></i></p>
