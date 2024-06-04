@@ -1,0 +1,33 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>OLCPGEMobileAndroidNative</Name>
+    <Description>OLC Pixel Game Engine Android Native Activity 2.2.6</Description>
+    <ProjectType>VC</ProjectType>
+    <TemplateID>OLCPGEMobile.2.0.NativeActivity.DLL</TemplateID>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>OLCPGEMobileAndroidNative</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>CPPPhoneDynamic.ico</Icon>
+    <Hidden>true</Hidden>
+  </TemplateData>
+  <TemplateContent PreferedSolutionConfiguration="Debug|ARM" BuildOnLoad="false">
+    <Project TargetFileName="$projectname$.vcxproj" File="OLCPGEMobileAndroidNative.vcxproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$.vcxproj.filters">OLCPGEMobileAndroidNative.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="main.cpp">main.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="android_native_app_glue.h">android_native_app_glue.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="olcPixelGameEngine_Mobile.h">olcPixelGameEngine_Mobile.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="miniaudio.h">miniaudio.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="olcPGEX_MiniAudio.h">olcPGEX_MiniAudio.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="sse2neon.h">sse2neon.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="stb_image.h">stb_image.h</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.VisualStudio.Android.Project,Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.Android.Wizard.NativeTemplateWizard</FullClassName>
+  </WizardExtension>
+</VSTemplate>

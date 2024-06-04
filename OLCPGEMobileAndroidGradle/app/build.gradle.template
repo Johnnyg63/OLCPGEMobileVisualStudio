@@ -1,0 +1,92 @@
+//////////////////////////////////////////////////////////////////
+// Pixel Game Engine Mobile Release 2.2.6,                      //
+// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// iOS Sensor NOT supported, coming soon                        //
+// Please report all bugs to https://discord.com/invite/WhwHUMV //
+// Or on Github: https://github.com/Johnnyg63					//
+//////////////////////////////////////////////////////////////////
+
+apply plugin: 'com.android.$(ConfigurationType)'
+
+android {
+    compileSdkVersion $(AndroidAPILevelNumber)
+    buildToolsVersion '$(AndroidBuildToolsVersion)'
+
+    defaultConfig.with {
+        $(ApplicationId)
+        minSdkVersion 21
+        targetSdkVersion $(AndroidAPILevelNumber)
+    }
+
+     //see: https://developer.android.com/studio/publish/app-signing#sign_release
+    signingConfigs {
+    release {
+        keyAlias 'YourAppKey'
+        keyPassword 'somePassword'
+        storeFile file('appkeyfile.jks')
+        storePassword 'somePassword'
+        }
+    } 
+
+    compileOptions.with {
+         // Default VERSION_1_7
+        sourceCompatibility=JavaVersion.VERSION_1_8
+        targetCompatibility=JavaVersion.VERSION_1_8
+
+        // Un Comment as required
+        //sourceCompatibility=JavaVersion.VERSION_1_6
+        //targetCompatibility=JavaVersion.VERSION_1_6
+        //sourceCompatibility=JavaVersion.VERSION_1_7
+        //targetCompatibility=JavaVersion.VERSION_1_7
+        //sourceCompatibility JavaVersion.VERSION_11
+        //targetCompatibility JavaVersion.VERSION_11
+    }
+
+     buildTypes {
+        release {
+            // KeyValue Pairs if required
+            //manifestPlaceholders Akey: 'Avalue'   
+            minifyEnabled false     // Default False
+            multiDexEnabled false   // Default false
+            debuggable false        // Default false its not really possible to debug a Released App
+            jniDebuggable false     // Default false its not really possible to debug a Released App
+
+            // Edit the proguard-rules.pro as required
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Signing is force to use the debug Certificate,
+            // you will need to update this to signingConfigs.release when you deploy it to Google App Store
+            // See: https://developer.android.com/studio/publish/app-signing
+            // signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
+
+            // Edit if required, otherwise leave the Gradle/Android take care of it
+            //applicationIdSuffix 'SomeAppliactionIDSuffix'
+
+            // Edit is if required, otherwise leave the Gradle/Android take care of it
+            //versionNameSuffix 'SomeVersionNameSuffix'
+        }
+    }
+
+    flavorDimensions 'cpuArch'
+    productFlavors {
+        create("arm7") {
+            ndk.abiFilters.add("armeabi-v7a")
+        }
+        create("arm8") {
+            ndk.abiFilters.add("arm64-v8a")
+        }
+        create("x86") {
+            ndk.abiFilters.add("x86")
+        }
+        create("x86-64") {
+            ndk.abiFilters.add("x86_64")
+        }
+        create("all")
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    $(AarDependencies)
+}
