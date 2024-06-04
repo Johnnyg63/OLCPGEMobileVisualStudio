@@ -27,6 +27,9 @@
         <ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
           OLCPGEMobileAndroidNative\OLCPGEMobileAndroidNative.vstemplate
         </ProjectTemplateLink>
+		<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">
+			OLCPGEMobileShared\OLCPGEMobileShared.vstemplate
+		</ProjectTemplateLink>
       </SolutionFolder>
     </ProjectCollection>
   </TemplateContent>
