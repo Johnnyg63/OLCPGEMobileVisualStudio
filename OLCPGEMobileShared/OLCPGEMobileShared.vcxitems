@@ -1,26 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="Globals">
-    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{$ext_guid6$}</ItemsProjectGuid>
-  </PropertyGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)miniaudio.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)olcPGEX_MiniAudio.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)olcPixelGameEngine_Mobile.h" />
-	  <ClInclude Include="$(MSBuildThisFileDirectory)sse2neon.h" />
-	  <ClInclude Include="$(MSBuildThisFileDirectory)stb_image.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
-  </ItemGroup>
+	<PropertyGroup Label="Globals">
+		<MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<HasSharedItems>true</HasSharedItems>
+		<ItemsProjectGuid>{$ext_guid6$}</ItemsProjectGuid>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+		</ClCompile>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ProjectCapability Include="SourceItemsFromImports" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="$(MSBuildThisFileDirectory)miniaudio.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)olcPGEX_MiniAudio.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)olcPixelGameEngine_Mobile.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)sse2neon.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)stb_image.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)ios_native_app_glue.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)EGL\egl.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)EGL\eglext.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)EGL\eglext_angle.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)EGL\eglplatform.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)EGL\Platform.h" />
+		<ClInclude Include="$(MSBuildThisFileDirectory)KHR\khrplatform.h" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+	</ItemGroup>
 </Project>

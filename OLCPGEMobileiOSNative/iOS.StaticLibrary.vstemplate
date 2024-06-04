@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+	<TemplateData>
+		<Name>iOS.StaticLibrary</Name>
+		<ProjectType>VC</ProjectType>
+		<TemplateID>Microsoft.MDD.VC.OpenGLESApplication2.iOS.StaticLibrary</TemplateID>
+		<SortOrder>1000</SortOrder>
+		<Icon>OpenGLES2CrossPlatformProjectTemplate.ico</Icon>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>iOS.StaticLibrary</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<Hidden>true</Hidden>
+	</TemplateData>
+	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
+		<Project TargetFileName="$ext_projectname$.iOS.StaticLibrary.vcxproj" File="iOS.StaticLibrary.vcxproj" ReplaceParameters="true">
+			<ProjectItem TargetFileName="$ext_projectname$.iOS.StaticLibrary.vcxproj.filters">iOS.StaticLibrary.vcxproj.filters</ProjectItem>
+			<ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
+		</Project>
+	</TemplateContent>
+</VSTemplate>

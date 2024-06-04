@@ -30,6 +30,9 @@
 		<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">
 			OLCPGEMobileShared\OLCPGEMobileShared.vstemplate
 		</ProjectTemplateLink>
+		  <ProjectTemplateLink ProjectName="$projectname$.iOS" CopyParameters="true">
+			  OLCPGEMobileiOSNative\iOS.StaticLibrary.vstemplate
+		  </ProjectTemplateLink>
       </SolutionFolder>
     </ProjectCollection>
   </TemplateContent>

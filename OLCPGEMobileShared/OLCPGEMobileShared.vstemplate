@@ -15,12 +15,22 @@
 	</TemplateData>
 	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
 		<Project TargetFileName="$ext_projectname$.Shared.vcxitems" File="OLCPGEMobileShared.vcxitems" ReplaceParameters="true">
+
+			<ProjectItem TargetFileName="$ext_projectname$.Sharded.vcxproj.filters">OLCPGEMobileShared.vcxproj.filters</ProjectItem>
 			<ProjectItem OpenInEditor="true" ReplaceParameters="true">main.cpp</ProjectItem>
+			<ProjectItem>ios_native_app_glue.h</ProjectItem>
 			<ProjectItem>miniaudio.h</ProjectItem>
 			<ProjectItem>olcPGEX_MiniAudio.h</ProjectItem>
 			<ProjectItem>olcPixelGameEngine_Mobile.h</ProjectItem>
 			<ProjectItem>sse2neon.h</ProjectItem>
 			<ProjectItem>stb_image.h</ProjectItem>
+			<ProjectItem>EGL/egl.h</ProjectItem>
+			<ProjectItem>EGL/eglext.h</ProjectItem>
+			<ProjectItem>EGL/eglext_angle.h</ProjectItem>
+			<ProjectItem>EGL/eglplatform.h</ProjectItem>
+			<ProjectItem>EGL/Platform.h</ProjectItem>
+			<ProjectItem>KHR/khrplatform.h</ProjectItem>
+
 		</Project>
 	</TemplateContent>
 </VSTemplate>
