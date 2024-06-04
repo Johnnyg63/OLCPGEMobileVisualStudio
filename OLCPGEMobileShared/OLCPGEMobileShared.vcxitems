@@ -14,11 +14,13 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SimpleRenderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)miniaudio.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)olcPGEX_MiniAudio.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)olcPixelGameEngine_Mobile.h" />
+	  <ClInclude Include="$(MSBuildThisFileDirectory)sse2neon.h" />
+	  <ClInclude Include="$(MSBuildThisFileDirectory)stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SimpleRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
   </ItemGroup>
 </Project>
