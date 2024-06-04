@@ -13,7 +13,7 @@
     <Icon>CPPPhoneDynamic.ico</Icon>
     <Hidden>true</Hidden>
   </TemplateData>
-  <TemplateContent PreferedSolutionConfiguration="Debug|ARM" BuildOnLoad="false">
+  <TemplateContent PreferedSolutionConfiguration="Debug|ARM64" BuildOnLoad="false">
     <Project TargetFileName="$projectname$.vcxproj" File="OLCPGEMobileAndroidNative.vcxproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">OLCPGEMobileAndroidNative.vcxproj.filters</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="android_native_app_glue.h">android_native_app_glue.h</ProjectItem>

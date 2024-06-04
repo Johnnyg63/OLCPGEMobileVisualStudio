@@ -18,7 +18,7 @@
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
     <Icon>OpenGLESApplication.ico</Icon>
   </TemplateData>
-  <TemplateContent PreferedSolutionConfiguration="Debug|ARM">
+  <TemplateContent PreferedSolutionConfiguration="Debug|ARM64">
     <ProjectCollection>
       <ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
         OLCPGEMobileAndroidGradle\OLCPGEMobileAndroidGradle.vstemplate

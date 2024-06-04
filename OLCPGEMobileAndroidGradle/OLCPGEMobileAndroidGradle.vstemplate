@@ -13,7 +13,7 @@
     <Icon>androidproj.ico</Icon>
     <Hidden>true</Hidden>
   </TemplateData>
-  <TemplateContent PreferedSolutionConfiguration="Debug|ARM" BuildOnLoad="true">
+  <TemplateContent PreferedSolutionConfiguration="Debug|ARM64" BuildOnLoad="true">
     <Project TargetFileName="$projectname$.androidproj" File="Android.androidproj" ReplaceParameters="true">
       <ProjectItem>gradlew.bat</ProjectItem>
       <ProjectItem>build.gradle.template</ProjectItem>
