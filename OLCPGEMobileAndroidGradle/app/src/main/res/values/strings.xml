@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- Release 2.2.6 -->
-
-<resources>
-    <string name="app_name">$ext_projectname$</string>
-	<string name="pge_mobile_version">2.2.6</string>
-</resources>
