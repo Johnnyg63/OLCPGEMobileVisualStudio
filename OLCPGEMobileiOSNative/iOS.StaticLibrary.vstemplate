@@ -13,10 +13,10 @@
 		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
 		<Hidden>true</Hidden>
 	</TemplateData>
-	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
+	<TemplateContent PreferedSolutionConfiguration="Debug|ARM64">
 		<Project TargetFileName="$ext_projectname$.iOS.StaticLibrary.vcxproj" File="iOS.StaticLibrary.vcxproj" ReplaceParameters="true">
 			<ProjectItem TargetFileName="$ext_projectname$.iOS.StaticLibrary.vcxproj.filters">iOS.StaticLibrary.vcxproj.filters</ProjectItem>
-			<ProjectItem ReplaceParameters="false" TargetFileName="pch.h">pch.h</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="pch.h">pch.h</ProjectItem>
 		</Project>
 	</TemplateContent>
 </VSTemplate>

@@ -120,7 +120,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -129,7 +129,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -138,7 +138,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -147,7 +147,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -165,7 +165,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -174,10 +174,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
-      <CppLanguageStandard>c++11</CppLanguageStandard>
+      <CppLanguageStandard>gnu++17</CppLanguageStandard>
       <PreprocessorDefinitions>GL_GLEXT_PROTOTYPES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+	<ItemGroup>
+		<ClInclude Include="pch.h" />
+	</ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
