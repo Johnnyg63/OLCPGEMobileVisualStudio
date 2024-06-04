@@ -15,8 +15,7 @@
 	</TemplateData>
 	<TemplateContent PreferedSolutionConfiguration="Debug|ARM">
 		<Project TargetFileName="$ext_projectname$.Shared.vcxitems" File="OLCPGEMobileShared.vcxitems" ReplaceParameters="true">
-
-			<ProjectItem TargetFileName="$ext_projectname$.Sharded.vcxproj.filters">OLCPGEMobileShared.vcxproj.filters</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="$ext_projectname$.Shared.vcxitems.filters">OLCPGEMobileShared.vcxproj.filters</ProjectItem>
 			<ProjectItem OpenInEditor="true" ReplaceParameters="true">main.cpp</ProjectItem>
 			<ProjectItem>ios_native_app_glue.h</ProjectItem>
 			<ProjectItem>miniaudio.h</ProjectItem>
