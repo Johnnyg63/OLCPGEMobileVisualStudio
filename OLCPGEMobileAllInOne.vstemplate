@@ -1,0 +1,42 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
+	<TemplateData>
+		<Name>OLC Pixel Game Engine Mobile All In One 2.2.7</Name>
+		<Description>This project template will create an All In One project where you can create games using the OLC Pixel Game Engine 2.0 for Android and iOS.</Description>
+		<ProjectType>VC</ProjectType>
+		<TemplateID>OLCPGEMobile.2.0.AllInOneProjectGroup</TemplateID>
+		<SortOrder>1000</SortOrder>
+		<LanguageTag>Cpp</LanguageTag>
+		<PlatformTag>Android</PlatformTag>
+		<PlatformTag>iOS</PlatformTag>
+		<CreateNewFolder>true</CreateNewFolder>
+		<CreateInPlace>true</CreateInPlace>
+		<DefaultName>MyPGEMobileGameName</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+		<PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+		<Icon>OpenGLESApplication.ico</Icon>
+	</TemplateData>
+	<TemplateContent PreferedSolutionConfiguration="Debug|ARM64">
+		<ProjectCollection>
+			<SolutionFolder Name="OLCPGEMobile" CreateOnDisk="true">
+				<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+					OLCPGEMobileAndroidNative\OLCPGEMobileAndroidNative.vstemplate
+				</ProjectTemplateLink>
+				<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">
+					OLCPGEMobileShared\OLCPGEMobileShared.vstemplate
+				</ProjectTemplateLink>
+				<ProjectTemplateLink ProjectName="$projectname$.iOS.StaticLibrary" CopyParameters="true">
+					OLCPGEMobileiOSNative\iOS.StaticLibrary.vstemplate
+				</ProjectTemplateLink>
+			</SolutionFolder>
+			<ProjectTemplateLink ProjectName="$projectname$.iOS.Application" CopyParameters="true">
+				OLCPGEMobileiOSApplication\iOS.Application.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
+				OLCPGEMobileAndroidGradle\OLCPGEMobileAndroidGradle.vstemplate
+			</ProjectTemplateLink>
+		</ProjectCollection>
+	</TemplateContent>
+</VSTemplate>
