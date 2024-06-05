@@ -27,10 +27,13 @@
 				<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">
 					OLCPGEMobileShared\OLCPGEMobileShared.vstemplate
 				</ProjectTemplateLink>
-				<ProjectTemplateLink ProjectName="$projectname$.iOS" CopyParameters="true">
+				<ProjectTemplateLink ProjectName="$projectname$.iOS.StaticLibrary" CopyParameters="true">
 					OLCPGEMobileiOSNative\iOS.StaticLibrary.vstemplate
 				</ProjectTemplateLink>
 			</SolutionFolder>
+			<ProjectTemplateLink ProjectName="$projectname$.iOS.Application" CopyParameters="true">
+				OLCPGEMobileiOSApplication\iOS.Application.vstemplate
+			</ProjectTemplateLink>
 			<ProjectTemplateLink ProjectName="$projectname$" CopyParameters="true">
 				OLCPGEMobileAndroidGradle\OLCPGEMobileAndroidGradle.vstemplate
 			</ProjectTemplateLink>

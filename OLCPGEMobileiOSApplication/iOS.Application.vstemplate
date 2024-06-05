@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>iOS.Application</Name>
+    <ProjectType>VC</ProjectType>
+    <TemplateID>Microsoft.MDD.VC.OpenGLESApplication2.iOS.Application</TemplateID>
+    <SortOrder>1000</SortOrder>
+    <Icon>OpenGLES2CrossPlatformProjectTemplate.ico</Icon>
+    <CreateNewFolder>true</CreateNewFolder>
+    <CreateInPlace>true</CreateInPlace>
+    <DefaultName>iOS.Application</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
+  </TemplateData>
+  <TemplateContent PreferedSolutionConfiguration="Debug|ARM">
+    <Project TargetFileNameExact="$ext_projectname$.iOS.Application.xcodeproj\project.pbxproj" File="project.pbxproj" ReplaceParameters="true">
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\Base.lproj\Main.storyboard">Main.storyboard</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\Images.xcassets\AppIcon.appiconset\Contents.json">Contents.json</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\AppDelegate.h">AppDelegate.h</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\AppDelegate.mm">AppDelegate.mm</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\GameViewController.h">GameViewController.h</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\GameViewController.mm" ReplaceParameters="true">GameViewController.mm</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\Info.plist">Info.plist</ProjectItem>
+      <ProjectItem TargetFileName="$ext_projectname$.iOS\main.mm">main.mm</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
