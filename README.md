@@ -1,9 +1,23 @@
-# OLC Pixel Game Engine Mobile Android and iOS Project Template 2.2.7
+# OLC Pixel Game Engine Mobile All In One 2.2.7
+# For Android and iOS
 
 <p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a>!!! </b></p>
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.7 for Android Studio</a></i></p>
 <p>For Visual Studio Android (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a></i></p>
-<p><i>Please see installation steps for Windows Visual Studio towards the bottom of this page</i></p>
+<hr/>
+<p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
+<p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b><br/></p> 
+<p><i>Visual Studio Android & iOS template project coming soon.</i></p>
+<p>NOTE: iOS Beta 2.2.7 does not yet support sensors<br/>
+<br/> If you wish to deploy to an iOS device (iPhone or iPad) you will need access to an Apple Mac Computer and an iPhone.
+	<br/> Please follow these steps on how to setup your Mac xCode to work with Visual Studio: https://learn.microsoft.com/en-us/cpp/cross-platform/install-and-configure-tools-to-build-using-ios?view=msvc-170<br/>
+	<br/> <i>I don't make the rulez about iOS... Apple does</i>
+	<br/> <b><i>...however anything you create to work on PGE Mobile Android will work on the PGE Mobile iOS</i></b>
+</p>
+<hr/>
+<p><i>Please see installation steps for Windows Visual Studio towards the bottom of this page</i>
+
+</p>
 <hr/>
 <p><b><i>!!! IMPORTANT NOTICE!!!</i></b></p>
 <p>There was a step missing from the below instructions, I did not know until today that folks where having issues with the template<br/>
@@ -31,13 +45,7 @@
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/eea76342-054c-4593-a6fb-2a6f213ec735' />
 </p>
 <hr/>
-<p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
-<p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b></p>
-. ISSUE 
-<p><i>Visual Studio Android & iOS template project coming soon.</i></p>
-<p><i>Apple xCode template project coming soon.</i></p>
-<p>NOTE: iOS Beta 2.2.7 does not yet support sensors</p>
-<hr/>
+
 
 
 <p><b><i>WE NEED YOUR FEEDBACK PLEASE</i></b></p>
@@ -58,19 +66,6 @@
  <br/>
  John (aka Johnnyg63)
 </i></p>
-<hr/>
-
-
-<p><b>!!! Android Engine Updates !!!</b></p>
-<p><b>Supports olcPGEX_MiniAudio.h</b><br/><a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138</p>
-<p><b>Supports the latest Android Phones and GPUs</b><br/> SDK 21 --> 33 and beyond</p>
-<p>For Android we needed to split the renderer into Renderer_OGLES10 and Renderer_OGLES20. Although most of the code is pretty much the same
-	there maybe updates in the future to support newer & newer Android GPUs coming to the market and I didn't want to end up in a mess of conditional
-	statements... well not yet anyway.</p>
-	<p>The olc_ConfigureSystem() manages this:<br/>
-	<b>Renderer_OGLES10:</b> Support for SDK 21 - 25 This code better supports ARM devices, however ARM64 will work just fine with it.<br/>
-	<b>Renderer_OGLES20:</b> Support for SDK 26 - 33 and beyond. This code is really for ARM64 and the latest GPUs on the market, also for iOS support.<br/>
-	You can adjust the SDK value in olc_ConfigureSystem() as you require </p>
 <hr/>
 
 <p><b><i>!!! Visual Studio Installation !!!</i></b></p>
@@ -100,17 +95,17 @@
 </p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android/blob/master/OLCPGEMobileAndroidProjectRelease226.zip">OLCPGEMobileAndroidProjectRelease226.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/723490c9-f09d-461b-8083-e8ec3c1f04bc)' /></p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/blob/master/OLCPGEMobileAllInOne227.zip">OLCPGEMobileAllInOne227.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p><<img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/b90e4b66-66eb-48b4-b4cd-58ef439efecd' /> /></p>
 <p>9: Put your Android phone into <a href="https://developer.android.com/studio/debug/dev-options#enable"> Development Mode</a> and enable <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">USB Debugging.</a></p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile 2.2.7 for Android</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/224dd051-780b-4827-8c49-95416bbe5398' /></p>
+<p>12: Select OLC Pixel Game Engine Mobile All In One 2.2.7</p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/91c01278-fcce-493b-a2a8-acccc5277c2e' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
-<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/2f69298f-8dac-4119-abc7-31752b3e37ef' /></p>
+<p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/03f0cf23-194f-4b41-b761-7b680ba37cc2' /></p>
 <p>Please Note: Keep in mind that you need see your device name appear near the solution configuration, if not, it may not build</p>
 <p><img src='https://github.com/ZikriBen/OLCPGEMobileVisualStudio/assets/57237262/a6d9f14f-d39c-4b82-b837-6d7c53c35097' /></p>
 <p>14: First time build: <br/>
@@ -121,6 +116,8 @@
 </p>
 <p>15: Connect your phone and rebuild the solution, enjoy OLC Pixel Game Engine Mobile 2.0!</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/b5e9e72e-73cf-4fe1-ba66-7df31790fce9' /></p>
+
+<p>For iOS Setup please follow this steps here: <a href='https://learn.microsoft.com/en-us/cpp/cross-platform/install-and-configure-tools-to-build-using-ios?view=msvc-170'>Teach me</a> </p>
 
 <hr/>
 
@@ -169,7 +166,6 @@
 	
 </p>
 <p>
-	<b>iOS port completed. Click this link TBA<br/>
-		For the moment get developing on Android, as anything you develop for Android will work on the iOS</b>
+
 </p>
 
