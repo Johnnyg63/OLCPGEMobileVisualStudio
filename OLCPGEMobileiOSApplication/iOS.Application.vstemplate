@@ -25,7 +25,7 @@
 			<ProjectItem TargetFileName="$ext_projectname$.iOS\Info.plist">Info.plist</ProjectItem>
 			<ProjectItem TargetFileName="$ext_projectname$.iOS\main.mm">main.mm</ProjectItem>
 			<ProjectItem TargetFileName="$ext_projectname$.iOS\ios_native_app_glue.h">ios_native_app_glue.h</ProjectItem>
-			<ProjectItem TargetFileName="$ext_projectname$.iOS\ios_native_app_glue.cpp">ios_native_app_glue.cpp</ProjectItem>
+			<ProjectItem TargetFileName="$ext_projectname$.iOS\ios_native_app_glue.cpp" ReplaceParameters="true">ios_native_app_glue.cpp</ProjectItem>
 
 			<ProjectItem TargetFileName="$ext_projectname$.iOS\assets\images\north_south_east_west_logo.png">north_south_east_west_logo.png</ProjectItem>
 			<ProjectItem TargetFileName="$ext_projectname$.iOS\assets\images\car_top.png">car_top.png</ProjectItem>

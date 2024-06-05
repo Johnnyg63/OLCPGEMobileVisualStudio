@@ -43,7 +43,6 @@
 
 #include <unistd.h>
 #include <cstdint>
- //#include "main.cpp"
 
 
 class IOSNativeApp

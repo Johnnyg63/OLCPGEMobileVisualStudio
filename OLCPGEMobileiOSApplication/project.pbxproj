@@ -230,13 +230,13 @@
 			isa = PBXFileReference;
 			name = ios_native_app_glue.h;
 			path = ios_native_app_glue.h;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		e6e543d08a664611adaa284c = {
 			isa = PBXFileReference;
 			name = ios_native_app_glue.cpp;
 			path = ios_native_app_glue.cpp;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 /* End PBXFileReference section */
 
