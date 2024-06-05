@@ -1,6 +1,6 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.6,                      //
+// Pixel Game Engine Mobile Release 2.2.7,                      //
 // John Galvin aka Johnngy63: 03-Jun-2024                       //
 // iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -230,7 +230,7 @@ public:
         std::string sMessage = "OneLoneCoder.com";
         vecMessages.push_back(sMessage);
 
-        sMessage = "PGE Mobile Release 2.2.6";
+        sMessage = "PGE Mobile Release 2.2.7";
         vecMessages.push_back(sMessage);
 
         sMessage = "Now With iOS Support";

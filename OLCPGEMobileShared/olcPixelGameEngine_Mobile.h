@@ -6,7 +6,7 @@
     olcPixelGameEngine_Mobile.h
 
     //////////////////////////////////////////////////////////////////
-    // Pixel Game Engine Mobile Release 2.2.6,                      //
+    // Pixel Game Engine Mobile Release 2.2.7,                      //
     // John Galvin aka Johnngy63: 03-Jun-2024                       //
     // New Support for iOS Beta, iOS sensors not supported yet      //
     // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -342,7 +342,7 @@ int ios_main(IOSNativeApp* pIOSNatvieApp)
 #define OLC_PGE_DEF
 
 // Production release
-#define PGE_MOB_VER 226
+#define PGE_MOB_VER 227
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -6554,8 +6554,8 @@ namespace olc {
                 DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
             }
 
-        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.6");
-        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.6", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.7");
+        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.7", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
         vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2024.");
         DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2024", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -7405,7 +7405,8 @@ namespace olc {
         // We need some locks as the sensors can sample to 10000 times a second
         // This is way to fast for our engine
         // By adding some locks and cache ensure clear stable values for the engine
-        mutexTouchPoints.lock();
+        // Removed locks because why not, lets let the engine rip!!!
+        //mutexTouchPoints.lock();
 
         ////// Cache mouse coordinates so they remain consistent during frame
 
@@ -7426,7 +7427,7 @@ namespace olc {
 
         vMousePos = vMousePosCache;
 
-        mutexTouchPoints.unlock();
+        //mutexTouchPoints.unlock();
 
         nMouseWheelDelta = nMouseWheelDeltaCache;
         nMouseWheelDeltaCache = 0;
