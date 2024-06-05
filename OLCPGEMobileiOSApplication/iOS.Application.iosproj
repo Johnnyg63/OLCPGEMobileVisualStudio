@@ -93,6 +93,8 @@
     <Content Include="$ext_projectname$.iOS\GameViewController.mm" />
     <Content Include="$ext_projectname$.iOS\Info.plist" />
     <Content Include="$ext_projectname$.iOS\main.mm" />
+	<Content Include="$ext_projectname$.iOS\ios_native_app_glue.h" />
+	<Content Include="$ext_projectname$.iOS\ios_native_app_glue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Pbxproj Include="$ext_projectname$.iOS.Application.xcodeproj\project.pbxproj" />
