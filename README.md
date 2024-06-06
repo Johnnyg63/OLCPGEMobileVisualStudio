@@ -1,9 +1,16 @@
 # OLC Pixel Game Engine Mobile All In One 2.2.7
 # For Android and iOS
 
+<p><b><i>!!! NOW EVEN FASTER !!!</i></b></p>
+
+<p><b>Supports: Windows, Visual Studio 2019-2022, for Android and iOS Development </b></p>
+<p><b>This project supports Android and iOS devices</b><br/> Android SDK 21 --> 33 and beyond, iOS 13.5 --> 17.2 and beyond <br><br/>
+ A super big <b><i>THANK YOU</i></b> to <a href='https://github.com/vitoralmeidasilva'>@VasCoder</a> without your testing this would not have been possible!
+</p>
+
 <p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a>!!! </b></p>
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.7 for Android Studio</a></i></p>
-<p>For Visual Studio Android (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a></i></p>
+<p>For Visual Studio Android Only (Windows) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a></i></p>
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
 <p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b><br/></p> 
