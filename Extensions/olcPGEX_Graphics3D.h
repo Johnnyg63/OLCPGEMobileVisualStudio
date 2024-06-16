@@ -13,6 +13,7 @@
 	+-------------------------------------------------------------+
 	|         OneLoneCoder Pixel Game Engine Extension            |
 	|                    3D Rendering - v0.5                      |
+	|                    PGE Mobile 2.0                           |
 	+-------------------------------------------------------------+
 
 	What is this?
@@ -136,34 +137,12 @@ namespace olc
 			float m[4][4] = { 0 };
 		};
 
-#if defined (__ANDROID__)
-		struct mesh
-		{
-			std::vector<triangle> tris;
 
-			/// <summary>
-			/// Loads the object file from the Assets (APK) compressed folder
-			/// </summary>
-			/// <param name="sAssestFilePath">Full file path name exculding the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
-			/// <returns>SUCCESS: true, FAIL: false</returns>
-			bool LoadOBJFile(std::string sAssestFilePath);
-
-			/// <summary>
-			/// Loads the object file from the selected app storage (eType: FileHander::INTERNAL, EXTERNAL, PUBLIC)
-			/// </summary>
-			/// <param name="sFileName">filename with leading "/": example "/unitcube.obj", "/savedunitcube.obj"</param>
-			/// <param name="eType">FileHander::INTERNAL, EXTERNAL, PUBLIC</param>
-			/// <returns>SUCCESS: true, FAIL: false</returns>
-			bool LoadOBJFile(std::string sFilename, olc::FileHandler::StorageType eType);
-		};
-#else
 		struct mesh
 		{
 			std::vector<triangle> tris;
 			bool LoadOBJFile(std::string sFilename, bool bHasTexture = false);
 		};
-#endif
-
 
 		class Math
 		{
@@ -237,8 +216,9 @@ namespace olc
 			olc::GFX3D::mat4x4 matProj;
 			olc::GFX3D::mat4x4 matView;
 			olc::GFX3D::mat4x4 matWorld;
-			olc::Sprite* sprTexture;
-			//olc::GFX3D::MipMap *sprMipMap;
+			olc::Sprite* sprTexture = nullptr; // John Galvin: Ensures no errors when sampling
+			olc::Decal* decTexture = nullptr;
+			//olc::GFX3D::MipMap *sprMipMap;xqde0
 			//bool bUseMipMap;
 			float fViewX;
 			float fViewY;
@@ -283,7 +263,10 @@ namespace olc
 		//inline static void DrawSprite(olc::Sprite *sprite, olc::GFX2D::Transform2D &transform);
 
 	private:
-		static float* m_DepthBuffer;
+		// Static is evil folks
+		//static float* m_DepthBuffer;
+		static std::vector<float> vecDepthBuffer;
+
 	};
 }
 
@@ -546,10 +529,10 @@ namespace olc
 
 		// Return signed shortest distance from point to plane, plane normal must be normalised
 		auto dist = [&](vec3d& p)
-		{
-			vec3d n = Math::Vec_Normalise(p);
-			return (plane_n.x * p.x + plane_n.y * p.y + plane_n.z * p.z - Math::Vec_DotProduct(plane_n, plane_p));
-		};
+			{
+				vec3d n = Math::Vec_Normalise(p);
+				return (plane_n.x * p.x + plane_n.y * p.y + plane_n.z * p.z - Math::Vec_DotProduct(plane_n, plane_p));
+			};
 
 		// Create two temporary storage arrays to classify points either side of plane
 		// If distance sign is positive, point lies on "inside" of plane
@@ -682,18 +665,28 @@ namespace olc
 	{
 		// NOTE: olc Pixel Game Engine Mobile will draw this triangle using SIMD_NEON (ARM) || SIMD_SSE (x86)
 		pge->FillTriangle((int32_t)tri.p[0].x, (int32_t)tri.p[0].y, (int32_t)tri.p[1].x, (int32_t)tri.p[1].y, (int32_t)tri.p[2].x, (int32_t)tri.p[2].y, tri.col[0]);
+
 	}
 
 	void GFX3D::DrawTriangleWire(olc::GFX3D::triangle& tri, olc::Pixel col)
 	{
-		pge->DrawTriangle((int32_t)tri.p[0].x, (int32_t)tri.p[0].y, (int32_t)tri.p[1].x, (int32_t)tri.p[1].y, (int32_t)tri.p[2].x, (int32_t)tri.p[2].y, col);
+
+		pge->DrawTriangle((int32_t)tri.p[0].x, (int32_t)tri.p[0].y,
+			(int32_t)tri.p[1].x, (int32_t)tri.p[1].y,
+			(int32_t)tri.p[2].x, (int32_t)tri.p[2].y, col);
+
+
 	}
+
 
 	void GFX3D::TexturedTriangle(int x1, int y1, float u1, float v1, float w1,
 		int x2, int y2, float u2, float v2, float w2,
 		int x3, int y3, float u3, float v3, float w3, olc::Sprite* spr)
 
 	{
+
+		size_t fPixelPos = 0;
+
 		if (y2 < y1)
 		{
 			std::swap(y1, y2);
@@ -786,13 +779,20 @@ namespace olc
 					tex_u = (1.0f - t) * tex_su + t * tex_eu;
 					tex_v = (1.0f - t) * tex_sv + t * tex_ev;
 					tex_w = (1.0f - t) * tex_sw + t * tex_ew;
-					if (tex_w > m_DepthBuffer[i * pge->ScreenWidth() + j])
+
+					// Some protection for off screen pixels
+					if (vecDepthBuffer.empty()) continue;
+					fPixelPos = (i * pge->ScreenWidth() + j);
+					if (fPixelPos >= vecDepthBuffer.size()) continue;
+
+
+					if (tex_w > vecDepthBuffer[i * pge->ScreenWidth() + j])
 					{
 						/*if (bMipMap)
 							pge->Draw(j, i, ((olc::GFX3D::MipMap*)spr)->Sample(tex_u / tex_w, tex_v / tex_w, tex_w));
 						else*/
 						if (pge->Draw(j, i, spr != nullptr ? spr->Sample(tex_u / tex_w, tex_v / tex_w) : olc::GREY))
-							m_DepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
+							vecDepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
 					}
 					t += tstep;
 				}
@@ -850,13 +850,13 @@ namespace olc
 					tex_v = (1.0f - t) * tex_sv + t * tex_ev;
 					tex_w = (1.0f - t) * tex_sw + t * tex_ew;
 
-					if (tex_w > m_DepthBuffer[i * pge->ScreenWidth() + j])
+					if (tex_w > vecDepthBuffer[i * pge->ScreenWidth() + j])
 					{
 						/*if(bMipMap)
 							pge->Draw(j, i, ((olc::GFX3D::MipMap*)spr)->Sample(tex_u / tex_w, tex_v / tex_w, tex_w));
 						else*/
 						if (pge->Draw(j, i, spr != nullptr ? spr->Sample(tex_u / tex_w, tex_v / tex_w) : olc::GREY))
-							m_DepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
+							vecDepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
 					}
 					t += tstep;
 				}
@@ -870,343 +870,24 @@ namespace olc
 
 	}
 
-	float* GFX3D::m_DepthBuffer = nullptr;
+	//float* GFX3D::m_DepthBuffer = nullptr;
+	std::vector<float> GFX3D::vecDepthBuffer;
 
 	void GFX3D::ConfigureDisplay()
 	{
-		m_DepthBuffer = new float[pge->ScreenWidth() * pge->ScreenHeight()] { 0 };
+		int32_t nBufferSize = pge->ScreenWidth() * pge->ScreenHeight() * sizeof(float);
+		vecDepthBuffer.resize(nBufferSize);
+		memset(vecDepthBuffer.data(), 0, vecDepthBuffer.size());
+
+		//m_DepthBuffer = new float[pge->ScreenWidth() * pge->ScreenHeight()] { 0 };
 	}
 
 
 	void GFX3D::ClearDepth()
 	{
-		memset(m_DepthBuffer, 0, pge->ScreenWidth() * pge->ScreenHeight() * sizeof(float));
+		memset(vecDepthBuffer.data(), 0, vecDepthBuffer.size());
+		//memset(m_DepthBuffer, 0, pge->ScreenWidth() * pge->ScreenHeight() * sizeof(float));
 	}
-
-#if defined (__ANDROID__)
-	bool GFX3D::mesh::LoadOBJFile(std::string sAssestFilePath)
-	{
-		// Remove the leading "/" trust me no reads the comments lol
-		while (sAssestFilePath[0] == '/' && sAssestFilePath.length() > 0)
-		{
-			sAssestFilePath.erase(0, 1);
-		}
-
-		char line[128];
-
-		// Local cache of verts
-		std::vector<vec3d> verts;
-		std::vector<vec3d> norms;
-		std::vector<vec2d> texs;
-
-		std::vector<char> outBuffer;
-
-		android_app* MyAndroidApp = platform->ptrPGE->pOsEngine.app;
-		AAssetManager* pAssetManager = MyAndroidApp->activity->assetManager;
-		AAsset* pAsset = AAssetManager_open(pAssetManager, sAssestFilePath.c_str(), AASSET_MODE_BUFFER);
-		if (pAsset == nullptr) return rcode::NO_FILE;
-
-		off64_t fileLength = AAsset_getLength64(pAsset);				//	Holds size of searched file
-		if (fileLength < 1) return false;
-		off64_t remaining = AAsset_getRemainingLength64(pAsset);	//	Keeps track of remaining bytes to read
-		size_t Mb = 1000 * 1024;									//	1Mb is maximum Android chunk size for compressed assets, we do not use 1024*1024, best to keep a little under the MAX buffer
-		size_t currChunk;											//	Current Chuck of data we are processing
-
-		if (fileLength < Mb)
-		{
-			outBuffer.reserve(fileLength);
-		}
-		else
-		{
-			outBuffer.reserve(Mb);
-		}
-
-
-		int j = 0;
-		int filePos = 0;
-		char nextChar;
-		size_t bufferLengh = outBuffer.size();
-
-		while (remaining != 0)
-		{
-			// Set proper size for our next chunk
-			if (remaining >= Mb)
-			{
-				currChunk = Mb;
-			}
-			else
-			{
-				currChunk = remaining;
-			}
-			char chunk[currChunk];
-
-			// Read data chunk...
-			if (AAsset_read(pAsset, chunk, currChunk) > 0) // returns less than 0 on error
-			{
-				outBuffer.insert(outBuffer.end(), chunk, chunk + currChunk);
-				bufferLengh = outBuffer.size();
-
-				for (size_t i = 0; i < outBuffer.size(); i++)
-				{
-					nextChar = outBuffer[i];
-					line[j] = nextChar;
-					j++;
-
-					if (i + 1 >= bufferLengh)
-					{
-						int holdUp = 0;
-					}
-
-					// Check if we have a line or we are at the end of file
-					// the last line of the file may not have a \n
-					if (nextChar == '\n' || filePos + 1 >= fileLength)
-					{
-						// Job Done! lets process
-						std::stringstream s;
-						s << line;
-
-						char junk;
-
-						if (line[0] == 'v')
-						{
-							if (line[1] == 't')
-							{
-								vec2d v;
-								s >> junk >> junk >> v.x >> v.y;
-								//v.x = 1.0f - v.x;
-								v.y = 1.0f - v.y;
-								texs.push_back(v);
-							}
-							else if (line[1] == 'n')
-							{
-								vec3d v;
-								s >> junk >> junk >> v.x >> v.y >> v.z;
-								norms.push_back(v);
-							}
-							else
-							{
-								vec3d v;
-								s >> junk >> v.x >> v.y >> v.z;
-								verts.push_back(v);
-							}
-						}
-
-
-						/*if (!bHasTexture)
-						{
-							if (line[0] == 'f')
-							{
-								int f[3];
-								s >> junk >> f[0] >> f[1] >> f[2];
-								tris.push_back({ verts[f[0] - 1], verts[f[1] - 1], verts[f[2] - 1] });
-							}
-						}
-						else*/
-						{
-							if (line[0] == 'f')
-							{
-								s >> junk;
-
-								std::string tokens[9];
-								int nTokenCount = -1;
-								while (!s.eof())
-								{
-									char c = s.get();
-									if (c == ' ' || c == '/')
-									{
-										if (tokens[nTokenCount].size() > 0)
-										{
-											nTokenCount++;
-										}
-									}
-									else
-										tokens[nTokenCount].append(1, c);
-								}
-
-								tokens[nTokenCount].pop_back();
-
-								int stride = 1;
-								if (!texs.empty()) stride++;
-								if (!norms.empty()) stride++;
-
-								if (!texs.empty())
-								{
-									tris.push_back({
-										verts[stoi(tokens[0 * stride]) - 1],
-										verts[stoi(tokens[1 * stride]) - 1],
-										verts[stoi(tokens[2 * stride]) - 1],
-										texs[stoi(tokens[0 * stride + 1]) - 1],
-										texs[stoi(tokens[1 * stride + 1]) - 1],
-										texs[stoi(tokens[2 * stride + 1]) - 1],
-										olc::WHITE, olc::WHITE, olc::WHITE });
-								}
-								else
-								{
-									tris.push_back({
-										verts[stoi(tokens[0 * stride]) - 1],
-										verts[stoi(tokens[1 * stride]) - 1],
-										verts[stoi(tokens[2 * stride]) - 1],
-										olc::GFX3D::vec2d{0,0,0},
-										olc::GFX3D::vec2d{0,0,0},
-										olc::GFX3D::vec2d{0,0,0},
-										olc::WHITE, olc::WHITE, olc::WHITE });
-
-								}
-							}
-
-
-
-							// reset
-							j = 0;
-							memset(line, '\0', 128);
-
-						}
-
-					}
-
-					// update our current file position
-					filePos++;
-				}
-
-				// Reset buffer
-				outBuffer.clear();
-
-				remaining = AAsset_getRemainingLength64(pAsset);
-			}
-		}
-		AAsset_close(pAsset);
-
-		// Clean up
-		outBuffer.clear();
-
-		return true;
-	}
-
-	bool GFX3D::mesh::LoadOBJFile(std::string sFilename, olc::FileHandler::StorageType eType)
-	{
-		if (sFilename.length() < 1) return false;
-		if (sFilename[0] != '/') sFilename.insert(sFilename.begin(), '/');
-
-		std::string dataPath;
-		switch (eType)
-		{
-		case olc::FileHandler::INTERNAL:
-			dataPath = filehandler->GetInternalAppStorage();
-			break;
-		case olc::FileHandler::EXTERNAL:
-			dataPath = filehandler->GetExteralAppStorage();
-			break;
-		case olc::FileHandler::PUBLIC:
-			dataPath = filehandler->GetPublicAppStorage();
-			break;
-		default:
-			break;
-		}
-
-		// It the storage does not exist or file is too short return false, nothing we can do
-		if (dataPath.length() < 1) return false;
-
-		std::string objFile = dataPath + sFilename;
-
-		std::ifstream f(objFile);
-		if (!f.is_open()) return false;
-
-		// Local cache of verts
-		std::vector<vec3d> verts;
-		std::vector<vec3d> norms;
-		std::vector<vec2d> texs;
-
-		while (!f.eof())
-		{
-			char line[128];
-			f.getline(line, 128);
-
-			std::stringstream s;
-			s << line;
-
-			char junk;
-
-			if (line[0] == 'v')
-			{
-				if (line[1] == 't')
-				{
-					vec2d v;
-					s >> junk >> junk >> v.x >> v.y;
-					//v.x = 1.0f - v.x;
-					v.y = 1.0f - v.y;
-					texs.push_back(v);
-				}
-				else if (line[1] == 'n')
-				{
-					vec3d v;
-					s >> junk >> junk >> v.x >> v.y >> v.z;
-					norms.push_back(v);
-				}
-				else
-				{
-					vec3d v;
-					s >> junk >> v.x >> v.y >> v.z;
-					verts.push_back(v);
-				}
-			}
-
-			{
-				if (line[0] == 'f')
-				{
-					s >> junk;
-
-					std::string tokens[9];
-					int nTokenCount = -1;
-					while (!s.eof())
-					{
-						char c = s.get();
-						if (c == ' ' || c == '/')
-						{
-							if (tokens[nTokenCount].size() > 0)
-							{
-								nTokenCount++;
-							}
-						}
-						else
-							tokens[nTokenCount].append(1, c);
-					}
-
-					tokens[nTokenCount].pop_back();
-
-					int stride = 1;
-					if (!texs.empty()) stride++;
-					if (!norms.empty()) stride++;
-
-					if (!texs.empty())
-					{
-						tris.push_back({
-							verts[stoi(tokens[0 * stride]) - 1],
-							verts[stoi(tokens[1 * stride]) - 1],
-							verts[stoi(tokens[2 * stride]) - 1],
-							texs[stoi(tokens[0 * stride + 1]) - 1],
-							texs[stoi(tokens[1 * stride + 1]) - 1],
-							texs[stoi(tokens[2 * stride + 1]) - 1],
-							olc::WHITE, olc::WHITE, olc::WHITE });
-					}
-					else
-					{
-						tris.push_back({
-							verts[stoi(tokens[0 * stride]) - 1],
-							verts[stoi(tokens[1 * stride]) - 1],
-							verts[stoi(tokens[2 * stride]) - 1],
-							olc::GFX3D::vec2d{0,0,0},
-							olc::GFX3D::vec2d{0,0,0},
-							olc::GFX3D::vec2d{0,0,0},
-							olc::WHITE, olc::WHITE, olc::WHITE });
-
-					}
-				}
-			}
-		}
-		return true;
-	}
-
-#else
 
 	bool GFX3D::mesh::LoadOBJFile(std::string sFilename, bool bHasTexture)
 	{
@@ -1319,7 +1000,6 @@ namespace olc
 		return true;
 	}
 
-#endif
 
 
 	GFX3D::PipeLine::PipeLine()
@@ -1350,6 +1030,7 @@ namespace olc
 	void GFX3D::PipeLine::SetTexture(olc::Sprite* texture)
 	{
 		sprTexture = texture;
+		decTexture = new Decal(sprTexture);
 		//bUseMipMap = false;
 	}
 
@@ -1471,10 +1152,7 @@ namespace olc
 		int nTriangleDrawnCount = 0;
 
 		// Process Triangles
-		//for (auto &tri : triangles)
-//		omp_set_dynamic(0);
-//		omp_set_num_threads(4);
-//#pragma omp parallel for schedule(static)
+
 		for (int tx = nOffset; tx < nOffset + nCount; tx++)
 		{
 			GFX3D::triangle& tri = triangles[tx];
@@ -1713,6 +1391,9 @@ namespace olc
 		uint32_t nFlags)
 
 	{
+
+		size_t fPixelPos = 0.0f; // need some protection against pixels that are off screen
+
 		if (y2 < y1)
 		{
 			std::swap(y1, y2); std::swap(x1, x2); std::swap(u1, u2); std::swap(v1, v2);	std::swap(w1, w2); std::swap(c1, c2);
@@ -1849,6 +1530,13 @@ namespace olc
 					pixel_b = col_b;
 					pixel_a = col_a;
 
+					// Some protection for off screen pixels
+					if (vecDepthBuffer.empty()) continue;
+					fPixelPos = (i * pge->ScreenWidth() + j);
+					if (fPixelPos >= vecDepthBuffer.size()) continue;
+
+
+
 					if (nFlags & GFX3D::RENDER_TEXTURED)
 					{
 						if (spr != nullptr)
@@ -1863,9 +1551,10 @@ namespace olc
 
 					if (nFlags & GFX3D::RENDER_DEPTH)
 					{
-						if (tex_w > m_DepthBuffer[i * pge->ScreenWidth() + j])
+
+						if (tex_w > vecDepthBuffer[i * pge->ScreenWidth() + j])
 							if (pge->Draw(j, i, olc::Pixel(uint8_t(pixel_r * 1.0f), uint8_t(pixel_g * 1.0f), uint8_t(pixel_b * 1.0f), uint8_t(pixel_a * 1.0f))))
-								m_DepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
+								vecDepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
 					}
 					else
 					{
@@ -1964,6 +1653,10 @@ namespace olc
 					pixel_b = col_b;
 					pixel_a = col_a;
 
+					if (vecDepthBuffer.empty()) continue;
+					fPixelPos = (i * pge->ScreenWidth() + j);
+					if (fPixelPos >= vecDepthBuffer.size()) continue;
+
 					if (nFlags & GFX3D::RENDER_TEXTURED)
 					{
 						if (spr != nullptr)
@@ -1978,9 +1671,9 @@ namespace olc
 
 					if (nFlags & GFX3D::RENDER_DEPTH)
 					{
-						if (tex_w > m_DepthBuffer[i * pge->ScreenWidth() + j])
+						if (tex_w > vecDepthBuffer[i * pge->ScreenWidth() + j])
 							if (pge->Draw(j, i, olc::Pixel(uint8_t(pixel_r * 1.0f), uint8_t(pixel_g * 1.0f), uint8_t(pixel_b * 1.0f), uint8_t(pixel_a * 1.0f))))
-								m_DepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
+								vecDepthBuffer[i * pge->ScreenWidth() + j] = tex_w;
 					}
 					else
 					{
