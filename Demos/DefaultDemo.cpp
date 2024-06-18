@@ -1,7 +1,7 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile All In One Release 2.2.7,           //
-// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// Pixel Game Engine Mobile All In One Release 2.2.8            //
+// John Galvin aka Johnngy63: 18-Jun-2024                       //
 // New Support for iOS beta. iOS sensors not supported yet      //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
@@ -224,7 +224,7 @@ public:
         std::string sMessage = "OneLoneCoder.com";
         vecMessages.push_back(sMessage);
 
-        sMessage = "PGE Mobile Release 2.2.5";
+        sMessage = "PGE Mobile Release 2.2.8";
         vecMessages.push_back(sMessage);
 
         sMessage = "Now With iOS Support";
@@ -549,13 +549,13 @@ int ios_main(IOSNativeApp* pIOSNatvieApp)
     //
 
     /*
-        Note it is best to use HD(1280, 720, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
+        Note it is best to use HD(0, 0, ? X ? pixel, Fullscreen = true) the engine can scale this best for all screen sizes,
         without affecting performance... well it will have a very small affect, it will depend on your pixel size
         Note: cohesion is currently not working
         Note: It is best to set maintain_aspect_ratio to false, Fullscreen to true and use the olcPGEX_TransformView.h to manage your world-view
         in short iOS does not want to play nice, the screen ratios and renta displays make maintaining a full screen with aspect radio a pain to manage
     */
-    pIOSNatvieApp->SetPGEConstruct(1280, 720, 2, 2, true, true, false);
+    pIOSNatvieApp->SetPGEConstruct(0, 0, 2, 2, true, true, false);
 
 
     // We now need to return SUCCESS or FAILURE to get the party stated!!!!

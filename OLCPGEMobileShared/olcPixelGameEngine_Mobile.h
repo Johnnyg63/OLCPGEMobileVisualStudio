@@ -1,4 +1,3 @@
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma region license_and_help
@@ -6,8 +5,8 @@
     olcPixelGameEngine_Mobile.h
 
     //////////////////////////////////////////////////////////////////
-    // Pixel Game Engine Mobile Release 2.2.7,                      //
-    // John Galvin aka Johnngy63: 03-Jun-2024                       //
+    // Pixel Game Engine Mobile Release 2.2.8,                      //
+    // John Galvin aka Johnngy63: 18-Jun-2024                       //
     // New Support for iOS Beta, iOS sensors not supported yet      //
     // Please report all bugs to https://discord.com/invite/WhwHUMV //
     // Or on Github: https://github.com/Johnnyg63					//
@@ -173,8 +172,8 @@
     ~~~~~
     olc::PixelGameEngine has been ported and tested with varying degrees of
     success to: WinXP, Win7, Win8, Win10, Various Linux, Raspberry Pi,
-    Chromebook, PlayStation Portable (PSP) and Nintendo Switch. If you are
-    interested in the details of these ports, come and visit the Discord!
+    Chromebook, PlayStation Portable (PSP), Nintendo Switch, Android and iOS.
+    If you are interested in the details of these ports, come and visit the Discord!
 
 
 
@@ -251,6 +250,8 @@
     2.24: iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS
     2.25: Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the 1
     2.26: Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!
+    2.27: Removed mutexTouchPoints from main engine thread, the engine will run as fast as possible now!!!
+    2.28: Correct onUserDestroy so that it is not called every frame. A Big thank you to @baderouaich.
 
 */
 #pragma endregion
@@ -266,7 +267,7 @@
 
 #if defined (__ANDROID__)
 
-#include "../<YOUR_PROJECT_NAME>.Android/pch.h"
+#include "../<YOUR_PROJECT_NAME>/pch.h"
 
 #endif
 
@@ -284,7 +285,7 @@ public:
     Example()
     {
         // Name your application
-        sAppName = "Pre-Release Example";
+        sAppName = "Production Example";
     }
 
 public:
@@ -342,7 +343,7 @@ int ios_main(IOSNativeApp* pIOSNatvieApp)
 #define OLC_PGE_DEF
 
 // Production release
-#define PGE_MOB_VER 227
+#define PGE_MOB_VER 228
 
 // O------------------------------------------------------------------------------O
 // | COMPILER CONFIGURATION ODDITIES                                              |
@@ -1588,7 +1589,7 @@ namespace olc {
     };
 
     /// <summary>
-    /// FileHandler allows easy access to the Android/iOS Assests (APK file) and App Storage
+    /// FileHandler allows easy access to the Android/iOS Assets (APK file) and App Storage
     /// </summary>
     class FileHandler
     {
@@ -1606,15 +1607,15 @@ namespace olc {
         /// <summary>
         /// Load a file from the Assets APK into the passed buffer
         /// </summary>
-        /// <param name="sFilePath">Full file path name excudling the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
+        /// <param name="sFilePath">Full file path name excluding the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
         /// <param name="outbuffer">A pointer to a clear buffer. Buffer will be populated and returned</param>
         /// <returns>FAIL = 0, OK = 1, NO_FILE = -1, and outBuffer</returns>
         virtual olc::rcode LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer) = 0;
 
         /// <summary>
-        /// Extracts a compressed file from the assests APK to a depcompressed app storage file
+        /// Extracts a compressed file from the assets APK to a decompressed app storage file
         /// </summary>
-        /// <param name="sAssetFilePath">Full assets file path name excudling the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
+        /// <param name="sAssetFilePath">Full assets file path name excluding the assets dir and leading "/": Example: "images/test.png" "maps/example1.city"</param>
         /// <param name="sAppStorageFilePath">Full app storage path. Use GetInternalAppStorage(), GetExternalAppStorage() and GetPublicAppStorage() to get the storage path</param>
         /// <returns>FAIL = 0, OK = 1, NO_FILE = -1,</returns>
         virtual olc::rcode ExtractFileFromAssets(const std::string& sAssetFilePath, const std::string& sAppStorageFilePath) = 0;
@@ -1622,7 +1623,7 @@ namespace olc {
         /// <summary>
         /// Get the App Internal storage path where you can save,  editing, deleting files
         /// Internal Storage is private and non volatile
-        /// RECOMENDED: Use this storage for saving, editing, deleting files
+        /// RECOMMENDED: Use this storage for saving, editing, deleting files
         /// </summary>
         /// <returns>The full Android/iOS path to internal storage. FAIL: NULL</returns>
         virtual const char* GetInternalAppStorage() = 0;
@@ -1898,7 +1899,7 @@ namespace olc {
         /// </summary>
         /// <param name="vStartPos">Start position (x,y)</param>
         /// <param name="vSize">Size (width, height)</param>
-        /// <param name="scale">Scaler (>=1)</param>
+        /// <param name="scale">Scalar (>=1)</param>
         /// <param name="flip">olc::Sprite::NONE.. HORIZ.. VERT; (Default NONE)</param>
         /// <param name="pDrawTarget">The pointer to the Sprite</param>
         /// <returns>A pointer to a decal, nullptr if not exist</returns>
@@ -2046,7 +2047,7 @@ namespace olc {
 
     };
 
-#endif // __Andriod__
+#endif // __Android__
 
 #if defined (__APPLE__)
     /// <summary>
@@ -2355,19 +2356,6 @@ namespace olc {
         /// </summary>
         static olc::PixelGameEngine* ptrPGE;
 
-    private:
-
-        /*
-        // <summary>
-        /// Draws a Merge Sprite from the pSource to pDrawTarget
-        /// </summary>
-        /// <param name="vPos">Start position in the draw target (x,y)</param>
-        /// <param name="pdrawTarget">A pointer to the draw target</param>
-        /// <param name="vecPositions">Position Vector that is used to crop the sprite if out of bounds</param>
-        /// <returns>A pointer to the draw target</returns>
-        olc::Sprite* DrawToTarget(const olc::vi2d& vTargetPos, olc::Sprite* pdrawTarget, std::vector<int> vecPositions, olc::Sprite pSource);
-
-        */
 
     };
 
@@ -2451,6 +2439,14 @@ namespace olc {
         /// </summary>
         virtual void OnRestoreStateRequested();
 
+        /// <summary>
+        /// Low Memory warning
+        /// NOTE: Fires when the OS is about to close your app due low memory availability
+        /// Use this method to clean up any resources to reduce your memory usage
+        /// If you can reduce your memory usage enough the OS will automatically cancel the application termination event
+        /// </summary>
+        virtual void OnLowMemoryWarning();
+
 
         // Deprecated: Called when a console command is executed
         //virtual bool OnConsoleCommand(const std::string& sCommand);
@@ -2459,7 +2455,7 @@ namespace olc {
     public: // Hardware Interfaces
 
         /// <summary>
-        /// Returns a sturct of sensor options
+        /// Returns a struct of sensor options
         /// </summary>
         olcSensors SelectSensor;
 
@@ -2793,7 +2789,7 @@ namespace olc {
         /// NOTE: If SensorInformation.Type = ASENSOR_TYPE_INVALID the sensor is not supported
         /// </summary>
         /// <param name="Type">olc::SensorType</param>
-        /// <returns>ensorInformation Struct</returns>
+        /// <returns>sensorInformation Struct</returns>
         olc::SensorInformation GetSensorInfo(olc::SensorType Type);
 
         /// <summary>
@@ -2802,7 +2798,7 @@ namespace olc {
         /// </summary>
         /// <param name="Type">olc::SensorType</param>
         /// <param name="sampleRate">Number of samples per second, set to -1 to reset to default values. Default: -1 (Auto)</param>
-        /// <returns>Success: OK, Notsupported: FAIL</returns>
+        /// <returns>Success: OK, Not supported: FAIL</returns>
         olc::rcode EnableSensor(olc::SensorType Type, int32_t sampleRate = -1);
 
 
@@ -3046,7 +3042,7 @@ namespace olc {
         ///
         ///	FillTexturedPolygon(vPoints, vTex, vColour, someSprite); ---
         /// </summary>
-        /// <param name="vPoints">vector of ploygon points</param>
+        /// <param name="vPoints">vector of polygon points</param>
         /// <param name="vTex">vector of textures</param>
         /// <param name="vColour">vector of colours (pixels)</param>
         /// <param name="sprTex">A pointer to the sprite</param>
@@ -3175,7 +3171,7 @@ namespace olc {
         /// <param name="vToSpritePosy">Position y within the ToSprite to Draw the From Sprite</param>
         /// <param name="pToSprite">A pointer to the Sprite to which the from Sprite will be merged into</param>
         /// <param name="blendPixel">Blend Pixel for merge (Default olc::BLANK)</param>
-        /// <param name="scale">Scaler size (>= 1, Default 1)</param>
+        /// <param name="scale">Scalar size (>= 1, Default 1)</param>
         /// <param name="flip">olc::Sprite::NONE, ..HORIZ, ..VERT (Default NONE</param>
         void DrawMergeSprite(int32_t vPosx, int32_t vPosy, Sprite* pFromSprite, int32_t vToSpritePosx, int32_t vToSpritePosy,
             Sprite* pToSprite, Pixel blendPixel = olc::BLANK, uint32_t scale = 1, olc::Sprite::Flip flip = olc::Sprite::NONE);
@@ -3188,7 +3184,7 @@ namespace olc {
         /// <param name="vToSpritePos">Position within the ToSprite to Draw the From Sprite</param>
         /// <param name="pToSprite">A pointer to the Sprite to which the from Sprite will be merged into</param>
         /// <param name="blendPixel">Blend Pixel for merge (Default olc::BLANK)</param>
-        /// <param name="scale">Scaler size (>= 1, Default 1)</param>
+        /// <param name="scale">Scalar size (>= 1, Default 1)</param>
         /// <param name="flip">olc::Sprite::NONE, ..HORIZ, ..VERT (Default NONE)</param>
         void DrawMergeSprite(const olc::vi2d& vPos, Sprite* pFromSprite, const olc::vi2d& vToSpritePos, Sprite* pToSprite,
             Pixel blendPixel = olc::BLANK, uint32_t scale = 1, olc::Sprite::Flip flip = olc::Sprite::NONE);
@@ -3429,7 +3425,7 @@ namespace olc {
         void DrawRotatedStringDecal(const olc::vf2d& pos, const std::string& sText, const float fAngle, const olc::vf2d& center = { 0.0f, 0.0f }, const olc::Pixel col = olc::WHITE, const olc::vf2d& scale = { 1.0f, 1.0f });
 
         /// <summary>
-        /// Draw a rotated propionate string decal
+        /// Draw a rotated proportionate string decal
         /// </summary>
         /// <param name="pos">Vector Position {x, y}</param>
         /// <param name="sText">Text to be drawn</param>
@@ -3593,26 +3589,26 @@ namespace olc {
         // State of keyboard
         bool		pKeyNewState[OLC_MAX_KEYS] = { 0 };
         bool		pKeyOldState[OLC_MAX_KEYS] = { 0 };
-        HWButton	pKeyboardState[OLC_MAX_KEYS]; // = { {0} }; // Make complier happy
+        HWButton	pKeyboardState[OLC_MAX_KEYS]; // = { {0} }; // Make compiler happy
 
         // State of mouse
         bool		pMouseNewState[nMouseButtons] = { 0 };
         bool		pMouseOldState[nMouseButtons] = { 0 };
-        HWButton	pMouseState[nMouseButtons]; // = { {0} }; // Make complier happy
+        HWButton	pMouseState[nMouseButtons]; // = { {0} }; // Make compiler happy
 
 
         // State of touchOLC_MAX_TOUCH_POINTS
         bool		pTouchNewState[OLC_MAX_TOUCH_POINTS] = { 0 };
         bool		pTouchNewStateCache[OLC_MAX_TOUCH_POINTS] = { 0 };
         bool		pTouchOldState[OLC_MAX_TOUCH_POINTS] = { 0 };
-        HWButton	pTouchState[OLC_MAX_TOUCH_POINTS]; // = { {0} }; // Make complier happy
+        HWButton	pTouchState[OLC_MAX_TOUCH_POINTS]; // = { {0} }; // Make compiler happy
         olc::vi2d	pTouchPoints[OLC_MAX_TOUCH_POINTS];
         olc::vi2d	pTouchPointsCache[OLC_MAX_TOUCH_POINTS];
 
         std::mutex mutexTouchPoints;
 
         // The main engine thread
-        void		EngineThread();
+        void EngineThread();
 
 
         /// <summary>
@@ -3696,7 +3692,7 @@ namespace olc {
         void olc_CoreUpdate();
 
         /// <summary>
-        /// Perpare the OpenGLES Engine
+        /// Prepare the OpenGLES Engine
         /// </summary>
         void olc_PrepareEngine();
 
@@ -3796,7 +3792,7 @@ namespace olc {
         /// <summary>
         /// Load a file from the Assets APK into the passed buffer
         /// </summary>
-        /// <param name="sFilePath">Full file path name excudling the assets dir: Example: "images/test.png" "maps/example1.city"</param>
+        /// <param name="sFilePath">Full file path name excluding the assets dir: Example: "images/test.png" "maps/example1.city"</param>
         /// <param name="outbuffer">A pointer to a clear buffer. Buffer will be populated and returned</param>
         /// <returns>FAIL = 0, OK = 1, NO_FILE = -1, and outBuffer</returns>
         olc::rcode app_LoadFileFromAssets(const std::string& sFilePath, std::vector<char>* outBuffer);
@@ -3812,13 +3808,13 @@ namespace olc {
         /// <summary>
         /// Get the App Internal storage path where you can save,  editing, deleting files
         /// Internal Storage is private and non volatile
-        /// RECOMMANDED: Use this storage for saving, editing, deleting files
+        /// RECOMMENDED: Use this storage for saving, editing, deleting files
         /// </summary>
         /// <returns>The full Android/iOS path to internal storage. FAIL: NULL</returns>
         const char* app_GetInternalAppStorage();
 
         /// <summary>
-        /// Get the App Exteral storage where you can save files
+        /// Get the App External storage where you can save files
         /// WARNING: MAY NOT EXIST. May be volatile
         /// </summary>
         /// <returns>SUCCESS: The full Android/iOS path to external storage. FAIL: NULL</returns>
@@ -6554,8 +6550,8 @@ namespace olc {
                 DrawPartialDecal(vScaleCR * vBoomCR[y * sprCR.Sprite()->width + x].first * 2.0f, sprCR.Decal(), olc::vf2d(x, y), { 1, 1 }, vScaleCR * 2.0f, olc::PixelF(1.0f, 1.0f, 1.0f, std::min(1.0f, std::max(4.0f - fParticleTimeCR, 0.0f))));
             }
 
-        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.7");
-        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.7", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
+        olc::vi2d vSize = GetTextSizeProp("Powered By Pixel Game Engine Mobile 2.2.8");
+        DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 2.0f), "Powered By Pixel Game Engine Mobile 2.2.8", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
 
         vSize = GetTextSizeProp("Copyright OneLoneCoder.com 2024.");
         DrawStringPropDecal(olc::vf2d(float(ScreenWidth() / 2) - vSize.x / 2, float(ScreenHeight()) - vSize.y * 3.0f), "Copyright OneLoneCoder.com 2024", olc::PixelF(1.0f, 1.0f, 1.0f, 0.5f), olc::vf2d(1.0, 1.0f));
@@ -6653,6 +6649,11 @@ namespace olc {
     }
 
     void PixelGameEngine::OnRestoreStateRequested()
+    {
+
+    }
+
+    void PixelGameEngine::OnLowMemoryWarning()
     {
 
     }
@@ -7261,15 +7262,7 @@ namespace olc {
 
             }
 
-            // Allow the user to free resources if they have overrided the destroy function
-            if (!OnUserDestroy())
-            {
-                // User denied destroy for some reason, so continue running
-                bAtomActive = true;
-            }
-
-
-        }
+        } // End While
 
         platform->ThreadCleanUp();
     }
@@ -8174,7 +8167,6 @@ namespace olc {
                 platform->ptrPGE->pOsEngine.StartPGE = true;
                 platform->ptrPGE->pOsEngine.animating = 1;
 
-
                 platform->ptrPGE->pOsEngine.sensorManager = ASensorManager_getInstance();
                 platform->ptrPGE->pOsEngine.sensorEventQueue = ASensorManager_createEventQueue(platform->ptrPGE->pOsEngine.sensorManager, platform->ptrPGE->pOsEngine.app->looper, LOOPER_ID_USER, NULL, NULL);
 
@@ -8186,6 +8178,7 @@ namespace olc {
         case APP_CMD_TERM_WINDOW:
         {
             // The window is being hidden or closed, clean it up.
+            platform->ptrPGE->OnUserDestroy();
             //platform->ApplicationCleanUp();
             //platform->ThreadCleanUp();
             //renderer->DestroyDevice();
@@ -8556,8 +8549,8 @@ namespace olc {
         struct android_app* android_app = (struct android_app*)activity->instance;
         LOGV("LowMemory: %p\n", activity);
         android_app_write_cmd(android_app, APP_CMD_LOW_MEMORY);
-        // TODO: To be updated in a future release: JG 21-Oct-2023
-        // TODO: we need to manage this somehow
+
+        platform->ptrPGE->OnLowMemoryWarning();
 
     }
 
@@ -8669,6 +8662,7 @@ namespace olc {
             platform->ptrPGE->pOsEngine.animating = 0;
             platform->ptrPGE->pOsEngine.StartPGE = false;
             platform->ptrPGE->SetFocused(false);
+            platform->ptrPGE->OnUserDestroy();
             platform->ptrPGE->olc_Terminate();
             break;
         }

@@ -1,21 +1,21 @@
-# OLC Pixel Game Engine Mobile All In One 2.2.7
+# OLC Pixel Game Engine Mobile All In One 2.2.8
 # For Android and iOS
 
 <p><b><i>!!! NOW EVEN FASTER !!!</i></b></p>
 
 <p><b>Supports: Windows, Visual Studio 2019-2022, for Android and iOS Development </b></p>
-<p><b>This project supports Android and iOS devices</b><br/> Android SDK 21 --> 33 and beyond, iOS 13.5 --> 17.2 and beyond <br><br/>
+<p><b>This project supports Android and iOS devices</b><br/> Android SDK 21 --> 34 and beyond, iOS 13.5 --> 17.2 and beyond <br><br/>
  A super big <b><i>THANK YOU</i></b> to <a href='https://github.com/vitoralmeidasilva'>@VasCoder</a> without your testing this would not have been possible!
 </p>
 
-<p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a>!!! </b></p>
-<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.7 for Android Studio</a></i></p>
-<p>For Visual Studio Android Only (Windows) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.7 for Android Visual Studio</a></i></p>
+<p><b>!!! Pixel Game Engine Mobile Android only has been moved to <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.8 for Android Visual Studio</a>!!! </b></p>
+<p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.8 for Android Studio</a></i></p>
+<p>For Visual Studio Android Only (Windows) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.8 for Android Visual Studio</a></i></p>
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
 <p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b><br/></p> 
 <p><i>Visual Studio Android & iOS template project coming soon.</i></p>
-<p>NOTE: iOS Beta 2.2.7 does not yet support sensors<br/>
+<p>NOTE: iOS Beta 2.2.8 does not yet support sensors<br/>
 <br/> If you wish to deploy to an iOS device (iPhone or iPad) you will need access to an Apple Mac Computer and an iPhone.
 	<br/> Please follow these steps on how to setup your Mac xCode to work with Visual Studio: https://learn.microsoft.com/en-us/cpp/cross-platform/install-and-configure-tools-to-build-using-ios?view=msvc-170<br/>
 	<br/> <i>I don't make the rulez about iOS... Apple does</i>
@@ -76,7 +76,7 @@
 <hr/>
 
 <p><b><i>!!! Visual Studio Installation !!!</i></b></p>
-<p>For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.7 for Android Studio</p>
+<p>For Android Studio (Windows/Linux/MAC) project can be found here: <a href="https://github.com/Johnnyg63/OLCPGEMobileAndroidStudio">OLC Pixel Game Engine Mobile 2.2.8 for Android Studio</p>
 
 <p>1: Launch Visual Studio 2022 Installer</p> <!--Thanks @Pirate Voxel -->
 <p>2: Click Modify</p>
@@ -102,14 +102,14 @@
 </p>
 <p>7: Open Visual Studio -->Tools-->Options-->Cross Platform. Update your SDK, NDK and Java Path as shown</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/77f70549-0d99-4f1e-9415-42fda6a99b20' /></p>
-<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/blob/master/OLCPGEMobileAllInOne227.zip">OLCPGEMobileAllInOne227.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
+<p>8: Copy the <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/blob/master/OLCPGEMobileAllInOne228.zip">OLCPGEMobileAllInOne228.zip</a> to your Projects Templates folder. Example: C:\Users\<i>your username</i>\OneDrive\Documents\Visual Studio 2022\Templates\ProjectTemplates</p>
 <p><<img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/b90e4b66-66eb-48b4-b4cd-58ef439efecd' /> /></p>
 <p>9: Put your Android phone into <a href="https://developer.android.com/studio/debug/dev-options#enable"> Development Mode</a> and enable <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">USB Debugging.</a></p> <!--Thanks @Pirate Voxel -->
 <p>10: Run Visual Studio 2022 in Admin Mode</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/daa5e9a6-309c-4b48-be44-c897ff54b6b2' /></p>
 <p>11: Select Create Project</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileAndroidProjectBeta20/assets/96908304/c720f822-4e62-417c-8322-b38f8f102059' /></p>
-<p>12: Select OLC Pixel Game Engine Mobile All In One 2.2.7</p>
+<p>12: Select OLC Pixel Game Engine Mobile All In One 2.2.8</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/91c01278-fcce-493b-a2a8-acccc5277c2e' /></p>
 <p>13: Give your game a cool name. <b>NO SPACES</b> Do not start your project with a number: i.e. 3DShapes, 4Runner</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/03f0cf23-194f-4b41-b761-7b680ba37cc2' /></p>
@@ -128,7 +128,7 @@
 
 <hr/>
 
-<p><b><i>!!! Release 2.2.7 Support Details !!!</i></b></p>
+<p><b><i>!!! Release 2.2.8 Support Details !!!</i></b></p>
 
 <p>
 <ul>
@@ -142,7 +142,7 @@
   <li>2.07: Updated SIMD_SSE for Intel Atom devices, Updated GetTouch() to default to touch point zero</li>
   <li>2.07a: Corrected two small bugs in main.cpp</li>
   <li>2.08: Added ClearTouchPoints(int8_t startIndex = 0) for clearing of touch points at index x, some bug fixes too<br/> <i>Added Demos folder with some demos. Just Copy and Paste the code into main.cpp</i></li>
-  <li>2.09: Added Demos folder with some demos</i>
+  <li>2.09: Added Demos folder with some demos
 	<br/> Added: FileManager: for gaining acccess to the Android Assets APK and iOS Zip Packages
 				<br/> app_LoadFileFromAssets()
 				<br/> app_ExtractFileFromAssets()
@@ -157,22 +157,19 @@
 				<br/> GetPublicAppStorage()
   </li>
   <li>2.10: Removed ASensor_getHandle() as it only supports SDK 29 and higher. Updated project to support SDK 21 to SDK32, Thank you @VasCoder</li>
-  <li>2.11: Corrected offset error bug in Drawline,<br/> Added release config to build.gradle.template. Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://developer.android.com/studio/publish/app-signing"</a> and<br/> Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://stackoverflow.com/questions/9081877/how-do-i-debug-an-apk-that-is-signed-for-release</a> for more info<br/><b>NOTE: You cannot debug or deploy a release app unless you have a signing key (Android Developer Account)</b></i>
-  <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debugging, some keys may not map correctly, directionally keys will be out of sync as Android is mapped to a Direction Pad by default</i>
-  <li>2.21 <b>Full Production Release</b> </i>
+  <li>2.11: Corrected offset error bug in Drawline,<br/> Added release config to build.gradle.template. Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://developer.android.com/studio/publish/app-signing"</a> and<br/> Please see: <a href="https://developer.android.com/studio/publish/app-signing">https://stackoverflow.com/questions/9081877/how-do-i-debug-an-apk-that-is-signed-for-release</a> for more info<br/><b>NOTE: You cannot debug or deploy a release app unless you have a signing key (Android Developer Account)</b></li>
+  <li>2.20 <b>Pre-Release!</b> Can now be used in Production Environment, have fun! <br/> Android Keyboard mapping completed for GetKey() <br/>Note if using a MacOS, Linux or Windows for debugging, some keys may not map correctly, directionally keys will be out of sync as Android is mapped to a Direction Pad by default</li>
+  <li>2.21 <b>Full Production Release</b> </li>
   <li>2.22 Better support for the latest Android phones<br/>
-			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings</i>
+			The Engine will now detect the correct OpenGLES setting for your Android phone and apply the correct settings</li>
   <li>2.23 Now with Sound, supports olcPGE_MiniAudio <a href="https://github.com/Moros1138/olcPGEX_MiniAudio/">https://github.com/Moros1138/olcPGEX_MiniAudio/</a> thanks @Moros1138
-		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution
-  </i>
-  <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</i>
-  <li>2.25 Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the 1</i>
-  <li>2.26 Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!</i>
+		   <br/>Updated EventManager::HandleInput to ensure Volume UP/Down/Mute, Camera and Power Buttons are released back to the OS after execution</li>
+  <li>2.24 iOS Beta support. Sensors not supported. Anything you develop for Android will work on the iOS</li>
+  <li>2.25 Corrected Fatal signal 11 (SIGSEGV), code 2 (SEGV_ACCERR), fault, forgot to take (subtract) the </li>
+  <li>2.26 Updated olc_Configure to set OGLES_20 to use SDK 26->33. A big thanks you to @VasCoder for all his testing!!!!</li>
   <li>2.27 Removed mutexTouchPoints from main engine thread, the engine will run as fast as possiable now!!! </li>
+ <li>2.28 Correct onUserDestroy so that it is not called every frame. A Big thank you to <a href='https://github.com/baderouaich/'>@baderouaich</a>. <br/>Added OnLowMemoryWarning() </li>
 </ul>
 	
-</p>
-<p>
-
 </p>
 

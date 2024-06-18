@@ -1,7 +1,7 @@
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.7,                      //
-// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// Pixel Game Engine Mobile Release 2.2.8,                      //
+// John Galvin aka Johnngy63: 18-Jun-2024                       //
 // iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
@@ -11,7 +11,7 @@
 #import "GameViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "../../OLCPGEMobile/$ext_projectname$.Shared/main.cpp"
+#import "../../OLCPGEMobile/Release228.Shared/main.cpp"
 #import <memory>
 
 #define MAX_TOUCHES 5
@@ -167,20 +167,12 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-
-    if ([self isViewLoaded] && ([[self view] window] == nil)) {
-        self.view = nil;
-
-        [self tearDownGL];
-
-        if ([EAGLContext currentContext] == self.context) {
-            [EAGLContext setCurrentContext:nil];
-        }
-        self.context = nil;
-    }
-
     // Dispose of any resources that can be recreated.
+    mPGEMobile->OnLowMemoryWarning();
+
+    [super didReceiveMemoryWarning];
+   
+    
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -422,5 +414,6 @@
 }
 
 // Sensor Events... Coming soon I promise....
+
 
 @end

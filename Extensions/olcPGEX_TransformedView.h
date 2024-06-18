@@ -1,7 +1,7 @@
 ﻿
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile All In One Release 2.2.7            //
-// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// Pixel Game Engine Mobile All In One Release 2.2.8            //
+// John Galvin aka Johnngy63: 18-Jun-2024                       //
 // iOS Sensor NOT supported, coming soon                        //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
@@ -88,8 +88,8 @@
 */
 
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile Release 2.2.1,                      //
-// John Galvin aka Johnngy63: 21-Oct-2023                       //
+// Pixel Game Engine Mobile All In One Release 2.2.8            //
+// John Galvin aka Johnngy63: 18-Jun-2024                       //
 // Full production release                                      //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//

@@ -22,7 +22,7 @@
 @rem ##########################################################################
 
 @rem //////////////////////////////////////////////////////////////////
-@rem // Pixel Game Engine Mobile Release 2.2.7,                      //
+@rem // Pixel Game Engine Mobile Release 2.2.8,                      //
 @rem // John Galvin aka Johnngy63: 03-Jun-2024                       //
 @rem // iOS Sensor NOT supported, coming soon                        //
 @rem // Please report all bugs to https://discord.com/invite/WhwHUMV //

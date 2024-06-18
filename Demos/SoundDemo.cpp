@@ -1,6 +1,7 @@
+
 //////////////////////////////////////////////////////////////////
-// Pixel Game Engine Mobile All In One Release 2.2.7            //
-// John Galvin aka Johnngy63: 03-Jun-2024                       //
+// Pixel Game Engine Mobile All In One Release 2.2.8            //
+// John Galvin aka Johnngy63: 18-Jun-2024                       //
 // iOS Sensor NOT supported, coming soon                        //
 // Now with Sound!!                                             //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
@@ -193,7 +194,7 @@ public:
         std::string sMessage = "OneLoneCoder.com";
         vecMessages.push_back(sMessage);
 
-        sMessage = "PGE Mobile Release 2.2.3";
+        sMessage = "PGE Mobile Release 2.2.8";
         vecMessages.push_back(sMessage);
 
         sMessage = "Now With Sound!! olcPGE_MiniAudio.h";
