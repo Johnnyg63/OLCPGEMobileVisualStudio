@@ -11,7 +11,7 @@
 #import "GameViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "../../OLCPGEMobile/Release228.Shared/main.cpp"
+#import "../../OLCPGEMobile/$ext_projectname$.Shared/main.cpp"
 #import <memory>
 
 #define MAX_TOUCHES 5
