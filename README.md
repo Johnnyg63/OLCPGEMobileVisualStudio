@@ -4,7 +4,35 @@
 <p><b><i>!!! NOW EVEN FASTER !!!</i></b></p>
 
 <p><b>Supports: Windows, Visual Studio 2019-2022, for Android and iOS Development </b></p>
-<p><b>This project supports Android and iOS devices</b><br/> Android SDK 21 --> 34 and beyond, iOS 13.5 --> 17.2 and beyond
+<p>
+	<b>This project supports Android and iOS devices Android SDK 21 --> 34 and beyond, iOS 13.5 --> 17.2 and beyond</b><br/><br/>
+	The <b><i>OLC Pixel Game Engine Mobile Edition </i></b>is a feature-rich fork of the original <a href='https://github.com/OneLoneCoder/olcPixelGameEngine'> OLC Pixel Game Engine</a>. <br/>
+	<ul>
+		<li>
+			<b>Community Interest:</b><br/>
+   			The mobile edition has garnered attention from programmers who want to create games for Android and iOS platforms.<br/>
+      			It’s actively maintained and developed by contributors.
+		</li>
+  		<li>
+			<b>Cross-Platform Support:</b><br/>
+   			The mobile edition extends the original engine to support Android and iOS.<br/>
+      			Developers can create games that run on both desktop and mobile devices.
+		</li>
+  		<li>
+			<b>Extensions and Features:</b><br/>
+   			The mobile edition includes additional features like mobile input handling, sound, and hardware interfaces.<br/>
+      			The mobile edition is built on SIMD/NEON advance vectorizations to ensure the fastest engine to pixel generation.<br/>
+      			It’s a versatile tool for prototyping, education, mobile game development and algorithm visualization for both Android and iOS devices.
+		</li>
+		<li>
+			<b>Growing User Base:</b><br/>
+   			While not as widely known as the original, it’s steadily gaining popularity.<br/>
+      			Developers appreciate its simplicity and flexibility.
+		</li>
+  	</ul><br/>
+   <i>Remember that both versions—original and mobile—are valuable tools for game development and learning. If you’re interested in mobile game development, give the mobile edition a try! 🚀🎮</i>
+
+
 </p>
 
 <hr/>
@@ -21,6 +49,27 @@
 <p>For Visual Studio Android Only (Windows) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio_Android">OLC Pixel Game Engine Mobile 2.2.8 for Android Visual Studio</a></i></p>
 <p>For Android Studio (Windows/Linux/MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobile_AndroidStudio">OLC Pixel Game Engine Mobile 2.2.8 for Android Studio</a></i></p>
 <p>For Xcode (MAC) Use this project: <a href="https://github.com/Johnnyg63/OLCPGEMobile_Xcode">OLC Pixel Game Engine Mobile 2.2.8 for Xcode</a></i></p>
+<hr/>
+
+<p><b><i>WE NEED YOUR FEEDBACK PLEASE</i></b></p>
+<hr/>
+<p><i><b>Thank you for cloning the OLC Pixel Game Engine 2.0 Mobile.</b><br/><br/>
+	A tremendous amount of work went into getting this engine to work smoothy with Android and iOS so you can create amazing games.<br/>
+ 	We can see that this repro gets an <b>unbelievable number of unique clones</b>, therefore we want to hear from you!<br/>
+  	Please come visit me and all the volunteers at One Lone Coder and join our community.
+   	<ul>
+		<li>Discord: <a href="https://discord.com/invite/WhwHUMV">One Lone Coder</a></li>
+		<li>YouTube: <a href="https://www.youtube.com/c/javidx9">One Lone Coder</a> </li>
+		<li>Twitch: <a href="https://www.twitch.tv/javidx9">One Lone Coder</a></li>
+		<li>Website: <a href="https://community.onelonecoder.com/">www.onelonecoder.com</a></li>
+		<li>PGETinker: <a href="https://pgetinker.com/">PGETinker.com</a> </li>
+	</ul>
+ <br/>
+ Kind regards<br/>
+ <br/>
+ John (aka Johnnyg63)
+</i></p>
+
 <hr/>
 <p><b><i>!!! NOW WITH iOS SUPPORT!!!</i></b></p>
 <p><b><i>Anything you develop for PGE Mobile Android will work on the iOS</i></b><br/></p> 
@@ -61,28 +110,7 @@
 <p>If you see a Segmentation Fault at the start of debugging (can occur up to 4 times, Visual Studio 2019/2022) just click Continue, I am working on this at the moment.</p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/eea76342-054c-4593-a6fb-2a6f213ec735' />
 </p>
-<hr/>
 
-
-
-<p><b><i>WE NEED YOUR FEEDBACK PLEASE</i></b></p>
-
-<hr/>
-<p><i><b>Thank you for cloning the OLC Pixel Game Engine 2.0 Mobile.</b><br/><br/>
-	A tremendous amount of work went into getting this engine to work smoothy with Android and iOS plus keep it simple so you can create amazing games.<br/>
- 	We can see that this repro gets an <b>unbelievable number of unique clones</b>, therefore we want to hear from you!<br/>
-  	Please come visit me and all the volunteers at One Lone Coder and join our community.
-   	<ul>
-		<li>Discord: <a href="https://discord.com/invite/WhwHUMV">One Lone Coder</a></li>
-		<li>YouTube: <a href="https://www.youtube.com/c/javidx9">One Lone Coder</a> </li>
-		<li>Twitch: <a href="https://www.twitch.tv/javidx9">One Lone Coder</a></li>
-		<li>Website: <a href="https://community.onelonecoder.com/">www.onelonecoder.com</a></li>
-	</ul>
- <br/>
- Kind regards<br/>
- <br/>
- John (aka Johnnyg63)
-</i></p>
 <hr/>
 
 <p><b><i>!!! Visual Studio Installation !!!</i></b></p>
