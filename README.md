@@ -109,9 +109,13 @@
 </p>
 <hr/>
 <p><b><i>!!! Known Issues !!!</i></b></p>
-<p>If you see a Segmentation Fault at the start of debugging (can occur up to 4 times, Visual Studio 2019/2022) just click Continue, I am working on this at the moment.</p>
+<p><b>Segmentation Fault: Affects some phones</b><br/>
+	If you see a Segmentation Fault at the start of debugging (can occur up to 4 times, Visual Studio 2019/2022) just change your platfrom to ARM .</p>
+<p><img src='https://github.com/user-attachments/assets/27db71e6-3ddf-4fb8-af68-9bcdcacdd2ad' /></p>
 <p><img src='https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/assets/96908304/eea76342-054c-4593-a6fb-2a6f213ec735' />
 </p>
+
+<p>Ensure you change your platfrom back to ARM64 when you intent to release your game</p>
 
 <hr/>
 
