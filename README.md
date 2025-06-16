@@ -2,6 +2,10 @@
 # For Android and iOS
 
 <p>
+	<b>Now with Lightweight 3D Support</b><br/>
+	<b>See <a href="https://github.com/Johnnyg63/OLCPGEMobileVisualStudio/blob/master/Demos/Mobile3DGraphicsDemo.cpp">3D Demo Here</a></b>
+</p>
+<p>
 	<b>Supports: Windows, Visual Studio 2019-2022, for Android and iOS Development </b><br/>
 	<b>This project supports Android and iOS devices Android SDK 21 --> 34 and beyond, iOS 13.5 --> 17.2 and beyond</b>
 </p>
