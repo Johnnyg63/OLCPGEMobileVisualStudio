@@ -1,6 +1,13 @@
 #pragma once
+//////////////////////////////////////////////////////////////////
+// Pixel Game Engine Mobile All In One Release 2.2.9            //
+// John Galvin aka Johnngy63: 16-Jun-2025                       //
+// Now with 3D Lightweight support, iOS Sensor NOT supported    //
+// Please report all bugs to https://discord.com/invite/WhwHUMV //
+// Or on Github: https://github.com/Johnnyg63					//
+//////////////////////////////////////////////////////////////////
 /*
- * Copyright (C) 2024 JohnGalvin.net APPLE NATIVE GLUE
+ * Copyright (C) 2024, 2025 JohnGalvin.net APPLE NATIVE GLUE
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

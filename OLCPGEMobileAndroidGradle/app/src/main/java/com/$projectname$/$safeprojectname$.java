@@ -13,9 +13,9 @@ public class $safeprojectname$ extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        /* Create a TextView and set its text to "PGE Mobile 2.2.8" */
+        /* Create a TextView and set its text to "PGE Mobile 2.2.9" */
         TextView  tv = new TextView(this);
-        tv.setText("OLC PGE Mobile 2.2.8");
+        tv.setText("OLC PGE Mobile 2.2.9");
         setContentView(tv);
     }
 }

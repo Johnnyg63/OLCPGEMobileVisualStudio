@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////
-// Beta Release 2.2.4, Not to be used for Production software  //
-// John Galvin aka Johnngy63: 13-Aug-2023                      //
-// Default Demo
+// Pixel Game Engine Mobile All In One Release 2.2.9            //
+// John Galvin aka Johnngy63: 16-Jun-2025                       //
+// Now with 3D Lightweight support, iOS Sensor NOT supported    //
 // Please report all bugs to https://discord.com/invite/WhwHUMV //
 // Or on Github: https://github.com/Johnnyg63					//
 //////////////////////////////////////////////////////////////////

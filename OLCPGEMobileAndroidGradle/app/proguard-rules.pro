@@ -1,6 +1,6 @@
 ##################################################################
-## Pixel Game Engine Mobile Release 2.2.8,                      ##
-## John Galvin aka Johnngy63: 03-Jun-2024                       ##
+## Pixel Game Engine Mobile Release 2.2.9,                      ##
+## John Galvin aka Johnngy63: 16-Jun-2025                       ##
 ## Full production release                                      ##
 ## Please report all bugs to https://discord.com/invite/WhwHUMV ##
 ## Or on Github: https://github.com/Johnnyg63					##

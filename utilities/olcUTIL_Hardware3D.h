@@ -1,4 +1,11 @@
-
+/*
+* 
+* NOTE!
+* There is an issue in Android NDK 28 and above that prevents the use of std::numbers and c++20
+* Therefore for the moment, this utility is not using c++20 features and PI is defined manually.
+* Release 2.2.9
+* 
+*/
 /*
 	OneLoneCoder - Hardware3D v1.01
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -22,9 +22,9 @@
 @rem ##########################################################################
 
 @rem //////////////////////////////////////////////////////////////////
-@rem // Pixel Game Engine Mobile Release 2.2.8,                      //
-@rem // John Galvin aka Johnngy63: 03-Jun-2024                       //
-@rem // iOS Sensor NOT supported, coming soon                        //
+@rem // Pixel Game Engine Mobile All In One Release 2.2.9            //
+@rem // John Galvin aka Johnngy63: 16-Jun-2025                       //
+@rem // Now with 3D Lightweight support, iOS Sensor NOT supported    //
 @rem // Please report all bugs to https://discord.com/invite/WhwHUMV //
 @rem // Or on Github: https://github.com/Johnnyg63					//
 @rem //////////////////////////////////////////////////////////////////
