@@ -1,4 +1,4 @@
-# OLC Pixel Game Engine Mobile All In One 2.2.9
+# OLC Pixel Game Engine Mobile All In One 2.2.9 Visual Studio
 # For Android and iOS
 
 <p>
